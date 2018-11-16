@@ -1,58 +1,10 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./menu_template.xhtml">
 
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<h:outputStylesheet name="/css/default.css"/>
-		<h:outputStylesheet name="/css/cssLayout.css"/>
-				<!-- Bootstrap -->
-				<!-- Latest compiled and minified CSS -->
-				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+	<ui:define name="content">
+		content
+	</ui:define>
 
-					<!-- Optional theme -->
-					<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
-
-						<!-- Latest compiled and minified JavaScript -->
-						<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-						<title>Fitness4You | Main Menu</title>
-						</h:head>
-
-						<h:body>
-							<p:layout fullPage="true">
-								<ui:insert name="top">
-									<p:layoutUnit position="north" size="100" >
-										<h:outputText value="North unit content." />
-									</p:layoutUnit>
-								</ui:insert>
-								<ui:insert name="left">
-									<p:layoutUnit position="west" size="200" header="Left" resizable="true" closable="true" collapsible="true">
-										<h:outputText value="West unit content." />
-									</p:layoutUnit>
-
-
-								</ui:insert>
-
-								<ui:insert name="right">
-									<p:layoutUnit position="east" size="200" header="Right" resizable="true" closable="true" collapsible="true" effect="drop">
-										<h:outputText value="Right unit content." />
-									</p:layoutUnit>
-								</ui:insert>
-								<ui:insert name="content">
-									<p:layoutUnit position="center">
-										//page code
-									</p:layoutUnit>
-								</ui:insert>
-								<ui:insert name="bottom">
-									<p:layoutUnit position="south" size="100" >
-										<h:outputText value="South unit content." />
-									</p:layoutUnit>
-								</ui:insert>
-							</p:layout>
-
-						</h:body>
-
-						</html>
+</ui:composition>
