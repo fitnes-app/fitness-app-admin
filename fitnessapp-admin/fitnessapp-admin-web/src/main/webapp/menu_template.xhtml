@@ -3,54 +3,52 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<h:outputStylesheet name="/css/default.css"/>
 		<h:outputStylesheet name="/css/cssLayout.css"/>
-				<!-- Bootstrap -->
-				<!-- Latest compiled and minified CSS -->
-				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+		<!-- Bootstrap -->
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
-					<!-- Optional theme -->
-					<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
 
-						<!-- Latest compiled and minified JavaScript -->
-						<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-						<title>Fitness4You</title>
-						</h:head>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<title>Fitness4You</title>
+	</h:head>
 
-						<h:body>
-							<p:layout fullPage="true">
-									<p:layoutUnit position="north" size="100" >
-								<ui:insert name="top">
-										<h:outputText value="North unit content." />
-								</ui:insert>
-									</p:layoutUnit>
-									<p:layoutUnit position="west" size="200" header="Entities" resizable="true" closable="true" collapsible="true">
-								<ui:insert name="left">
-										<h:outputText value="West unit content." />
-								</ui:insert>
-									</p:layoutUnit>
+	<h:body>
+		<p:layout fullPage="true">
+			<p:layoutUnit position="north" size="100" resizable="false" closable="false" collapsible="false" >
+				<ui:insert name="top">
+					<ui:include src="top-menu.xhtml"/>
+				</ui:insert>
+			</p:layoutUnit>
+			<p:layoutUnit position="west" size="200" header="Entities" resizable="true" closable="true" collapsible="true">
+				<ui:insert name="left">
+					<ui:include src="left-menu.xhtml"/>
+				</ui:insert>
+			</p:layoutUnit>
 
-									<p:layoutUnit position="east" size="200" header="Tools" resizable="true" closable="true" collapsible="true" effect="drop">
-								<ui:insert name="right">
-										<h:outputText value="Right unit content." />
-								</ui:insert>
-									</p:layoutUnit>
-									<p:layoutUnit position="center">
-								<ui:insert name="content">
-										//page code
-								</ui:insert>
-									</p:layoutUnit>
-									<p:layoutUnit position="south" size="100" >
-								<ui:insert name="bottom">
-										<h:outputText value="South unit content." />
-								</ui:insert>
-									</p:layoutUnit>
-							</p:layout>
+			<p:layoutUnit position="east" size="200" header="Tools" resizable="true" closable="true" collapsible="true" effect="drop">
+				<ui:insert name="right">
+				</ui:insert>
+			</p:layoutUnit>
+			<p:layoutUnit position="center">
+				<ui:insert name="content">
+				</ui:insert>
+			</p:layoutUnit>
+			<p:layoutUnit position="south" size="100" >
+				<ui:insert name="bottom">
+				</ui:insert>
+			</p:layoutUnit>
+		</p:layout>
 
-						</h:body>
+	</h:body>
 
-						</html>
+</html>

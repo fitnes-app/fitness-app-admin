@@ -58,4 +58,13 @@
   text-decoration : underline;
 }
 
+/*Override the default behavior of layout component of primefaces */
+.ui-layout-north {
+        z-index:20 !important;
+        overflow:visible !important;
+    }
+
+    .ui-layout-north .ui-layout-unit-content {
+        overflow:visible !important;
+    }
 
