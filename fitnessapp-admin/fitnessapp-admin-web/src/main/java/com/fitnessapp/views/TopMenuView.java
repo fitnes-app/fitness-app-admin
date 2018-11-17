@@ -17,6 +17,8 @@
 package com.fitnessapp.views;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -33,12 +35,14 @@ import org.primefaces.model.menu.MenuModel;
  */
 @Named(value = "topMenuView")
 @ViewScoped
-public class TopMenuView implements Serializable{
+public class TopMenuView implements Serializable {
 
 	private MenuModel model;
+	private List<String> entities;
 
 	@PostConstruct
 	public void init() {
+		initializeEntities();
 		model = new DefaultMenuModel();
 
 		//First submenu
@@ -72,6 +76,22 @@ public class TopMenuView implements Serializable{
 		secondSubmenu.addElement(item);
 
 		model.addElement(secondSubmenu);
+	}
+
+	public List<String> initializeEntities() {
+		return Arrays.asList(
+			"Administrator",
+			"AdvancedClientTracking",
+			"AdvancedExercise"
+		);
+	}
+
+	public List<String> getEntities() {
+		return entities;
+	}
+
+	public void setEntities(List<String> entities) {
+		this.entities = entities;
 	}
 
 	public MenuModel getModel() {

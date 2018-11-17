@@ -31,9 +31,9 @@ import org.primefaces.model.menu.MenuModel;
  *
  * @author Naluem
  */
-@Named(value = "leftMenuView")
+@Named(value = "rightMenuView")
 @ViewScoped
-public class LeftMenuView implements Serializable{
+public class RightMenuView implements Serializable{
 
 	private MenuModel model;
 
