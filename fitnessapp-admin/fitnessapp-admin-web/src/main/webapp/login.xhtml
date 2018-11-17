@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            background: #000000;
+            overflow:hidden;
+        }
+        .centered-wrapper {
+            margin: 30px 0;
+            position: relative;
+            text-align: center;
+        }
+        .centered-wrapper:before {
+            content: "";
+            position: absolute;
+            display: inline-block;
+            width: 0; height: 100%;
+            vertical-align: middle;
+            
+        }
+        .centered-content {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        table{
+            display: inline-block;
+            vertical-align: middle; 
+        }
+        form {
+            margin:10px; 
+            padding: 0 5px;
+        }
+        .textPlacement {
+            margin:10px; 
+            padding: 0 5px;
+        }
+        img { 
+            width: 50%; 
+            height: 50%;
+        }
+    </style>
+    <h:head>
+        <title>Login</title>
+    </h:head>
+    <h:body class="centered-wrapper">
+        <div class="centered-content">
+            <div class="img">
+            <img src="Images/logo.png" alt="Fit4You" />
+            </div>
+            <h:form id="loginForm">
+                <div id="userNameDiv" class="textPlacement">
+                    <table>
+                        <tr>
+                            <td><h:outputLabel value="Username" style="color: white"/></td>
+                            <td><h:inputText value="" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel value="Password" style="color: white"/></td>
+                            <td><h:inputSecret value="" /></td>
+                        </tr>                        
+                    </table>
+                </div>
+                <div id="submitBtn" class="textPlacement">
+                    <h:commandButton value="Login" action="#" />
+
+                </div>
+
+            </h:form>
+        </div>
+    </h:body>
+
+</html>
