@@ -41,8 +41,9 @@ public class SurveyAddRowView implements Serializable{
     public void init(){
         surveys = new ArrayList<>();
         Survey survey = new Survey(1,"Test Survey", 1);
+        Survey survey2 = new Survey(2,"Test Survey", 2);
         surveys.add(survey);
-        surveys.add(survey);
+        surveys.add(survey2);
         surveys.add(survey);
         surveys.add(survey);
         surveys.add(survey);
