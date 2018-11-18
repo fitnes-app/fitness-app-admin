@@ -41,8 +41,11 @@ public class MuscularGroupEditView implements Serializable {
     public void init() {
 
         muscularGroups = new ArrayList<>();
-        MuscularGroup muscularGroup = new MuscularGroup(1, "Quadriceps");
-
+        MuscularGroup muscularGroup = new MuscularGroup();
+        
+        muscularGroup.setMuscularGroupName("Quadriceps");
+        muscularGroup.setId(22);
+        
         muscularGroups.add(muscularGroup);
         muscularGroups.add(muscularGroup);
         muscularGroups.add(muscularGroup);

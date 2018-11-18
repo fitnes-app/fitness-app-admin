@@ -46,6 +46,14 @@ public class Question implements Serializable {
 		this.text = text;
 	}
 
+        public Integer getSurveyId() {
+            return surveyId;
+        }
+
+        public void setSurveyId(Integer surveyId) {
+            this.surveyId = surveyId;
+        }
+
 	@Override
 	public int hashCode() {
 		int hash = 0;
