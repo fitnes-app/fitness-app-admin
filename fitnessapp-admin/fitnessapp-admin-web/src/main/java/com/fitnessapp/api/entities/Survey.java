@@ -25,6 +25,12 @@ public class Survey implements Serializable {
 		this.id = id;
 	}
 
+        public Survey(Integer id, String desc, Integer tagId) {
+		this.id = id;
+                this.description = desc;
+                this.tagId = tagId;
+	}
+        
 	public Integer getId() {
 		return id;
 	}
