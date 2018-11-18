@@ -8,7 +8,75 @@
 		<title>List Exercise</title>
 	</h:head>
 	<h:body>
-list
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true"/>
+
+			<p:dataTable id="advancedExercises" widgetVar="advancedExercises" var="advancedExercise" value="#{advancedExercisedtAddRowView.advancedExercises}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+				<f:facet name="header">
+					AdvancedExercise
+				</f:facet>
+
+				<p:ajax event="rowEdit" listener="#{advancedExercisedtAddRowView.onRowEdit}" update=":form:msgs" />
+				<p:ajax event="rowEditCancel" listener="#{advancedExercisedtAddRowView.onRowCancel}" update=":form:msgs" />
+
+				<p:column headerText="Id">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{advancedExercise.id}" /></f:facet>
+						<f:facet name="input"><p:inputText id="modelInput" value="#{advancedExercise.id}" style="width:100%"/></f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Exercise Name">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{advancedExercise.exerciseName}" /></f:facet>
+						<f:facet name="input"><p:inputText value="#{advancedExercise.exerciseName}" style="width:100%" label="Exercise Name"/></f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Exercise Sets">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{advancedExercise.exerciseSets}" /></f:facet>
+						<f:facet name="input"><p:inputText value="#{advancedExercise.exerciseSets}" style="width:100%" label="Exercise Sets"/></f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Repetitions">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{advancedExercise.repetitions}" /></f:facet>
+						<f:facet name="input"><p:inputText value="#{advancedExercise.repetitions}" style="width:100%" label="Repetitions"/></f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="AdvancedWorkout">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{advancedExercise.advancedWorkoutId}" /></f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{advancedExercise.advancedWorkoutId}" style="width:100%">
+								<f:selectItem itemValue="1"></f:selectItem>
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Muscular Group">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{advancedExercise.muscularGroupId}" /></f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{advancedExercise.muscularGroupId}" style="width:100%">
+								<f:selectItem itemValue="1"></f:selectItem>
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column style="width:32px">
+					<p:rowEditor />
+				</p:column>
+			</p:dataTable>
+
+			<div class="ui-g">
+				<div class="ui-g-12">
+					<p:commandButton value="Add new AdvancedExercise" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
+							 action="#{advancedExercisedtAddRowView.onAddNew()}" oncomplete="PF('advancedExercises').addRow();"/>
+				</div>
+			</div>
+		</h:form>
 	</h:body>
 </html>
 

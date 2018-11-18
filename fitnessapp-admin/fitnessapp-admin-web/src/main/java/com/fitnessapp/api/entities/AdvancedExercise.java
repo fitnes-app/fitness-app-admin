@@ -76,6 +76,23 @@ public class AdvancedExercise implements Serializable {
 		this.repetitions = repetitions;
 	}
 
+	public Integer getAdvancedWorkoutId() {
+		return advancedWorkoutId;
+	}
+
+	public void setAdvancedWorkoutId(Integer advancedWorkoutId) {
+		this.advancedWorkoutId = advancedWorkoutId;
+	}
+
+	public Integer getMuscularGroupId() {
+		return muscularGroupId;
+	}
+
+	public void setMuscularGroupId(Integer muscularGroupId) {
+		this.muscularGroupId = muscularGroupId;
+	}
+	
+
 	@Override
 	public int hashCode() {
 		int hash = 0;
