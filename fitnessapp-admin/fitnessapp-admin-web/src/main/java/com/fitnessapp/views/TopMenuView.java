@@ -37,65 +37,8 @@ import org.primefaces.model.menu.MenuModel;
 @ViewScoped
 public class TopMenuView implements Serializable {
 
-	private MenuModel model;
-	private List<String> entities;
-
 	@PostConstruct
 	public void init() {
-		initializeEntities();
-		model = new DefaultMenuModel();
-
-		//First submenu
-		DefaultSubMenu firstSubmenu = new DefaultSubMenu("Dynamic Submenu");
-
-		DefaultMenuItem item = new DefaultMenuItem("External");
-		item.setUrl("http://www.primefaces.org");
-		item.setIcon("pi pi-home");
-		firstSubmenu.addElement(item);
-
-		model.addElement(firstSubmenu);
-
-		//Second submenu
-		DefaultSubMenu secondSubmenu = new DefaultSubMenu("Dynamic Actions");
-
-		item = new DefaultMenuItem("Save");
-		item.setIcon("pi pi-save");
-		item.setCommand("#{menuView.save}");
-		item.setUpdate("messages");
-		secondSubmenu.addElement(item);
-
-		item = new DefaultMenuItem("Delete");
-		item.setIcon("pi pi-times");
-		item.setCommand("#{menuView.delete}");
-		item.setAjax(false);
-		secondSubmenu.addElement(item);
-
-		item = new DefaultMenuItem("Redirect");
-		item.setIcon("pi pi-search");
-		item.setCommand("#{menuView.redirect}");
-		secondSubmenu.addElement(item);
-
-		model.addElement(secondSubmenu);
-	}
-
-	public List<String> initializeEntities() {
-		return Arrays.asList(
-			"Administrator",
-			"AdvancedClientTracking",
-			"AdvancedExercise"
-		);
-	}
-
-	public List<String> getEntities() {
-		return entities;
-	}
-
-	public void setEntities(List<String> entities) {
-		this.entities = entities;
-	}
-
-	public MenuModel getModel() {
-		return model;
 	}
 
 	public void save() {

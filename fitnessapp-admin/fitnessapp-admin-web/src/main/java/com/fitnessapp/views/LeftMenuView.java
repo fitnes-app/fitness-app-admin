@@ -22,10 +22,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import org.primefaces.model.menu.DefaultMenuItem;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
-import org.primefaces.model.menu.MenuModel;
 
 /**
  *
@@ -33,49 +29,30 @@ import org.primefaces.model.menu.MenuModel;
  */
 @Named(value = "leftMenuView")
 @ViewScoped
-public class LeftMenuView implements Serializable{
+public class LeftMenuView implements Serializable {
 
-	private MenuModel model;
+	private String selectedMenu;
 
 	@PostConstruct
 	public void init() {
-		model = new DefaultMenuModel();
+		selectedMenu = "index.xhtml";
 
-		//First submenu
-		DefaultSubMenu firstSubmenu = new DefaultSubMenu("Dynamic Submenu");
-
-		DefaultMenuItem item = new DefaultMenuItem("External");
-		item.setUrl("http://www.primefaces.org");
-		item.setIcon("pi pi-home");
-		firstSubmenu.addElement(item);
-
-		model.addElement(firstSubmenu);
-
-		//Second submenu
-		DefaultSubMenu secondSubmenu = new DefaultSubMenu("Dynamic Actions");
-
-		item = new DefaultMenuItem("Save");
-		item.setIcon("pi pi-save");
-		item.setCommand("#{menuView.save}");
-		item.setUpdate("messages");
-		secondSubmenu.addElement(item);
-
-		item = new DefaultMenuItem("Delete");
-		item.setIcon("pi pi-times");
-		item.setCommand("#{menuView.delete}");
-		item.setAjax(false);
-		secondSubmenu.addElement(item);
-
-		item = new DefaultMenuItem("Redirect");
-		item.setIcon("pi pi-search");
-		item.setCommand("#{menuView.redirect}");
-		secondSubmenu.addElement(item);
-
-		model.addElement(secondSubmenu);
 	}
 
-	public MenuModel getModel() {
-		return model;
+	public String getSelectedMenu() {
+		return selectedMenu;
+	}
+
+	public void setSelectedMenu(String selectedMenu) {
+		this.selectedMenu = selectedMenu;
+	}
+
+	public void create() {
+		addMessage("Success", "Preparing to create data");
+	}
+
+	public void list() {
+		addMessage("Success", "Data listed.");
 	}
 
 	public void save() {
@@ -94,5 +71,4 @@ public class LeftMenuView implements Serializable{
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
-
 }

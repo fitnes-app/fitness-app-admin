@@ -10,6 +10,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<h:outputStylesheet name="/css/default.css"/>
 		<h:outputStylesheet name="/css/cssLayout.css"/>
+		<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
 		<!-- Bootstrap -->
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
@@ -23,31 +24,132 @@
 	</h:head>
 
 	<h:body>
+		<p:growl id="messages" showDetail="true"/>
 		<p:layout fullPage="true">
 			<p:layoutUnit position="north" size="60" resizable="false" closable="false" collapsible="false" >
 				<ui:insert name="top">
-					<ui:include src="top-menu.xhtml"/>
+					<h:form>  
+						<p:menubar>
+							<f:facet name="options">
+								<p:inputText style="margin:1px 10px 1px 1px;" placeholder="#{msg.search}"/>
+								<p:commandButton type="button" value="#{msg.logout}" icon="pi pi-home" />
+							</f:facet>
+						</p:menubar>
+					</h:form>
 				</ui:insert>
 			</p:layoutUnit>
-		    <p:layoutUnit position="west" size="200" header="#{msg.entities}" resizable="true" closable="true" collapsible="true">
+			<p:layoutUnit position="west" size="220" header="#{msg.entities}" resizable="true" closable="true" collapsible="true">
 				<ui:insert name="left">
-					<ui:include src="left-menu.xhtml"/>
-				</ui:insert>
-			</p:layoutUnit>
+					<h:form>
 
-		    <p:layoutUnit position="east" size="200" header="#{msg.tools}" resizable="true" closable="true" collapsible="true" effect="drop">
-				<ui:insert name="right">
-					<ui:include src="right-menu.xhtml"/>
+						<p:slideMenu style="width:210px">
+							<p:submenu label="Survey" icon="fa fa-database" >
+								<p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa fa-save" >
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Survey/create.xhtml"/>
+								</p:menuitem>
+								<p:menuitem value="#{msg.list}" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Survey/list.xhtml"/>
+								</p:menuitem>
+							</p:submenu>
+							<p:separator />
+							<p:submenu label="BodyType" icon="fa fa-database" >
+
+								<p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa fa-save" >
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="BodyType/create.xhtml"/>
+								</p:menuitem>
+								<p:menuitem value="#{msg.list}" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="BodyType/list.xhtml"/>
+								</p:menuitem>
+							</p:submenu>
+							<p:separator />
+							<p:submenu label="Workout" icon="fa fa-database">
+
+								<p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa fa-save" >
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Workout/create.xhtml"/>
+								</p:menuitem>
+								<p:menuitem value="#{msg.list}" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Workout/list.xhtml"/>
+								</p:menuitem>
+							</p:submenu>
+							<p:separator />
+							<p:submenu label="Exercise" icon="fa fa-database">
+
+								<p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa fa-save" >
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Exercise/create.xhtml"/>
+								</p:menuitem>
+								<p:menuitem value="#{msg.list}" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Exercise/list.xhtml"/>
+								</p:menuitem>
+							</p:submenu>
+							<p:separator />
+							<p:submenu label="Tip" icon="fa fa-database">
+
+								<p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa fa-save" >
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Tip/create.xhtml"/>
+								</p:menuitem>
+								<p:menuitem value="#{msg.list}" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Tip/list.xhtml"/>
+								</p:menuitem>
+							</p:submenu>
+							<p:separator />
+							<p:submenu label="Tag" icon="fa fa-database">
+
+								<p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa fa-save" >
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Tag/create.xhtml"/>
+								</p:menuitem>
+								<p:menuitem value="#{msg.list}" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Tag/list.xhtml"/>
+								</p:menuitem>
+							</p:submenu>
+							<p:separator />
+							<p:submenu label="MuscularGroup" icon="fa fa-database">
+
+								<p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa-fa-save" >
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="MuscularGroup/create.xhtml"/>
+								</p:menuitem>
+								<p:menuitem value="#{msg.list}" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="MuscularGroup/list.xhtml"/>
+								</p:menuitem>
+							</p:submenu>
+							<p:separator />
+							<p:submenu label="Question" icon="fa fa-database">
+
+								<p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa fa-save" >
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Question/create.xhtml"/>
+								</p:menuitem>
+								<p:menuitem value="#{msg.list}" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+
+									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Question/list.xhtml"/>
+								</p:menuitem>
+							</p:submenu>
+							<p:separator />
+						</p:slideMenu>
+					</h:form>
 				</ui:insert>
 			</p:layoutUnit>
+			<ui:remove>
+				<p:layoutUnit position="east" size="200" header="#{msg.tools}" resizable="true" closable="true" collapsible="true" effect="drop">
+					<ui:insert name="right">
+					</ui:insert>
+				</p:layoutUnit>
+			</ui:remove>
 			<p:layoutUnit position="center">
-				<ui:insert name="content">
-				</ui:insert>
+				<h:panelGroup id="main-content">
+					<ui:insert name="content"></ui:insert>
+				</h:panelGroup>
 			</p:layoutUnit>
-			<p:layoutUnit position="south" size="100" >
-				<ui:insert name="bottom">
-				</ui:insert>
-			</p:layoutUnit>
+			<ui:remove>
+				<p:layoutUnit position="south" size="100" >
+					<ui:insert name="bottom"></ui:insert>
+				</p:layoutUnit>
+			</ui:remove>
 		</p:layout>
 
 	</h:body>
