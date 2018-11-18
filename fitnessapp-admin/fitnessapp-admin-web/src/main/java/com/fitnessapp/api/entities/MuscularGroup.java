@@ -19,16 +19,13 @@ public class MuscularGroup implements Serializable {
 
 	public MuscularGroup() {
 	}
-
+        public MuscularGroup(Integer id, String muscularGroupName) {
+            this.id = id;
+            this.muscularGroupName = muscularGroupName;
+        }
 	public MuscularGroup(Integer id) {
 		this.id = id;
 	}
-
-	public MuscularGroup(Integer id, String muscularGroupName) {
-		this.id = id;
-		this.muscularGroupName = muscularGroupName;
-	}
-
 	public Integer getId() {
 		return id;
 	}

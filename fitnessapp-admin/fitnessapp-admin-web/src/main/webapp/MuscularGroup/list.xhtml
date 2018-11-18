@@ -1,12 +1,36 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-	<h:head>
-		<title>Facelet Title</title>
-	</h:head>
-	<h:body>
-		list
-	</h:body>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>List Muscular Groups</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:dataTable id="muscularGroup" widgetVar="muscularGroup" var="muscularGroup" value="#{muscularGroupEditView.muscularGroups}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+                <f:facet name="header">
+                    Muscular Groups
+                </f:facet>
+
+                <p:ajax event="rowEdit" listener="#{muscularGroupEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{muscularGroupEditView.onRowCancel}" update=":form:msgs" />
+
+                <p:column headerText="Name">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{muscularGroup.muscularGroupName}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{muscularGroup.muscularGroupName}" style="width:100%" label="Name"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+               
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
 </html>
 
