@@ -117,6 +117,10 @@ public class AdvancedExerciseAddRowView implements Serializable{
 		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
+	public void delete() {
+		FacesMessage msg = new FacesMessage("Data deleted", "");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 
 	public void onAddNew() {
 		FacesMessage msg = new FacesMessage("New AdvancedExercise added", "");
