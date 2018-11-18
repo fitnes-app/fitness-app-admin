@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (C) 2018 Jordi
-=======
  * Copyright (C) 2018 Naluem
->>>>>>> development
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,23 +14,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.fitnessapp;
+package com.fitnessapp.views;
 
-import javax.ejb.Stateless;
-import javax.ejb.LocalBean;
+import java.io.FileInputStream;
+import java.io.Serializable;
+import javax.annotation.PostConstruct;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
-
  * @author Naluem
-
  */
-@Stateless
-@LocalBean
-public class NewSessionBean {
+@Named(value = "graphicBannerImage")
+@ViewScoped
+public class GraphicBannerImage implements Serializable{
 
+	private StreamedContent bannerImage;
 
-	// Add business logic below. (Right-click in editor and choose
-	// "Insert Code > Add Business Method")
+	@PostConstruct
+	public void init() {
+		try {
+			bannerImage = new DefaultStreamedContent(new FileInputStream("chartFile"), "image/png");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public StreamedContent getBannerImage() {
+		return bannerImage;
+	}
 
 }
