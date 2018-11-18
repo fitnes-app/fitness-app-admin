@@ -68,15 +68,7 @@
 				<p:column style="width:32px">
 					<p:rowEditor />
 				</p:column>
-				
 			</p:dataTable>
-
-			<div class="ui-g">
-				<div class="ui-g-12">
-					<p:commandButton value="Add new BasicExercise" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
-							 action="#{basicExercisedtAddRowView.onAddNew()}" oncomplete="PF('basicExercises').addRow();"/>
-				</div>
-			</div>
 		</h:form>
 
 	</h:body>
