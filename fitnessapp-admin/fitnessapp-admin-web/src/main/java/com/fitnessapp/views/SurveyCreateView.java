@@ -16,10 +16,48 @@
  */
 package com.fitnessapp.views;
 
+import java.io.Serializable;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+
 /**
  *
  * @author Erox
  */
-public class SurveyCreateView {
-    
+
+@Named(value = "surveyCreateView")
+@ViewScoped
+public class SurveyCreateView implements Serializable {
+
+    private String description;
+    private Integer tagId;
+
+    public void init(){}
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Integer tagId) {
+        this.tagId = tagId;
+    }
+
+    public void save() {
+            addMessage("Data saved");
+    }
+
+    public void addMessage(String summary) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 }
