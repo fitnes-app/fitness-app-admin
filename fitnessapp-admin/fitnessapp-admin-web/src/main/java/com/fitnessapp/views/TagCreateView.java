@@ -16,6 +16,7 @@
  */
 package com.fitnessapp.views;
 
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -28,7 +29,7 @@ import javax.inject.Named;
  */
 @Named(value = "tagCreateView")
 @ViewScoped
-public class TagCreateView {
+public class TagCreateView implements Serializable {
     private String description;
     
     @PostConstruct
