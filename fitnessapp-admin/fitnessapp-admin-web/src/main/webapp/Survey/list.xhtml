@@ -43,13 +43,6 @@
 					<p:rowEditor />
 				</p:column>
 			</p:dataTable>
-
-			<div class="ui-g">
-				<div class="ui-g-12">
-					<p:commandButton value="Add new Survey" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
-							 action="#{surveyAddRowView.onAddNew()}" oncomplete="PF('surveys').addRow();"/>
-				</div>
-			</div>
 		</h:form>
 	</h:body>
 </html>

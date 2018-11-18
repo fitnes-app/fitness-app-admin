@@ -37,13 +37,6 @@
 					<p:rowEditor />
 				</p:column>
 			</p:dataTable>
-
-			<div class="ui-g">
-				<div class="ui-g-12">
-					<p:commandButton value="Add new TAG" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
-							 action="#{tagsAddRowView.onAddNew()}" oncomplete="PF('tags').addRow();"/>
-				</div>
-			</div>
 		</h:form>
 	</h:body>
 </html>
