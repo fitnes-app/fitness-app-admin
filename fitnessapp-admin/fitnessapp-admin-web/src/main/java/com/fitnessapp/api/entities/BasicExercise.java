@@ -76,6 +76,23 @@ public class BasicExercise implements Serializable {
 		this.repetitions = repetitions;
 	}
 
+	public Integer getBasicWorkoutId() {
+		return basicWorkoutId;
+	}
+
+	public void setBasicWorkoutId(Integer basicWorkoutId) {
+		this.basicWorkoutId = basicWorkoutId;
+	}
+
+	public Integer getMuscularGroupId() {
+		return muscularGroupId;
+	}
+
+	public void setMuscularGroupId(Integer muscularGroupId) {
+		this.muscularGroupId = muscularGroupId;
+	}
+
+
 	@Override
 	public int hashCode() {
 		int hash = 0;
