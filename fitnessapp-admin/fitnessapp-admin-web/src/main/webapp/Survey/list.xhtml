@@ -11,9 +11,9 @@
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true"/>
 
-			<p:dataTable id="surveys" widgetVar="surveys" var="survey" value="#{surveyAddRowView.surveys}" editable="true" style="margin-bottom:20padvancedExercisedtAddRowViewx" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+			<p:dataTable id="surveys" widgetVar="surveys" var="survey" value="#{surveyAddRowView.surveys}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
 				<f:facet name="header">
-					Survey
+					Surveys
 				</f:facet>
 
 				<p:ajax event="rowEdit" listener="#{surveyAddRowView.onRowEdit}" update=":form:msgs" />

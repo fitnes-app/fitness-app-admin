@@ -20,6 +20,7 @@ import com.fitnessapp.api.entities.Survey;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -35,6 +36,8 @@ import org.primefaces.event.RowEditEvent;
 public class SurveyAddRowView implements Serializable{
 
     private List<Survey> surveys;
+    
+    @PostConstruct
     public void init(){
         surveys = new ArrayList<>();
         Survey survey = new Survey(1,"Test Survey", 1);
