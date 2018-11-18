@@ -34,7 +34,7 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "tagsAddRowView")
 @ViewScoped
-public class TagsAddRowView implements Serializable{
+public class TagAddRowView implements Serializable{
     
     private List<Tag> tags;
     @PostConstruct
