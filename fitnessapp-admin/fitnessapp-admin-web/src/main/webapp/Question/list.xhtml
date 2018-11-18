@@ -11,13 +11,17 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="question" widgetVar="question" var="question" value="#{questionEditView.questions}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+            <p:dataTable id="question" widgetVar="question" var="question" value="#{questionEditView.questions}" 
+                         editable="true" style="margin-bottom:20px" rows="10" paginator="true" 
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                         resizableColumns="true" tableStyle="table-layout:auto;width:100%;">
                 <f:facet name="header">
                     Questions
                 </f:facet>
 
                 <p:ajax event="rowEdit" listener="#{questionEditView.onRowEdit}" update=":form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{questionEditView.onRowCancel}" update=":form:msgs" />
+
                 <p:column headerText="Id">
                         <h:outputText value="#{question.id}" />
                 </p:column>
@@ -44,6 +48,10 @@
                 <p:column style="width:32px">
                     <p:rowEditor />
                 </p:column>
+                <p:column style="width:40px">
+                    <p:commandButton icon="ui-icon-close" title="Delete"
+                                     actionListener="#{questionEditView.onRowDelete(question)}" update=":form:msgs" />
+                </p:column>          
             </p:dataTable>
         </h:form>
     </h:body>

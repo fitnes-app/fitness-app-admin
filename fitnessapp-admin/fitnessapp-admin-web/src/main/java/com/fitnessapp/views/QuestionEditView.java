@@ -130,4 +130,8 @@ public class QuestionEditView implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
+    public void onRowDelete(Question question) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Deleted", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 }
