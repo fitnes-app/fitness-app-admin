@@ -14,33 +14,31 @@
 			<p:dataTable id="surveys" widgetVar="surveys" var="survey" value="#{surveyAddRowView.surveys}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
 				<f:facet name="header">
 					Surveys
+					<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
+					<p:columnToggler datasource="surveys" trigger="toggler" />
 				</f:facet>
 
 				<p:ajax event="rowEdit" listener="#{surveyAddRowView.onRowEdit}" update=":form:msgs" />
 				<p:ajax event="rowEditCancel" listener="#{surveyAddRowView.onRowCancel}" update=":form:msgs" />
 
-				<p:column headerText="Id">
+				<p:column headerText="Id" sortBy="survey.id">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{survey.id}" /></f:facet>
 						<f:facet name="input"><p:inputText readonly="true" id="modelInput" value="#{survey.id}" style="width:100%"/></f:facet>
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Description">
+				<p:column headerText="Description" sortBy="survey.description">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{survey.description}" /></f:facet>
 						<f:facet name="input"><p:inputText value="#{survey.description}" style="width:100%" label="Description"/></f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="Tag ID">
+				<p:column headerText="Tag ID" sortBy="survey.tagId">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{survey.tagId}" /></f:facet>
 						<f:facet name="input"><p:inputText value="#{survey.tagId}" style="width:100%" label="Tag Id"/></f:facet>
 					</p:cellEditor>
-				</p:column>
-
-				<p:column style="width:32px">
-					<p:rowEditor />
 				</p:column>
                                 
                                 <p:column headerText="(Edit)" >
