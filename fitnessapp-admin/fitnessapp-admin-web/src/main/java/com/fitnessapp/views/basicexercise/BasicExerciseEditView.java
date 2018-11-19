@@ -48,7 +48,7 @@ public class BasicExerciseEditView implements Serializable {
 		/*cars1 = service.createCars(10);
         cars2 = service.createCars(10);*/
 		basicExercises=new ArrayList<>();
-		BasicExercise basicExercise=new BasicExercise(1, "tocarse los huevos a dos manos basicamente", 5, 20);
+		BasicExercise basicExercise=new BasicExercise(1, "tocarse los huevos a dos manos basicamente", 5, 20,"descripcion de mierda basica");
 		basicExercise.setBasicWorkoutId(1);
 		basicExercise.setMuscularGroupId(1);
 		basicExercises.add(basicExercise);

@@ -29,11 +29,12 @@ public class AdvancedExercise implements Serializable {
 		this.id = id;
 	}
 
-	public AdvancedExercise(Integer id, String exerciseName, int exerciseSets, int repetitions) {
+	public AdvancedExercise(Integer id, String exerciseName, int exerciseSets, int repetitions, String description) {
 		this.id = id;
 		this.exerciseName = exerciseName;
 		this.exerciseSets = exerciseSets;
 		this.repetitions = repetitions;
+		this.description = description;
 	}
 
 	public Integer getId() {
@@ -91,7 +92,6 @@ public class AdvancedExercise implements Serializable {
 	public void setMuscularGroupId(Integer muscularGroupId) {
 		this.muscularGroupId = muscularGroupId;
 	}
-	
 
 	@Override
 	public int hashCode() {

@@ -44,7 +44,7 @@ public class AdvancedExerciseEditView implements Serializable{
 		/*cars1 = service.createCars(10);
         cars2 = service.createCars(10);*/
 		advancedExercises=new ArrayList<>();
-		AdvancedExercise advancedExercise=new AdvancedExercise(1, "tocarse los huevos a dos manos de forma avanzada", 5, 20);
+		AdvancedExercise advancedExercise=new AdvancedExercise(1, "tocarse los huevos a dos manos de forma avanzada", 5, 20,"descripcion de mierda avanzada");
 		advancedExercise.setAdvancedWorkoutId(1);
 		advancedExercise.setMuscularGroupId(1);
 		advancedExercises.add(advancedExercise);

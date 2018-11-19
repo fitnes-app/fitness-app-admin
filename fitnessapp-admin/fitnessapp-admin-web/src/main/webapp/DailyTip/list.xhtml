@@ -1,12 +1,54 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 	<h:head>
-		<title>Facelet Title</title>
+		<title>List Exercise</title>
 	</h:head>
 	<h:body>
-		list
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true"/>
+			<p:dataTable id="dailyTips" widgetVar="dailyTips" var="dailyTip" value="#{dailyTipdtAddRowView.dailyTips}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+				<f:facet name="header">
+					DailyTip
+					<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
+					<p:columnToggler datasource="dailyTips" trigger="toggler" />
+				</f:facet>
+
+				<p:ajax event="rowEdit" listener="#{dailyTipdtAddRowView.onRowEdit}" update=":form:msgs" />
+				<p:ajax event="rowEditCancel" listener="#{dailyTipdtAddRowView.onRowCancel}" update=":form:msgs" />
+
+				<p:column headerText="Id" sortBy="#{dailyTip.id}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<p:outputLabel value="#{dailyTip.id}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText readonly="true" id="modelInput" value="#{dailyTip.id}" style="width:100%"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Text" sortBy="#{dailyTip.text}">
+					<p:cellEditor>
+					    <f:facet name="output">
+						    <p:inputTextarea value="#{dailyTip.text}" readonly="true" style="color: black;" autoResize="true"/>
+					    </f:facet>
+					    <f:facet name="input">
+						    <p:inputTextarea value="#{dailyTip.text}" style="width:100%" autoResize="true"/>
+					    </f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="(Edit)" >
+					<p:rowEditor />
+				</p:column>
+				<p:column headerText="(Delete)" >
+					<p:commandButton id="delete-button" action="#{dailyTipdtAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
 	</h:body>
 </html>
 

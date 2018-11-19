@@ -1,12 +1,67 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 	<h:head>
-		<title>Facelet Title</title>
+		<title>List Exercise</title>
 	</h:head>
 	<h:body>
-		list
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true"/>
+			<p:dataTable id="specificTips" widgetVar="specificTips" var="specificTip" value="#{specificTipdtAddRowView.specificTips}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+				<f:facet name="header">
+					SpecificTip
+					<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
+					<p:columnToggler datasource="specificTips" trigger="toggler" />
+				</f:facet>
+
+				<p:ajax event="rowEdit" listener="#{specificTipdtAddRowView.onRowEdit}" update=":form:msgs" />
+				<p:ajax event="rowEditCancel" listener="#{specificTipdtAddRowView.onRowCancel}" update=":form:msgs" />
+
+				<p:column headerText="Id" sortBy="#{specificTip.id}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<p:outputLabel value="#{specificTip.id}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText readonly="true" id="modelInput" value="#{specificTip.id}" style="width:100%"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Text" sortBy="#{specificTip.text}">
+					<p:cellEditor>
+					    <f:facet name="output">
+						    <p:inputTextarea value="#{specificTip.text}" readonly="true" style="color: black;" autoResize="true"/>
+					    </f:facet>
+					    <f:facet name="input">
+						    <p:inputTextarea value="#{specificTip.text}" style="width:100%" autoResize="true"/>
+					    </f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Muscular Group" sortBy="#{specificTip.muscularGroupId}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<p:outputLabel value="#{specificTip.muscularGroupId}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{specificTip.muscularGroupId}" style="width:100%">
+								<f:selectItem itemValue="1"></f:selectItem>
+							</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="(Edit)" >
+					<p:rowEditor />
+				</p:column>
+				<p:column headerText="(Delete)" >
+					<p:commandButton id="delete-button" action="#{specificTipdtAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
 	</h:body>
 </html>
 
