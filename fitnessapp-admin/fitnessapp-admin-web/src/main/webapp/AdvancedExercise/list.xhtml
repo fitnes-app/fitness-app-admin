@@ -23,56 +23,76 @@
 
 				<p:column headerText="Id" sortBy="#{advancedExercise.id}">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{advancedExercise.id}" /></f:facet>
-						<f:facet name="input"><p:inputText readonly="true" id="modelInput" value="#{advancedExercise.id}" style="width:100%"/></f:facet>
+						<f:facet name="output">
+							<p:outputLabel value="#{advancedExercise.id}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText readonly="true" id="modelInput" value="#{advancedExercise.id}" style="width:100%"/>
+						</f:facet>
 					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{advancedExercise.exerciseName}" /></f:facet>
-						<f:facet name="input"><p:inputText value="#{advancedExercise.exerciseName}" style="width:100%" label="Exercise Name"/></f:facet>
+						<f:facet name="output">
+							<p:outputLabel value="#{advancedExercise.exerciseName}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{advancedExercise.exerciseName}" style="width:100%" label="Exercise Name"/>
+						</f:facet>
 					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Description" sortBy="#{advancedExercise.description}">
 					<p:cellEditor>
 					    <f:facet name="output">
-						<h:inputTextarea value="#{advancedExercise.description}" readonly="true" style="color: black;" />
+						    <p:inputTextarea value="#{advancedExercise.description}" readonly="true" style="color: black;" autoResize="true" />
 					    </f:facet>
 					    <f:facet name="input">
-						<h:inputTextarea value="#{advancedExercise.description}" style="width:100%"/>
+						    <p:inputTextarea value="#{advancedExercise.description}" style="width:80%" autoResize="true"/>
 					    </f:facet>
 					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Exercise Sets" sortBy="#{advancedExercise.exerciseSets}">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{advancedExercise.exerciseSets}" /></f:facet>
-						<f:facet name="input"><p:inputText value="#{advancedExercise.exerciseSets}" style="width:100%" label="Exercise Sets"/></f:facet>
+						<f:facet name="output">
+							<p:outputLabel value="#{advancedExercise.exerciseSets}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{advancedExercise.exerciseSets}" style="width:100%" label="Exercise Sets"/>
+						</f:facet>
 					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{advancedExercise.repetitions}" /></f:facet>
-						<f:facet name="input"><p:inputText value="#{advancedExercise.repetitions}" style="width:100%" label="Repetitions"/></f:facet>
+						<f:facet name="output">
+							<p:outputLabel value="#{advancedExercise.repetitions}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{advancedExercise.repetitions}" style="width:100%" label="Repetitions"/>
+						</f:facet>
 					</p:cellEditor>
 				</p:column>
 				<p:column headerText="AdvancedWorkout" sortBy="#{advancedExercise.advancedWorkoutId}">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{advancedExercise.advancedWorkoutId}" /></f:facet>
+						<f:facet name="output">
+							<p:outputLabel value="#{advancedExercise.advancedWorkoutId}" />
+						</f:facet>
 						<f:facet name="input">
-							<h:selectOneMenu value="#{advancedExercise.advancedWorkoutId}" style="width:100%">
+							<p:selectOneMenu value="#{advancedExercise.advancedWorkoutId}" style="width:100%">
 								<f:selectItem itemValue="1"></f:selectItem>
-							</h:selectOneMenu>
+							</p:selectOneMenu>
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId}">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{advancedExercise.muscularGroupId}" /></f:facet>
+						<f:facet name="output">
+							<p:outputLabel value="#{advancedExercise.muscularGroupId}" />
+						</f:facet>
 						<f:facet name="input">
-							<h:selectOneMenu value="#{advancedExercise.muscularGroupId}" style="width:100%">
+							<p:selectOneMenu value="#{advancedExercise.muscularGroupId}" style="width:100%">
 								<f:selectItem itemValue="1"></f:selectItem>
-							</h:selectOneMenu>
+							</p:selectOneMenu>
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
