@@ -11,17 +11,19 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="muscularGroup" widgetVar="muscularGroup" var="muscularGroup" value="#{muscularGroupEditView.muscularGroups}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+            <p:dataTable id="muscularGroups" widgetVar="muscularGroup" var="muscularGroup" value="#{muscularGroupEditView.muscularGroups}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
                 <f:facet name="header">
                     Muscular Groups
+                    <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
+                    <p:columnToggler datasource="muscularGroups" trigger="toggler" />
                 </f:facet>
 
                 <p:ajax event="rowEdit" listener="#{muscularGroupEditView.onRowEdit}" update=":form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{muscularGroupEditView.onRowCancel}" update=":form:msgs" />
-                <p:column headerText="Id">
+                <p:column headerText="Id" sortBy="#{muscularGroups.id}">
                         <h:outputText value="#{muscularGroup.id}" />
                 </p:column>
-                <p:column headerText="Name">
+                <p:column headerText="Name" sortBy="#{muscularGroups.muscularGroupName}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{muscularGroup.muscularGroupName}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{muscularGroup.muscularGroupName}" style="width:100%" label="Name"/></f:facet>

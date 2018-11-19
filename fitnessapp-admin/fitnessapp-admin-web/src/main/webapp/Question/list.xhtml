@@ -11,28 +11,30 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="question" widgetVar="question" var="question" value="#{questionEditView.questions}" 
+            <p:dataTable id="questions" widgetVar="question" var="question" value="#{questionEditView.questions}" 
                          editable="true" style="margin-bottom:20px" rows="10" paginator="true" 
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
                          resizableColumns="true" tableStyle="table-layout:auto;width:100%;">
                 <f:facet name="header">
                     Questions
+                    <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
+                    <p:columnToggler datasource="questions" trigger="toggler" />
                 </f:facet>
 
                 <p:ajax event="rowEdit" listener="#{questionEditView.onRowEdit}" update=":form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{questionEditView.onRowCancel}" update=":form:msgs" />
 
-                <p:column headerText="Id">
+                <p:column headerText="Id" sortBy="#{question.id}">
                         <h:outputText value="#{question.id}" />
                 </p:column>
-                <p:column headerText="Text">
+                <p:column headerText="Text" sortBy="#{question.text}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{question.text}" /></f:facet>
                         <f:facet name="input"><p:inputText id="modelInput" value="#{question.text}" style="width:100%"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Survey">
+                <p:column headerText="Survey" sortBy="#{question.surveyId}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{question.surveyId}" /></f:facet>
                         <f:facet name="input">
