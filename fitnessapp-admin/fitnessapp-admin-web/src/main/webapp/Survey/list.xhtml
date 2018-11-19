@@ -21,20 +21,20 @@
 				<p:ajax event="rowEdit" listener="#{surveyAddRowView.onRowEdit}" update=":form:msgs" />
 				<p:ajax event="rowEditCancel" listener="#{surveyAddRowView.onRowCancel}" update=":form:msgs" />
 
-				<p:column headerText="Id" sortBy="survey.id">
+				<p:column headerText="Id" sortBy="#{survey.id}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{survey.id}" /></f:facet>
 						<f:facet name="input"><p:inputText readonly="true" id="modelInput" value="#{survey.id}" style="width:100%"/></f:facet>
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Description" sortBy="survey.description">
+				<p:column headerText="Description" sortBy="#{survey.description}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{survey.description}" /></f:facet>
 						<f:facet name="input"><p:inputText value="#{survey.description}" style="width:100%" label="Description"/></f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="Tag ID" sortBy="survey.tagId">
+				<p:column headerText="Tag ID" sortBy="#{survey.tagId}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{survey.tagId}" /></f:facet>
 						<f:facet name="input"><p:inputText value="#{survey.tagId}" style="width:100%" label="Tag Id"/></f:facet>

@@ -21,14 +21,14 @@
 				<p:ajax event="rowEdit" listener="#{tagsAddRowView.onRowEdit}" update=":form:msgs" />
 				<p:ajax event="rowEditCancel" listener="#{tagsAddRowView.onRowCancel}" update=":form:msgs" />
 
-				<p:column headerText="Id" sortBy="tag.id">
+				<p:column headerText="Id" sortBy="#{tag.id}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{tag.id}" /></f:facet>
 						<f:facet name="input"><p:inputText readonly="true" id="modelInput" value="#{tag.id}" style="width:100%"/></f:facet>
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Tag Name" sortBy="tag.tagName">
+				<p:column headerText="Tag Name" sortBy="#{tag.tagName}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{tag.tagName}" /></f:facet>
 						<f:facet name="input"><p:inputText value="#{tag.tagName}" style="width:100%" label="Tag Name"/></f:facet>
