@@ -1,12 +1,48 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 	<h:head>
-		<title>Facelet Title</title>
+		<title>List Basic Workouts</title>
 	</h:head>
 	<h:body>
-		list
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true"/>
+
+			<p:dataTable id="basicWorkouts" widgetVar="basicWorkouts" var="basicWorkout" value="#{basicWorkoutAddRowView.basicWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+				<f:facet name="header">
+					BasicWorkout
+				</f:facet>
+
+				<p:ajax event="rowEdit" listener="#{basicWorkoutAddRowView.onRowEdit}" update=":form:msgs" />
+				<p:ajax event="rowEditCancel" listener="#{basicWorkoutAddRowView.onRowCancel}" update=":form:msgs" />
+
+                                <p:column headerText="Id">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{basicWorkout.id}" /></f:facet>
+						<f:facet name="input"><p:inputText id="modelInput" value="#{basicWorkout.id}" style="width:100%"/></f:facet>
+					</p:cellEditor>
+				</p:column>
+                                
+				<p:column headerText="basicWorkoutId">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{basicWorkout.bodyTypeId}" /></f:facet>
+						<f:facet name="input"><p:inputText id="modelInput2" value="#{basicWorkout.bodyTypeId}" style="width:100%"/></f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+			</p:dataTable>
+
+			<div class="ui-g">
+				<div class="ui-g-12">
+					<p:commandButton value="Add new BasicWorkout" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
+							 action="#{basicWorkoutAddRowView.onAddNew()}" oncomplete="PF('basicWorkouts').addRow();"/>
+				</div>
+			</div>
+		</h:form>
+
 	</h:body>
 </html>
 
