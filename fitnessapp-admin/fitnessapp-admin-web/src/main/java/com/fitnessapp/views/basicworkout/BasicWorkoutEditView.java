@@ -14,8 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.fitnessapp.views.bodytype;
-import com.fitnessapp.api.entities.BodyType;
+
+package com.fitnessapp.views.basicworkout;
+
+import com.fitnessapp.api.entities.BasicExercise;
+import com.fitnessapp.api.entities.BasicWorkout;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,37 +27,38 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
-@Named("bodyTypeAddRowView")
-@ViewScoped
-public class BodyTypeAddRowView implements Serializable {
 
-	private List<BodyType> bodyTypes;
+@Named("basicWorkoutEditView")
+@ViewScoped
+public class BasicWorkoutEditView implements Serializable {
+
+	private List<BasicWorkout> basicWorkouts;
 
 	@PostConstruct
 	public void init() {
-		bodyTypes=new ArrayList<>();
-		BodyType bt1 = new BodyType(1);
-                BodyType bt2 = new BodyType(2);
-                BodyType bt3 = new BodyType(3);
-		bodyTypes.add(bt1);
-                bodyTypes.add(bt2);
-                bodyTypes.add(bt3);
 
+		basicWorkouts = new ArrayList<>();
+		BasicWorkout bw1 = new BasicWorkout(1);
+                BasicWorkout bw2 = new BasicWorkout(2);
+		basicWorkouts.add(bw1);
+		basicWorkouts.add(bw2);
 	}
 
-	public List<BodyType> getBodyTypes() {
-		return bodyTypes;
+
+	public List<BasicWorkout> getBasicWorkouts() {
+		return basicWorkouts;
 	}
 
-	public void setBodyTypes(List<BodyType> bodyTypes) {
-		this.bodyTypes = bodyTypes;
+	public void setBasicWorkouts(List<BasicWorkout> basicWorkouts) {
+		this.basicWorkouts = basicWorkouts;
 	}
-	
 
 	public void onRowEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("BodyTypeEdited", "");
+		FacesMessage msg = new FacesMessage("BasicWorkoutEdited", "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
@@ -63,8 +67,13 @@ public class BodyTypeAddRowView implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void onAddNew() {
-		FacesMessage msg = new FacesMessage("New BodyType added", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+	public void onCellEdit(CellEditEvent event) {
+		Object oldValue = event.getOldValue();
+		Object newValue = event.getNewValue();
+
+		if (newValue != null && !newValue.equals(oldValue)) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
 	}
 }

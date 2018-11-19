@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.fitnessapp.views.bodytype;
-import com.fitnessapp.api.entities.BodyType;
+package com.fitnessapp.views.advancedworkout;
+
+import com.fitnessapp.api.entities.AdvancedWorkout;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,35 +27,33 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.event.RowEditEvent;
 
-@Named("bodyTypeAddRowView")
+@Named("advancedWorkoutAddRowView")
 @ViewScoped
-public class BodyTypeAddRowView implements Serializable {
+public class AdvancedWorkoutAddRowView implements Serializable {
 
-	private List<BodyType> bodyTypes;
+	private List<AdvancedWorkout> advancedWorkouts;
 
 	@PostConstruct
 	public void init() {
-		bodyTypes=new ArrayList<>();
-		BodyType bt1 = new BodyType(1);
-                BodyType bt2 = new BodyType(2);
-                BodyType bt3 = new BodyType(3);
-		bodyTypes.add(bt1);
-                bodyTypes.add(bt2);
-                bodyTypes.add(bt3);
+		advancedWorkouts = new ArrayList<>();
+		AdvancedWorkout bw1 = new AdvancedWorkout(1);
+                AdvancedWorkout bw2 = new AdvancedWorkout(2);
+		advancedWorkouts.add(bw1);
+		advancedWorkouts.add(bw2);
 
 	}
 
-	public List<BodyType> getBodyTypes() {
-		return bodyTypes;
+	public List<AdvancedWorkout> getAdvancedWorkouts() {
+		return advancedWorkouts;
 	}
 
-	public void setBodyTypes(List<BodyType> bodyTypes) {
-		this.bodyTypes = bodyTypes;
+	public void setAdvancedWorkouts(List<AdvancedWorkout> advancedWorkouts) {
+		this.advancedWorkouts = advancedWorkouts;
 	}
 	
 
 	public void onRowEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("BodyTypeEdited", "");
+		FacesMessage msg = new FacesMessage("AdvancedWorkoutEdited", "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
@@ -64,7 +63,7 @@ public class BodyTypeAddRowView implements Serializable {
 	}
 
 	public void onAddNew() {
-		FacesMessage msg = new FacesMessage("New BodyType added", "");
+		FacesMessage msg = new FacesMessage("New AdvancedWorkout added", "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 }
