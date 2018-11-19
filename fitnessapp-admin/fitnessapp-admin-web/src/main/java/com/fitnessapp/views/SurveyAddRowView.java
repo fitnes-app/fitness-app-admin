@@ -61,18 +61,22 @@ public class SurveyAddRowView implements Serializable{
     }
 
     public void onRowEdit(RowEditEvent event) {
-            FacesMessage msg = new FacesMessage("Survey Edited", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage("Survey Edited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onRowCancel(RowEditEvent event) {
-            FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onAddNew() {
-            FacesMessage msg = new FacesMessage("New Survey added", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage("New Survey added", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
+    public void delete() {
+        FacesMessage msg = new FacesMessage("Data Deleted", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 }
