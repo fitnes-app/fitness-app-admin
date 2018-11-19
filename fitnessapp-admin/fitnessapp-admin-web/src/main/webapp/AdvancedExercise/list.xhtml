@@ -34,6 +34,16 @@
 						<f:facet name="input"><p:inputText value="#{advancedExercise.exerciseName}" style="width:100%" label="Exercise Name"/></f:facet>
 					</p:cellEditor>
 				</p:column>
+				<p:column headerText="Description" sortBy="#{advancedExercise.description}">
+					<p:cellEditor>
+					    <f:facet name="output">
+						<h:inputTextarea value="#{advancedExercise.description}" readonly="true" style="color: black;" />
+					    </f:facet>
+					    <f:facet name="input">
+						<h:inputTextarea value="#{advancedExercise.description}" style="width:100%"/>
+					    </f:facet>
+					</p:cellEditor>
+				</p:column>
 				<p:column headerText="Exercise Sets" sortBy="#{advancedExercise.exerciseSets}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{advancedExercise.exerciseSets}" /></f:facet>
@@ -67,10 +77,10 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="" >
+				<p:column headerText="(Edit)" >
 					<p:rowEditor />
 				</p:column>
-				<p:column headerText="" >
+				<p:column headerText="(Delete)" >
 					<p:commandButton id="delete-button" action="#{advancedExercisedtAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
 				</p:column>
 			</p:dataTable>

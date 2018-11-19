@@ -45,7 +45,7 @@ public class BasicExerciseAddRowView implements Serializable {
 	public void init() {
 		//cars1 = service.createCars(15);
 		basicExercises=new ArrayList<>();
-		BasicExercise basicExercise=new BasicExercise(1, "tocarse los huevos basicamente", 5, 20);
+		BasicExercise basicExercise=new BasicExercise(1, "tocarse los huevos basicamente", 5, 20,"descripcion de mierda basica");
 		basicExercise.setBasicWorkoutId(1);
 		basicExercise.setMuscularGroupId(1);
 		basicExercises.add(basicExercise);

@@ -34,6 +34,12 @@
 						<f:facet name="input"><p:inputText value="#{basicExercise.exerciseName}" style="width:100%" label="Exercise Name"/></f:facet>
 					</p:cellEditor>
 				</p:column>
+				<p:column headerText="Description" sortBy="#{basicExercise.description}">
+					<p:cellEditor>
+					    <f:facet name="output"><h:inputTextarea value="#{basicExercise.description}" readonly="true" style="color: black;" /></f:facet>
+					    <f:facet name="input"><p:inputTextarea value="#{basicExercise.description}" style="width:100%"/></f:facet>
+					</p:cellEditor>
+				</p:column>
 				<p:column headerText="Exercise Sets" sortBy="#{basicExercise.exerciseSets}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{basicExercise.exerciseSets}" /></f:facet>

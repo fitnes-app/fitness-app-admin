@@ -25,9 +25,10 @@ public class SpecificTip implements Serializable {
 		this.id = id;
 	}
 
-	public SpecificTip(Integer id, String text) {
+	public SpecificTip(Integer id, String text, int muscularGroupId) {
 		this.id = id;
 		this.text = text;
+		this.muscularGroupId = muscularGroupId;
 	}
 
 	public Integer getId() {
@@ -44,6 +45,14 @@ public class SpecificTip implements Serializable {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public Integer getMuscularGroupId() {
+		return muscularGroupId;
+	}
+
+	public void setMuscularGroupId(Integer muscularGroupId) {
+		this.muscularGroupId = muscularGroupId;
 	}
 
 	@Override
