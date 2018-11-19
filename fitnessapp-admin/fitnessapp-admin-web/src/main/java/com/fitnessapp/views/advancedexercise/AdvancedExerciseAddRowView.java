@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.fitnessapp.views;
+package com.fitnessapp.views.advancedexercise;
 
 import com.fitnessapp.api.entities.AdvancedExercise;
 import com.fitnessapp.api.entities.BasicExercise;
@@ -115,6 +115,10 @@ public class AdvancedExerciseAddRowView implements Serializable{
 
 	public void onRowCancel(RowEditEvent event) {
 		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	public void delete() {
+		FacesMessage msg = new FacesMessage("Data deleted", "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 

@@ -14,37 +14,39 @@
 			<p:dataTable id="basicExercises" widgetVar="basicExercises" var="basicExercise" value="#{basicExercisedtAddRowView.basicExercises}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 				<f:facet name="header">
 					BasicExercise
+					<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
+					<p:columnToggler datasource="basicExercises" trigger="toggler" />
 				</f:facet>
 
 				<p:ajax event="rowEdit" listener="#{basicExercisedtAddRowView.onRowEdit}" update=":form:msgs" />
 				<p:ajax event="rowEditCancel" listener="#{basicExercisedtAddRowView.onRowCancel}" update=":form:msgs" />
 
-				<p:column headerText="Id">
+				<p:column headerText="Id" sortBy="#{basicExercise.id}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{basicExercise.id}" /></f:facet>
-						<f:facet name="input"><p:inputText id="modelInput" value="#{basicExercise.id}" style="width:100%"/></f:facet>
+						<f:facet name="input"><p:inputText readonly="true" id="modelInput" value="#{basicExercise.id}" style="width:100%"/></f:facet>
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Exercise Name">
+				<p:column headerText="Exercise Name" sortBy="#{basicExercise.exerciseName}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{basicExercise.exerciseName}" /></f:facet>
 						<f:facet name="input"><p:inputText value="#{basicExercise.exerciseName}" style="width:100%" label="Exercise Name"/></f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="Exercise Sets">
+				<p:column headerText="Exercise Sets" sortBy="#{basicExercise.exerciseSets}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{basicExercise.exerciseSets}" /></f:facet>
 						<f:facet name="input"><p:inputText value="#{basicExercise.exerciseSets}" style="width:100%" label="Exercise Sets"/></f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="Repetitions">
+				<p:column headerText="Repetitions" sortBy="#{basicExercise.repetitions}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{basicExercise.repetitions}" /></f:facet>
 						<f:facet name="input"><p:inputText value="#{basicExercise.repetitions}" style="width:100%" label="Repetitions"/></f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="BasicWorkout">
+				<p:column headerText="BasicWorkout" sortBy="#{basicExercise.basicWorkoutId}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{basicExercise.basicWorkoutId}" /></f:facet>
 						<f:facet name="input">
@@ -54,7 +56,7 @@
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="Muscular Group">
+				<p:column headerText="Muscular Group" sortBy="#{basicExercise.muscularGroupId}">
 					<p:cellEditor>
 						<f:facet name="output"><h:outputText value="#{basicExercise.muscularGroupId}" /></f:facet>
 						<f:facet name="input">
@@ -65,18 +67,13 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column style="width:32px">
+				<p:column headerText="(Edit)" >
 					<p:rowEditor />
 				</p:column>
-				
+				<p:column headerText="(Delete)" >
+					<p:commandButton id="delete-button" action="#{advancedExercisedtAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+				</p:column>
 			</p:dataTable>
-
-			<div class="ui-g">
-				<div class="ui-g-12">
-					<p:commandButton value="Add new BasicExercise" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
-							 action="#{basicExercisedtAddRowView.onAddNew()}" oncomplete="PF('basicExercises').addRow();"/>
-				</div>
-			</div>
 		</h:form>
 
 	</h:body>
