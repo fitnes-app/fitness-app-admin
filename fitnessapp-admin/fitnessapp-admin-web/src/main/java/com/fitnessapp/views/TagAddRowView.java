@@ -77,4 +77,9 @@ public class TagAddRowView implements Serializable{
             FacesMessage msg = new FacesMessage("New Tag added", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+    
+    public void delete() {
+        FacesMessage msg = new FacesMessage("Data Deleted", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 }

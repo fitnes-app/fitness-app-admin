@@ -36,6 +36,14 @@
 				<p:column style="width:32px">
 					<p:rowEditor />
 				</p:column>
+                                
+                                <p:column headerText="(Edit)" >
+					<p:rowEditor/>
+				</p:column>
+                                
+				<p:column headerText="(Delete)" >
+					<p:commandButton id="delete-button" action="#{tagAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+				</p:column>
 			</p:dataTable>
 		</h:form>
 	</h:body>
