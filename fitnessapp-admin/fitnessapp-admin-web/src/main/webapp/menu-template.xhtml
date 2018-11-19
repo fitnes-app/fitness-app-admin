@@ -32,7 +32,7 @@
 						<p:menubar>
 							<f:facet name="options">
 								<p:inputText style="margin:1px 10px 1px 1px;" placeholder="#{msg.search}"/>
-								<p:commandButton type="button" value="#{msg.logout}" icon="fa fa-sign-out" />
+								<p:commandButton type="button" value="#{msg.logout}" icon="fa fa-sign-out" action="index.xhtml" />
 							</f:facet>
 						</p:menubar>
 					</h:form>
@@ -140,7 +140,7 @@
 							<p:separator />
 							<p:submenu label="MuscularGroup" icon="fa fa-database">
 
-								<p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa-fa-save" >
+								<p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa fa-save" >
 									<f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="MuscularGroup/create.xhtml"/>
 								</p:menuitem>
 								<p:menuitem value="#{msg.list}" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >

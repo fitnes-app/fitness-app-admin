@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.fitnessapp.views;
+package com.fitnessapp.views.basicexercise;
 
-import com.fitnessapp.api.entities.AdvancedExercise;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -28,15 +27,15 @@ import javax.faces.view.ViewScoped;
  *
  * @author Naluem
  */
-@Named(value = "advancedExerciseCreateView")
+@Named(value = "basicExerciseCreateView")
 @ViewScoped
-public class AdvancedExerciseCreateView implements Serializable{
+public class BasicExerciseCreateView implements Serializable {
 
 	private String exerciseName;
 	private String description;
 	private int exerciseSets;
 	private int repetitions;
-	private Integer advancedWorkoutId;
+	private Integer basicWorkoutId;
 	private Integer muscularGroupId;
 
 	@PostConstruct
@@ -75,12 +74,12 @@ public class AdvancedExerciseCreateView implements Serializable{
 		this.repetitions = repetitions;
 	}
 
-	public Integer getAdvancedWorkoutId() {
-		return advancedWorkoutId;
+	public Integer getBasicWorkoutId() {
+		return basicWorkoutId;
 	}
 
-	public void setAdvancedWorkoutId(Integer advancedWorkoutId) {
-		this.advancedWorkoutId = advancedWorkoutId;
+	public void setBasicWorkoutId(Integer basicWorkoutId) {
+		this.basicWorkoutId = basicWorkoutId;
 	}
 
 	public Integer getMuscularGroupId() {
@@ -90,7 +89,6 @@ public class AdvancedExerciseCreateView implements Serializable{
 	public void setMuscularGroupId(Integer muscularGroupId) {
 		this.muscularGroupId = muscularGroupId;
 	}
-
 
 	public void save() {
 		addMessage("Data saved");

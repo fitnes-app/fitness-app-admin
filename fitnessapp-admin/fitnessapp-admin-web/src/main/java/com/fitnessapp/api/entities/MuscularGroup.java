@@ -23,12 +23,6 @@ public class MuscularGroup implements Serializable {
 	public MuscularGroup(Integer id) {
 		this.id = id;
 	}
-
-	public MuscularGroup(Integer id, String muscularGroupName) {
-		this.id = id;
-		this.muscularGroupName = muscularGroupName;
-	}
-
 	public Integer getId() {
 		return id;
 	}

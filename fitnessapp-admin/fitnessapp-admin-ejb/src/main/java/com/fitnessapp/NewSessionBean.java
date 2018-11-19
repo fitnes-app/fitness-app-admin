@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
+ * Copyright (C) 2018 Jordi
+=======
  * Copyright (C) 2018 Naluem
+>>>>>>> development
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,12 +25,16 @@ import javax.ejb.LocalBean;
 
 /**
  *
+
  * @author Naluem
+
  */
 @Stateless
 @LocalBean
 public class NewSessionBean {
 
+
 	// Add business logic below. (Right-click in editor and choose
 	// "Insert Code > Add Business Method")
+
 }

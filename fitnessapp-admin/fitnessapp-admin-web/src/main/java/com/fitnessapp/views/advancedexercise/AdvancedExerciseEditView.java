@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.fitnessapp.views;
+package com.fitnessapp.views.advancedexercise;
 
 import com.fitnessapp.api.entities.AdvancedExercise;
 import java.io.Serializable;
