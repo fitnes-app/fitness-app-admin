@@ -25,6 +25,12 @@ public class Survey implements Serializable {
 		this.id = id;
 	}
 
+        public Survey(Integer id, String desc, Integer tagId) {
+		this.id = id;
+                this.description = desc;
+                this.tagId = tagId;
+	}
+        
 	public Integer getId() {
 		return id;
 	}
@@ -39,6 +45,14 @@ public class Survey implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+        
+        public Integer getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(Integer tagId) {
+		this.tagId = tagId;
 	}
 
 	@Override
