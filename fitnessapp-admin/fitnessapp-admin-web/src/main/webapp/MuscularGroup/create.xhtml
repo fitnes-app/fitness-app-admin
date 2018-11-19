@@ -13,9 +13,9 @@
         <h:form>
             <p:panelGrid columns="2" layout="grid">            
                 <h:outputText value="muscularGroupName" /> 
-                <p:inputText value="#{questionCreateView.muscularGroupName}"/>
+                <p:inputText value="#{muscularGroupCreateView.muscularGroupName}"/>
 
-                <p:commandButton value="#{msg.create}" id="create-button" action="#{questionCreateView.save()}" update="growl" style="margin-right:20px;" icon="fa fa-save" />
+                <p:commandButton value="#{msg.create}" id="create-button" action="#{muscularGroupCreateView.save()}" update="growl" style="margin-right:20px;" icon="fa fa-save" />
                 <p:growl id="growl" life="2000" />
             </p:panelGrid>
         </h:form>
