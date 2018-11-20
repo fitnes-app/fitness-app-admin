@@ -21,7 +21,7 @@
 				<p:ajax event="rowEdit" listener="#{basicExercisedtAddRowView.onRowEdit}" update=":form:msgs" />
 				<p:ajax event="rowEditCancel" listener="#{basicExercisedtAddRowView.onRowCancel}" update=":form:msgs" />
 
-				<p:column headerText="Id" sortBy="#{basicExercise.id}">
+				<p:column headerText="Id" sortBy="#{basicExercise.id}" style="width: 8%;">
 					<p:cellEditor>
 						<f:facet name="output">
 							<p:outputLabel value="#{basicExercise.id}" />
@@ -32,7 +32,7 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Exercise Name" sortBy="#{basicExercise.exerciseName}">
+				<p:column headerText="Exercise Name" sortBy="#{basicExercise.exerciseName}" >
 					<p:cellEditor>
 						<f:facet name="output">
 							<p:outputLabel value="#{basicExercise.exerciseName}" />
@@ -45,14 +45,14 @@
 				<p:column headerText="Description" sortBy="#{basicExercise.description}">
 					<p:cellEditor>
 					    <f:facet name="output">
-						    <p:inputTextarea value="#{basicExercise.description}" readonly="true" style="color: black;" autoResize="true"/>
+						    <p:inputTextarea value="#{basicExercise.description}" readonly="true" style="color: black; width: 100%;" autoResize="true"/>
 					    </f:facet>
 					    <f:facet name="input">
-						    <p:inputTextarea value="#{basicExercise.description}" style="width:80%"/>
+						    <p:inputTextarea value="#{basicExercise.description}" style="width:100%"/>
 					    </f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="Exercise Sets" sortBy="#{basicExercise.exerciseSets}">
+				<p:column headerText="Exercise Sets" sortBy="#{basicExercise.exerciseSets}" style="width: 8%;">
 					<p:cellEditor>
 						<f:facet name="output">
 							<p:outputLabel value="#{basicExercise.exerciseSets}" />
@@ -62,7 +62,7 @@
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="Repetitions" sortBy="#{basicExercise.repetitions}">
+				<p:column headerText="Repetitions" sortBy="#{basicExercise.repetitions}" style="width: 8%;">
 					<p:cellEditor>
 						<f:facet name="output">
 							<p:outputLabel value="#{basicExercise.repetitions}" />
@@ -72,7 +72,7 @@
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="BasicWorkout" sortBy="#{basicExercise.basicWorkoutId}">
+				<p:column headerText="BasicWorkout" sortBy="#{basicExercise.basicWorkoutId}" style="width: 8%;">
 					<p:cellEditor>
 						<f:facet name="output">
 							<p:outputLabel value="#{basicExercise.basicWorkoutId}" />
@@ -84,7 +84,7 @@
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="Muscular Group" sortBy="#{basicExercise.muscularGroupId}">
+				<p:column headerText="Muscular Group" sortBy="#{basicExercise.muscularGroupId}" style="width: 8%;">
 					<p:cellEditor>
 						<f:facet name="output">
 							<p:outputLabel value="#{basicExercise.muscularGroupId}" />
@@ -97,10 +97,10 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="(Edit)" >
+				<p:column headerText="(Edit)" style="width:5%" >
 					<p:rowEditor />
 				</p:column>
-				<p:column headerText="(Delete)" >
+				<p:column headerText="(Delete)" style="width: 5%;" >
 					<p:commandButton id="delete-button" action="#{advancedExercisedtAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
 				</p:column>
 			</p:dataTable>

@@ -20,7 +20,7 @@
 				<p:ajax event="rowEdit" listener="#{specificTipdtAddRowView.onRowEdit}" update=":form:msgs" />
 				<p:ajax event="rowEditCancel" listener="#{specificTipdtAddRowView.onRowCancel}" update=":form:msgs" />
 
-				<p:column headerText="Id" sortBy="#{specificTip.id}">
+				<p:column headerText="Id" sortBy="#{specificTip.id}" style="width: 5%;">
 					<p:cellEditor>
 						<f:facet name="output">
 							<p:outputLabel value="#{specificTip.id}" />
@@ -33,7 +33,7 @@
 				<p:column headerText="Text" sortBy="#{specificTip.text}">
 					<p:cellEditor>
 					    <f:facet name="output">
-						    <p:inputTextarea value="#{specificTip.text}" readonly="true" style="color: black;" autoResize="true"/>
+						    <p:inputTextarea value="#{specificTip.text}" readonly="true" style="color: black; width: 100%;" autoResize="true"/>
 					    </f:facet>
 					    <f:facet name="input">
 						    <p:inputTextarea value="#{specificTip.text}" style="width:100%" autoResize="true"/>
@@ -41,7 +41,7 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Muscular Group" sortBy="#{specificTip.muscularGroupId}">
+				<p:column headerText="Muscular Group" sortBy="#{specificTip.muscularGroupId}" style="width: 8%;">
 					<p:cellEditor>
 						<f:facet name="output">
 							<p:outputLabel value="#{specificTip.muscularGroupId}" />
@@ -54,10 +54,10 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="(Edit)" >
+				<p:column headerText="(Edit)" style="width: 5%;" >
 					<p:rowEditor />
 				</p:column>
-				<p:column headerText="(Delete)" >
+				<p:column headerText="(Delete)" style="width: 5%;" >
 					<p:commandButton id="delete-button" action="#{specificTipdtAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
 				</p:column>
 			</p:dataTable>

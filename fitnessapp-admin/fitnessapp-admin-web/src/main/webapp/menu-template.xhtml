@@ -32,10 +32,7 @@
 						<p:menubar>
 							<f:facet name="options">
 								<p:inputText style="margin:1px 10px 1px 1px;" placeholder="#{msg.search}"/>
-                                                                <h:commandLink value="#{msg.logout }"  action = "login">
-                                                                    &nbsp;
-                                                                    <h:outputText class="fa fa-sign-out"/>
-                                                                </h:commandLink>    
+									<p:commandButton value="#{msg.logout}" icon="fa fa-sign-out" action="login?faces-redirect=true" />
 							</f:facet>
 						</p:menubar>
 					</h:form>
