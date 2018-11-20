@@ -4,53 +4,56 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-	<h:head>
-		<title>List BodyType</title>
-	</h:head>
-	<h:body>
-		<h:form id="form">
-			<p:growl id="msgs" showDetail="true"/>
+    <h:head>
+        <title>List BodyType</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
 
-			<p:dataTable id="bodyTypes" widgetVar="bodyTypes" var="bodyType" value="#{bodyTypeAddRowView.bodyTypes}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-				<f:facet name="header">
-					BodyType
-				</f:facet>
+            <p:dataTable id="bodyTypes" widgetVar="bodyTypes" var="bodyType" value="#{bodyTypeAddRowView.bodyTypes}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+               <f:facet name="header">
+                    BodyType
+                    <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
+                    <p:columnToggler datasource="bodyTypes" trigger="toggler" />
+                </f:facet>
+                <p:ajax event="rowEdit" listener="#{bodyTypeAddRowView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{bodyTypeAddRowView.onRowCancel}" update=":form:msgs" />
 
-				<p:ajax event="rowEdit" listener="#{bodyTypeAddRowView.onRowEdit}" update=":form:msgs" />
-				<p:ajax event="rowEditCancel" listener="#{bodyTypeAddRowView.onRowCancel}" update=":form:msgs" />
+                <p:column headerText="Id">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{bodyType.id}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="modelInput" value="#{bodyType.id}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-				<p:column headerText="Id">
-					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{bodyType.id}" /></f:facet>
-						<f:facet name="input"><p:inputText id="modelInput" value="#{bodyType.id}" style="width:100%"/></f:facet>
-					</p:cellEditor>
-				</p:column>
+                <p:column headerText="BodyTypeValue">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{bodyType.bodyTypeValue}" /></f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{bodyType.bodyTypeValue}" style="width:100%">
+                                <f:selectItem itemValue="1"></f:selectItem>
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-				<p:column headerText="BodyTypeValue">
-					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{bodyType.bodyTypeValue}" /></f:facet>
-						<f:facet name="input">
-							<h:selectOneMenu value="#{bodyType.bodyTypeValue}" style="width:100%">
-								<f:selectItem itemValue="1"></f:selectItem>
-							</h:selectOneMenu>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
+                <p:column headerText="(Edit)" style="width:5%" >
+                    <p:rowEditor />
+                </p:column>
+                <p:column headerText="(Delete)" style="width: 5%;" >
+                    <p:commandButton id="delete-button" action="#{bodyTypeAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+                </p:column>
+            </p:dataTable>
 
-				<p:column style="width:32px">
-					<p:rowEditor />
-				</p:column>
-				
-			</p:dataTable>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:commandButton value="Add new BodyType" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
+                                     action="#{bodyTypeAddRowView.onAddNew()}" oncomplete="PF('bodyTypes').addRow();"/>
+                </div>
+            </div>
+        </h:form>
 
-			<div class="ui-g">
-				<div class="ui-g-12">
-					<p:commandButton value="Add new BodyType" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
-							 action="#{bodyTypeAddRowView.onAddNew()}" oncomplete="PF('bodyTypes').addRow();"/>
-				</div>
-			</div>
-		</h:form>
-
-	</h:body>
+    </h:body>
 </html>
 

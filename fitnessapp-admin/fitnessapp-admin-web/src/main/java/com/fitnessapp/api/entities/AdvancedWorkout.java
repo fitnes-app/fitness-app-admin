@@ -24,6 +24,12 @@ public class AdvancedWorkout implements Serializable {
         this.id = id;
     }
 
+    public AdvancedWorkout(Integer id, Integer bodyTypeId) {
+        this.id = id;
+        this.bodyTypeId = bodyTypeId;
+    }
+
+    
     public Integer getBodyTypeId() {
         return bodyTypeId;
     }
