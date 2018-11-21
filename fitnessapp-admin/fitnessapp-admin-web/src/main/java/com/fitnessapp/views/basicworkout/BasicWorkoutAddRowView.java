@@ -37,8 +37,8 @@ public class BasicWorkoutAddRowView implements Serializable {
 	@PostConstruct
 	public void init() {
 		basicWorkouts = new ArrayList<>();
-		BasicWorkout bw1 = new BasicWorkout(1);
-                BasicWorkout bw2 = new BasicWorkout(2);
+		BasicWorkout bw1 = new BasicWorkout(1,2);
+                BasicWorkout bw2 = new BasicWorkout(2,3);
 		basicWorkouts.add(bw1);
 		basicWorkouts.add(bw2);
 
@@ -60,6 +60,11 @@ public class BasicWorkoutAddRowView implements Serializable {
 
 	public void onRowCancel(RowEditEvent event) {
 		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+        
+        public void delete() {
+		FacesMessage msg = new FacesMessage("Data deleted", "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 

@@ -31,39 +31,43 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class AdvancedWorkoutAddRowView implements Serializable {
 
-	private List<AdvancedWorkout> advancedWorkouts;
+    private List<AdvancedWorkout> advancedWorkouts;
 
-	@PostConstruct
-	public void init() {
-		advancedWorkouts = new ArrayList<>();
-		AdvancedWorkout bw1 = new AdvancedWorkout(1);
-                AdvancedWorkout bw2 = new AdvancedWorkout(2);
-		advancedWorkouts.add(bw1);
-		advancedWorkouts.add(bw2);
+    @PostConstruct
+    public void init() {
+        advancedWorkouts = new ArrayList<>();
+        AdvancedWorkout bw1 = new AdvancedWorkout(1,2);
+        AdvancedWorkout bw2 = new AdvancedWorkout(2,2);
+        advancedWorkouts.add(bw1);
+        advancedWorkouts.add(bw2);
 
-	}
+    }
 
-	public List<AdvancedWorkout> getAdvancedWorkouts() {
-		return advancedWorkouts;
-	}
+    public List<AdvancedWorkout> getAdvancedWorkouts() {
+        return advancedWorkouts;
+    }
 
-	public void setAdvancedWorkouts(List<AdvancedWorkout> advancedWorkouts) {
-		this.advancedWorkouts = advancedWorkouts;
-	}
-	
+    public void setAdvancedWorkouts(List<AdvancedWorkout> advancedWorkouts) {
+        this.advancedWorkouts = advancedWorkouts;
+    }
 
-	public void onRowEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("AdvancedWorkoutEdited", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onRowEdit(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("AdvancedWorkoutEdited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onAddNew() {
-		FacesMessage msg = new FacesMessage("New AdvancedWorkout added", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void delete() {
+        FacesMessage msg = new FacesMessage("Data deleted", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onAddNew() {
+        FacesMessage msg = new FacesMessage("New AdvancedWorkout added", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 }
