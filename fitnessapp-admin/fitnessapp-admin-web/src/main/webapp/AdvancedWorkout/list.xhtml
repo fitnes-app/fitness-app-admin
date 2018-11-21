@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>List Advanced Workouts</title>
+        <title>List Basic Workouts</title>
     </h:head>
     <h:body>
         <h:form id="form">
@@ -13,15 +13,19 @@
 
             <p:dataTable id="advancedWorkouts" widgetVar="advancedWorkouts" var="advancedWorkout" value="#{advancedWorkoutAddRowView.advancedWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                 <f:facet name="header">
-                    AdvancedWorkout
+                    BasicWorkout
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
-                    <p:columnToggler datasource="bodyTypes" trigger="toggler" />
+                    <p:columnToggler datasource="advancedWorkouts" trigger="toggler" />
                 </f:facet>
 
                 <p:ajax event="rowEdit" listener="#{advancedWorkoutAddRowView.onRowEdit}" update=":form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{advancedWorkoutAddRowView.onRowCancel}" update=":form:msgs" />
 
-                         <p:outputLabel value="#{advancedWorkout.id}" />
+
+                <p:column headerText="Id" sortBy="#{advancedWorkout.id}" style="width: 8%;">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:outputLabel value="#{advancedWorkout.id}" />
                         </f:facet>
                         <f:facet name="input">
                             <p:inputText value="#{advancedWorkout.id}" style="width:100%" label="Id"/>
@@ -38,18 +42,18 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
+  
                 <p:column headerText="(Edit)" style="width:5%" >
                     <p:rowEditor />
                 </p:column>
                 <p:column headerText="(Delete)" style="width: 5%;" >
                     <p:commandButton id="delete-button" action="#{advancedWorkoutAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
                 </p:column>
-
             </p:dataTable>
 
             <div class="ui-g">
                 <div class="ui-g-12">
-                    <p:commandButton value="Add new AdvancedWorkout" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
+                    <p:commandButton value="Add new BasicWorkout" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
                                      action="#{advancedWorkoutAddRowView.onAddNew()}" oncomplete="PF('advancedWorkouts').addRow();"/>
                 </div>
             </div>
@@ -57,3 +61,4 @@
 
     </h:body>
 </html>
+
