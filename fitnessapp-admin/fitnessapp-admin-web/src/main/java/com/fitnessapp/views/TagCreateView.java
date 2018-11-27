@@ -16,6 +16,8 @@
  */
 package com.fitnessapp.views;
 
+import com.fitnessapp.api.client.TagClient;
+import com.fitnessapp.api.entities.Tag;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -31,9 +33,11 @@ import javax.inject.Named;
 @ViewScoped
 public class TagCreateView implements Serializable {
     private String description;
+    private TagClient client;
     
     @PostConstruct
     public void init() {
+        client = new TagClient();
     }
 
     public String getDescription() {
@@ -45,7 +49,10 @@ public class TagCreateView implements Serializable {
     }
 
     public void save() {
-            addMessage("Data saved");
+        Tag tag = new Tag();
+        tag.setTagName(description);
+        this.client.create(tag);
+        addMessage("Data saved");
     }
 
     public void addMessage(String summary) {
