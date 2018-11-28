@@ -39,7 +39,7 @@ public class BodyTypeEditView implements Serializable {
     private List<BodyType> bodyTypes = new ArrayList<BodyType>();
     private BodyTypeClient btc = new BodyTypeClient();
     private BodyType bt = new BodyType();
-
+    
     @PostConstruct
     public void init() {
         bodyTypes = btc.findAll(new GenericType<List<BodyType>>() {
@@ -55,7 +55,7 @@ public class BodyTypeEditView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
-         btc.edit((BodyType) event.getObject(), ((BodyType) event.getObject()).getId().toString());
+        btc.edit((BodyType) event.getObject(), ((BodyType) event.getObject()).getId().toString());
          
         FacesMessage msg = new FacesMessage("BodyTypeEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);

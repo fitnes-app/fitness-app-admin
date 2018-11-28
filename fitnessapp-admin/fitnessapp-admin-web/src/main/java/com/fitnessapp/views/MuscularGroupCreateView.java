@@ -57,7 +57,6 @@ public class MuscularGroupCreateView implements Serializable {
     }
 
     public void save() {
-
         muscularGroup.setMuscularGroupName(muscularGroupName);
         if (muscularGroupName != null) {
 

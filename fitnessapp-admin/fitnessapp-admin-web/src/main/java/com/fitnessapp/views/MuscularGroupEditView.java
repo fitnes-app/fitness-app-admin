@@ -45,7 +45,6 @@ public class MuscularGroupEditView implements Serializable {
 
     @PostConstruct
     public void init() {
-
         muscularGroups = muscularGroupClient.findAll(new GenericType<List<MuscularGroup>>() {
         });
     }
