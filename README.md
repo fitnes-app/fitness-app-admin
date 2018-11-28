@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 1. Install JDK 8.
 [JDK 8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 2. Install Payara Server [Payara Server](https://www.payara.fish/software/downloads/?hsCtaTracking=bd21989b-afba-4c77-b96b-5372331505cb%7Cc0a98431-66a0-480f-b5ab-437ce6c8e5ed)
-2. Open the project with Apache NteBeans in its latest version.
+2. Open the project with Apache NetBeans in its latest version.
 3. Compile the pom project with Maven.
 4. Deploy the EAR in a Payara Server.
 
