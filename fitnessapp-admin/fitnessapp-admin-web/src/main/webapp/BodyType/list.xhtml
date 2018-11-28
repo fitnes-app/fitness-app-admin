@@ -5,48 +5,36 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>List BodyType</title>
+        <title>List Muscular Groups</title>
     </h:head>
     <h:body>
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="bodyTypes" widgetVar="bodyTypes" var="bodyType" value="#{bodyTypeEditRowView.bodyTypes}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-               <f:facet name="header">
-                    BodyType
+            <p:dataTable id="bodyTypes" widgetVar="bodyType" var="bodyType" value="#{bodyTypeEditView.bodyTypes}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+                <f:facet name="header">
+                    Muscular Groups
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
                     <p:columnToggler datasource="bodyTypes" trigger="toggler" />
                 </f:facet>
-                <p:ajax event="rowEdit" listener="#{bodyTypeEditRowView.onRowEdit}" update=":form:msgs" />
-                <p:ajax event="rowEditCancel" listener="#{bodyTypeEditRowView.onRowCancel}" update=":form:msgs" />
 
-                <p:column headerText="Id">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{bodyType.id}" /></f:facet>
-                        <f:facet name="input"><p:inputText id="modelInput" readonly="true"  value="#{bodyType.id}" style="width:100%"/></f:facet>
-                    </p:cellEditor>
+                <p:ajax event="rowEdit" listener="#{bodyTypeEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{bodyTypeEditView.onRowCancel}" update=":form:msgs" />
+                <p:column headerText="Id" sortBy="#{bodyTypes.id}">
+                        <h:outputText value="#{bodyType.id}" />
                 </p:column>
-
-                <p:column headerText="BodyTypeValue">
+                <p:column headerText="Value" sortBy="#{bodyType.bodyTypeValue}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{bodyType.bodyTypeValue}" /></f:facet>
-                        <f:facet name="input">
-                            <h:selectOneMenu value="#{bodyType.bodyTypeValue}" style="width:100%">
-                                <f:selectItem itemValue="1"></f:selectItem>
-                            </h:selectOneMenu>
-                        </f:facet>
+                        <f:facet name="input"><p:inputText value="#{bodyType.bodyTypeValue}" style="width:100%" label="Name"/></f:facet>
                     </p:cellEditor>
                 </p:column>
-
-                <p:column headerText="(Edit)" style="width:5%" >
+               
+                <p:column style="width:32px">
                     <p:rowEditor />
-                </p:column>
-                <p:column headerText="(Delete)" style="width: 5%;" >
-                    <p:commandButton id="delete-button" action="#{bodyTypeEditRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
                 </p:column>
             </p:dataTable>
         </h:form>
-
     </h:body>
 </html>
 

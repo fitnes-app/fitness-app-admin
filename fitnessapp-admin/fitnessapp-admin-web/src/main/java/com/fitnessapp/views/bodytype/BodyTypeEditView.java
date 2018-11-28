@@ -46,12 +46,12 @@ public class BodyTypeEditView implements Serializable {
         });
     }
 
-    public List<BodyType> getBodyType() {
+    public List<BodyType> getBodyTypes() {
         return bodyTypes;
     }
 
-    public void setBodyType(List<BodyType> bodyType) {
-        this.bodyTypes = bodyType;
+    public void setBodyTypes(List<BodyType> bodyTypes) {
+        this.bodyTypes = bodyTypes;
     }
 
     public void onRowEdit(RowEditEvent event) {
