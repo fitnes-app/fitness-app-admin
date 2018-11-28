@@ -14,11 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.fitnessapp.views.advancedworkout;
 
-import com.fitnessapp.views.advancedworkout.*;
+import com.fitnessapp.api.client.AdvancedWorkoutClient;
+import com.fitnessapp.api.client.BodyTypeClient;
+import com.fitnessapp.api.entities.AdvancedWorkout;
+import com.fitnessapp.api.entities.BodyType;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -29,27 +33,46 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class AdvancedWorkoutCreateView implements Serializable {
 
-	private Integer bodyTypeId;
+    private Integer bodyTypeId;
 
-	@PostConstruct
-	public void init() {
-	}
+    private AdvancedWorkoutClient awc = new AdvancedWorkoutClient();
 
-	public Integer getBodyTypeId() {
-		return bodyTypeId;
-	}
+    private AdvancedWorkout aw = new AdvancedWorkout();
+    private List<AdvancedWorkout> awl = new ArrayList<AdvancedWorkout>();
 
-	public void setBodyTypeId(Integer bodyTypeId) {
-		this.bodyTypeId = bodyTypeId;
-	}
+    @PostConstruct
+    public void init() {
+    }
 
-	public void save() {
-		addMessage("Data saved");
-	}
+    public Integer getBodyTypeId() {
+        return bodyTypeId;
+    }
 
-	public void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
+    public void setBodyTypeId(Integer bodyTypeId) {
+        this.bodyTypeId = bodyTypeId;
+    }
+
+    public void save() {
+        aw.setBodyTypeId(bodyTypeId);
+        if (bodyTypeId != 0) {
+
+            awc.create(aw);
+
+            addMessage("AdvancedWorkout Added");
+        }
+    }
+
+    public AdvancedWorkoutClient getAdvancedWorkoutClient() {
+        return awc;
+    }
+
+    public void setAdvancedWorkoutClient(AdvancedWorkoutClient awc) {
+        this.awc = awc;
+    }
+
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 }

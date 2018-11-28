@@ -14,10 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.fitnessapp.views.basicworkout;
 
+import com.fitnessapp.api.client.BasicWorkoutClient;
+import com.fitnessapp.api.client.BodyTypeClient;
+import com.fitnessapp.api.entities.BasicWorkout;
+import com.fitnessapp.api.entities.BodyType;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -28,27 +33,46 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class BasicWorkoutCreateView implements Serializable {
 
-	private Integer bodyTypeId;
+    private Integer bodyTypeId;
 
-	@PostConstruct
-	public void init() {
-	}
+    private BasicWorkoutClient bwc = new BasicWorkoutClient();
 
-	public Integer getBodyTypeId() {
-		return bodyTypeId;
-	}
+    private BasicWorkout bw = new BasicWorkout();
+    private List<BasicWorkout> bwl = new ArrayList<BasicWorkout>();
 
-	public void setBodyTypeId(Integer bodyTypeId) {
-		this.bodyTypeId = bodyTypeId;
-	}
+    @PostConstruct
+    public void init() {
+    }
 
-	public void save() {
-		addMessage("Data saved");
-	}
+    public Integer getBodyTypeId() {
+        return bodyTypeId;
+    }
 
-	public void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
+    public void setBodyTypeId(Integer bodyTypeId) {
+        this.bodyTypeId = bodyTypeId;
+    }
+
+    public void save() {
+        bw.setBodyTypeId(bodyTypeId);
+        if (bodyTypeId != 0) {
+
+            bwc.create(bw);
+
+            addMessage("BasicWorkout Added");
+        }
+    }
+
+    public BasicWorkoutClient getBasicWorkoutClient() {
+        return bwc;
+    }
+
+    public void setBasicWorkoutClient(BasicWorkoutClient bwc) {
+        this.bwc = bwc;
+    }
+
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 }

@@ -35,7 +35,7 @@ public class BodyTypeCreateView implements Serializable {
     private BodyTypeClient btc = new BodyTypeClient();
 
     private BodyType bt = new BodyType();
-    private List<BodyType> mg = new ArrayList<BodyType>();
+    private List<BodyType> btl = new ArrayList<BodyType>();
 
     @PostConstruct
     public void init() {

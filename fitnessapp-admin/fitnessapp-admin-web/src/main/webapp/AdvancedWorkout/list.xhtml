@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>List Basic Workouts</title>
+        <title>List Advanced Workouts</title>
     </h:head>
     <h:body>
         <h:form id="form">
@@ -13,7 +13,7 @@
 
             <p:dataTable id="advancedWorkouts" widgetVar="advancedWorkouts" var="advancedWorkout" value="#{advancedWorkoutAddRowView.advancedWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                 <f:facet name="header">
-                    BasicWorkout
+                    AdvancedWorkout
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
                     <p:columnToggler datasource="advancedWorkouts" trigger="toggler" />
                 </f:facet>
@@ -32,7 +32,7 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column headerText="advancedWorkoutId" style="width: 8%;">
+                <p:column headerText="bodyTypeId" style="width: 8%;">
                     <p:cellEditor>
                         <f:facet name="output">
                             <p:outputLabel value="#{advancedWorkout.bodyTypeId}" />
