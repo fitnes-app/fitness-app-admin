@@ -11,15 +11,15 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="basicWorkouts" widgetVar="basicWorkouts" var="basicWorkout" value="#{basicWorkoutAddRowView.basicWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+            <p:dataTable id="basicWorkouts" widgetVar="basicWorkouts" var="basicWorkout" value="#{basicWorkoutEditRowView.basicWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                 <f:facet name="header">
                     BasicWorkout
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
                     <p:columnToggler datasource="basicWorkouts" trigger="toggler" />
                 </f:facet>
 
-                <p:ajax event="rowEdit" listener="#{basicWorkoutAddRowView.onRowEdit}" update=":form:msgs" />
-                <p:ajax event="rowEditCancel" listener="#{basicWorkoutAddRowView.onRowCancel}" update=":form:msgs" />
+                <p:ajax event="rowEdit" listener="#{basicWorkoutEditRowView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{basicWorkoutEditRowView.onRowCancel}" update=":form:msgs" />
 
 
                 <p:column headerText="Id" sortBy="#{basicWorkout.id}" style="width: 8%;">
@@ -47,7 +47,7 @@
                     <p:rowEditor />
                 </p:column>
                 <p:column headerText="(Delete)" style="width: 5%;" >
-                    <p:commandButton id="delete-button" action="#{basicWorkoutAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+                    <p:commandButton id="delete-button" action="#{basicWorkoutEditRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
                 </p:column>
             </p:dataTable>
         </h:form>
