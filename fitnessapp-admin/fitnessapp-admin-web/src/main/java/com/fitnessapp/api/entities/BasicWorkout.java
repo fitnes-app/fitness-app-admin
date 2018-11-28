@@ -29,6 +29,12 @@ public class BasicWorkout implements Serializable {
         this.bodyTypeId = bodyTypeId;
     }
 
+    public BasicWorkout(Integer id, Integer bodyTypeId) {
+        this.id = id;
+        this.bodyTypeId = bodyTypeId;
+    }
+    
+
     public Integer getId() {
         return id;
     }
