@@ -11,14 +11,14 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="bodyTypes" widgetVar="bodyTypes" var="bodyType" value="#{bodyTypeAddRowView.bodyTypes}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+            <p:dataTable id="bodyTypes" widgetVar="bodyTypes" var="bodyType" value="#{bodyTypeEditRowView.bodyTypes}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                <f:facet name="header">
                     BodyType
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
                     <p:columnToggler datasource="bodyTypes" trigger="toggler" />
                 </f:facet>
-                <p:ajax event="rowEdit" listener="#{bodyTypeAddRowView.onRowEdit}" update=":form:msgs" />
-                <p:ajax event="rowEditCancel" listener="#{bodyTypeAddRowView.onRowCancel}" update=":form:msgs" />
+                <p:ajax event="rowEdit" listener="#{bodyTypeEditRowView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{bodyTypeEditRowView.onRowCancel}" update=":form:msgs" />
 
                 <p:column headerText="Id">
                     <p:cellEditor>
@@ -42,7 +42,7 @@
                     <p:rowEditor />
                 </p:column>
                 <p:column headerText="(Delete)" style="width: 5%;" >
-                    <p:commandButton id="delete-button" action="#{bodyTypeAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+                    <p:commandButton id="delete-button" action="#{bodyTypeEditRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
                 </p:column>
             </p:dataTable>
         </h:form>

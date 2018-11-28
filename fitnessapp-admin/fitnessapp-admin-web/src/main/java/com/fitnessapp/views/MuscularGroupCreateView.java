@@ -62,7 +62,7 @@ public class MuscularGroupCreateView implements Serializable {
         if (muscularGroupName != null) {
 
             muscularGroupClient.create(muscularGroup);
-
+            
             addMessage("MuscularGroup Added");
         }
     }
