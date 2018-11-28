@@ -28,7 +28,7 @@
                             <p:outputLabel value="#{basicWorkout.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{basicWorkout.id}" style="width:100%" label="Id"/>
+                            <p:inputText readonly="true" value="#{basicWorkout.id}" style="width:100%" label="Id"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
@@ -50,13 +50,6 @@
                     <p:commandButton id="delete-button" action="#{basicWorkoutAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
                 </p:column>
             </p:dataTable>
-
-            <div class="ui-g">
-                <div class="ui-g-12">
-                    <p:commandButton value="Add new BasicWorkout" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
-                                     action="#{basicWorkoutAddRowView.onAddNew()}" oncomplete="PF('basicWorkouts').addRow();"/>
-                </div>
-            </div>
         </h:form>
 
     </h:body>

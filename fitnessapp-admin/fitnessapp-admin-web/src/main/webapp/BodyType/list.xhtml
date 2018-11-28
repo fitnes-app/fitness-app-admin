@@ -23,7 +23,7 @@
                 <p:column headerText="Id">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{bodyType.id}" /></f:facet>
-                        <f:facet name="input"><p:inputText id="modelInput" value="#{bodyType.id}" style="width:100%"/></f:facet>
+                        <f:facet name="input"><p:inputText id="modelInput" readonly="true"  value="#{bodyType.id}" style="width:100%"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
@@ -45,13 +45,6 @@
                     <p:commandButton id="delete-button" action="#{bodyTypeAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
                 </p:column>
             </p:dataTable>
-
-            <div class="ui-g">
-                <div class="ui-g-12">
-                    <p:commandButton value="Add new BodyType" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
-                                     action="#{bodyTypeAddRowView.onAddNew()}" oncomplete="PF('bodyTypes').addRow();"/>
-                </div>
-            </div>
         </h:form>
 
     </h:body>
