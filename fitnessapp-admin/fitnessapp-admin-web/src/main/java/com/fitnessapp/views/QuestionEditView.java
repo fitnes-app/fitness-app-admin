@@ -16,6 +16,7 @@
  */
 package com.fitnessapp.views;
 
+import com.fitnessapp.api.client.QuestionClient;
 import com.fitnessapp.api.entities.Question;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -36,70 +38,21 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class QuestionEditView implements Serializable{
     
-    private List<Question> questions;
+    private QuestionClient questionClient = new QuestionClient();
+    private Question question = new Question();
+    private List<Question> questions = new ArrayList<Question>();
 
     @PostConstruct
     public void init() {
+        questions = questionClient.findAll(new GenericType<List<Question>>() {
+        });
+    }
+    public Question getQuestion() {
+        return question;
+    }
 
-        questions = new ArrayList<>();
-        Question question = new Question();
-        
-        question.setId(1);
-        question.setSurveyId(2);
-        question.setText("Que le parece nuestra aplicación?");
-        
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        questions.add(question);
-        
+    public void setQuestion(Question question) {
+        this.question = question;
     }
     
     public List<Question> getQuestions() {

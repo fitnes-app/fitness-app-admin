@@ -6,18 +6,9 @@
 package com.fitnessapp.api.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 /**
  *
@@ -25,61 +16,71 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 public class DailyTip implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private Integer id;
-	private String text;
+    private static final long serialVersionUID = 1L;
+    private Integer id;
+    private String text;
+    private Date date;
 
-	public DailyTip() {
-	}
+    public DailyTip() {
+    }
 
-	public DailyTip(Integer id) {
-		this.id = id;
-	}
+    public DailyTip(Integer id) {
+        this.id = id;
+    }
 
-	public DailyTip(Integer id, String text) {
-		this.id = id;
-		this.text = text;
-	}
+    public DailyTip(Integer id, String text) {
+        this.id = id;
+        this.text = text;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public String getText() throws NoSuchAlgorithmException {
 
-	public void setText(String text) {
-		this.text = text;
-	}
+        return text;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof DailyTip)) {
-			return false;
-		}
-		DailyTip other = (DailyTip) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	@Override
-	public String toString() {
-		return "com.fitnessapp.entities.DailyTip[ id=" + id + " ]";
-	}
-	
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof DailyTip)) {
+            return false;
+        }
+        DailyTip other = (DailyTip) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.fitnessapp.entities.DailyTip[ id=" + id + " ]";
+    }
+
 }

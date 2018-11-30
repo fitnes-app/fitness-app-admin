@@ -16,7 +16,7 @@ public class Question implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String text;
-	private Integer surveyId;
+	private Survey survey;
 
 	public Question() {
 	}
@@ -46,13 +46,14 @@ public class Question implements Serializable {
 		this.text = text;
 	}
 
-        public Integer getSurveyId() {
-            return surveyId;
-        }
+    public Survey getSurvey() {
+        return survey;
+    }
 
-        public void setSurveyId(Integer surveyId) {
-            this.surveyId = surveyId;
-        }
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
+    }
+
 
 	@Override
 	public int hashCode() {
