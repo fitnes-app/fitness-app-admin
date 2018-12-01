@@ -16,19 +16,14 @@
  */
 package com.fitnessapp.views;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fitnessapp.api.client.MuscularGroupClient;
 import com.fitnessapp.api.entities.MuscularGroup;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import javax.ws.rs.core.GenericType;
-import org.primefaces.json.JSONObject;
 
 /**
  *
@@ -42,7 +37,6 @@ public class MuscularGroupCreateView implements Serializable {
     private MuscularGroupClient muscularGroupClient = new MuscularGroupClient();
 
     private MuscularGroup muscularGroup = new MuscularGroup();
-    private List<MuscularGroup> mg = new ArrayList<MuscularGroup>();
 
     @PostConstruct
     public void init() {
@@ -58,9 +52,8 @@ public class MuscularGroupCreateView implements Serializable {
 
     public void save() {
 
-        muscularGroup.setMuscularGroupName(muscularGroupName);
         if (muscularGroupName != null) {
-
+            muscularGroup.setMuscularGroupName(muscularGroupName);
             muscularGroupClient.create(muscularGroup);
 
             addMessage("MuscularGroup Added");

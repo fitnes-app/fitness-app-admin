@@ -16,6 +16,10 @@
  */
 package com.fitnessapp.views;
 
+import com.fitnessapp.api.client.QuestionClient;
+import com.fitnessapp.api.client.SurveyClient;
+import com.fitnessapp.api.entities.Question;
+import com.fitnessapp.api.entities.Survey;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -33,6 +37,10 @@ public class QuestionCreateView implements Serializable{
 
     private String text;
     private Integer surveyId;
+    
+    //private Question question = new Question();
+    private QuestionClient questionClient = new QuestionClient();
+    private SurveyClient surveyClient = new SurveyClient();
     
     @PostConstruct
     public void init() {
@@ -53,8 +61,24 @@ public class QuestionCreateView implements Serializable{
     public void setSurveyId(Integer surveyId) {
         this.surveyId = surveyId;
     }
+
+//    public Question getQuestion() {
+//        return question;
+//    }
+//
+//    public void setQuestion(Question question) {
+//        this.question = question;
+//    }
+    
     public void save() {
-        addMessage("Data saved");
+        Question question = new Question();
+        if(text!=null && surveyId!=null){
+            question.setText(text);
+            question.setSurvey(surveyClient.find(Survey.class, surveyId.toString()));
+            questionClient.create(question);
+        }
+        
+        addMessage("New Question added");
     }
 
     public void addMessage(String summary) {
