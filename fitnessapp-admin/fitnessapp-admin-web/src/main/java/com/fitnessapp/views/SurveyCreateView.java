@@ -17,6 +17,7 @@
 package com.fitnessapp.views;
 
 import com.fitnessapp.api.client.SurveyClient;
+import com.fitnessapp.api.client.TagClient;
 import com.fitnessapp.api.entities.Survey;
 import com.fitnessapp.api.entities.Tag;
 import java.io.Serializable;
@@ -30,7 +31,6 @@ import javax.inject.Named;
  *
  * @author Erox
  */
-
 @Named(value = "surveyCreateView")
 @ViewScoped
 public class SurveyCreateView implements Serializable {
@@ -40,7 +40,7 @@ public class SurveyCreateView implements Serializable {
     private Integer tagId;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         client = new SurveyClient();
     }
 
@@ -61,15 +61,17 @@ public class SurveyCreateView implements Serializable {
     }
 
     public void save() {
+        TagClient tagClient = new TagClient();
+        Tag tag = tagClient.find(Tag.class, tagId.toString());
         Survey survey = new Survey();
-        survey.setTagId(tagId);
+        survey.setTagId(tag);
         survey.setDescription(description);
         client.create(survey);
         addMessage("Data saved");
     }
 
     public void addMessage(String summary) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-            FacesContext.getCurrentInstance().addMessage(null, message);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

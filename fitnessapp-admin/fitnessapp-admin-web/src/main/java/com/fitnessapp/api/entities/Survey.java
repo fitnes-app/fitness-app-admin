@@ -13,71 +13,71 @@ import java.io.Serializable;
  */
 public class Survey implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private Integer id;
-	private String description;
-	private Integer tagId;
+    private static final long serialVersionUID = 1L;
+    private Integer id;
+    private String description;
+    private Tag tagId;
 
-	public Survey() {
-	}
+    public Survey() {
+    }
 
-	public Survey(Integer id) {
-		this.id = id;
-	}
+    public Survey(Integer id) {
+        this.id = id;
+    }
 
-        public Survey(Integer id, String desc, Integer tagId) {
-		this.id = id;
-                this.description = desc;
-                this.tagId = tagId;
-	}
-        
-	public Integer getId() {
-		return id;
-	}
+    public Survey(Integer id, String description, Tag tagId) {
+        this.id = id;
+        this.description = description;
+        this.tagId = tagId;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Tag getTagId() {
+        return tagId;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setTagId(Tag tagId) {
+        this.tagId = tagId;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-        
-        public Integer getTagId() {
-		return tagId;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setTagId(Integer tagId) {
-		this.tagId = tagId;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Survey)) {
-			return false;
-		}
-		Survey other = (Survey) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	@Override
-	public String toString() {
-		return "com.fitnessapp.entities.Survey[ id=" + id + " ]";
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Survey)) {
+            return false;
+        }
+        Survey other = (Survey) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.fitnessapp.entities.Survey[ id=" + id + " ]";
+    }
 
 }
