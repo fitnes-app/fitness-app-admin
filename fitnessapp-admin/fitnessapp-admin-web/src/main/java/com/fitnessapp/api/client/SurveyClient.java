@@ -76,10 +76,7 @@ public class SurveyClient {
     }
 
     public <T> T findAll(GenericType<T> genericType) throws ClientErrorException {
-        /*WebTarget resource = webTarget;
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(genericType);*/
-        throw new UnsupportedOperationException();
-
+        return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(genericType);
     }
 
     public void remove(String id) throws ClientErrorException {

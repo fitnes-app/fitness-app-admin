@@ -18,7 +18,6 @@ package com.fitnessapp.views;
 
 import com.fitnessapp.api.client.SurveyClient;
 import com.fitnessapp.api.entities.Survey;
-import com.fitnessapp.api.entities.Tag;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +47,10 @@ public class SurveyAddRowView implements Serializable {
 
     public List<Survey> getSurveys() {
         SurveyClient surveyClient = new SurveyClient();
-        /*return surveyClient.findAll(new GenericType<List<Survey>>() {
-        });*/
-        return null;
+        List<Survey> tmpSurveys = surveyClient.findAll(new GenericType<List<Survey>>() {
+        });
+        surveyClient.close();
+        return tmpSurveys;
     }
 
     public void setSurveys(List<Survey> surveys) {
@@ -72,7 +72,10 @@ public class SurveyAddRowView implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void delete() {
+    public void delete(String id) {
+        SurveyClient surveyClient = new SurveyClient();
+        surveyClient.remove(id);
+        surveyClient.close();
         FacesMessage msg = new FacesMessage("Data Deleted", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

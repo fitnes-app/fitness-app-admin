@@ -21,11 +21,14 @@ import com.fitnessapp.api.client.TagClient;
 import com.fitnessapp.api.entities.Survey;
 import com.fitnessapp.api.entities.Tag;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
@@ -38,12 +41,26 @@ public class SurveyCreateView implements Serializable {
     private SurveyClient client;
     private String description;
     private Integer tagId;
+    private List<Integer> tagIds; 
 
     @PostConstruct
     public void init() {
         client = new SurveyClient();
+        tagIds = getTagIds();
     }
 
+    public List<Integer> getTagIds(){
+        TagClient tagClient = new TagClient();
+        List<Tag> tmpTag = tagClient.findAll(new GenericType<List<Tag>>() {});
+        List<Integer> tmpIds = new ArrayList<>();
+        for(Tag t : tmpTag){
+            tmpIds.add(t.getId());
+        }
+        return tmpIds;
+    }
+    public void setTagIds(List<Integer> tagIds){
+        this.tagIds = tagIds;
+    }
     public String getDescription() {
         return description;
     }
