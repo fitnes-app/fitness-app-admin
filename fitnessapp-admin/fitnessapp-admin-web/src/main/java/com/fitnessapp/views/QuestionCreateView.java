@@ -21,11 +21,14 @@ import com.fitnessapp.api.client.SurveyClient;
 import com.fitnessapp.api.entities.Question;
 import com.fitnessapp.api.entities.Survey;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
@@ -35,15 +38,27 @@ import javax.inject.Named;
 @ViewScoped
 public class QuestionCreateView implements Serializable{
 
-    private String text;
-    private Integer surveyId;
     
-    //private Question question = new Question();
+    private Question question = new Question();
+    private String text;
     private QuestionClient questionClient = new QuestionClient();
+    
     private SurveyClient surveyClient = new SurveyClient();
+    private Survey survey = new Survey();
+    private List<Survey> surveys = new ArrayList<Survey>();
     
     @PostConstruct
     public void init() {
+        surveys = surveyClient.findAll(new GenericType<List<Survey>>() {
+        });
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public String getText() {
@@ -54,29 +69,29 @@ public class QuestionCreateView implements Serializable{
         this.text = text;
     }
 
-    public Integer getSurveyId() {
-        return surveyId;
+    public Survey getSurvey() {
+        return survey;
     }
 
-    public void setSurveyId(Integer surveyId) {
-        this.surveyId = surveyId;
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
     }
 
-//    public Question getQuestion() {
-//        return question;
-//    }
-//
-//    public void setQuestion(Question question) {
-//        this.question = question;
-//    }
-    
+    public List<Survey> getSurveys() {
+        return surveys;
+    }
+
+    public void setSurveys(List<Survey> surveys) {
+        this.surveys = surveys;
+    }
+
+
     public void save() {
-        Question question = new Question();
-        if(text!=null && surveyId!=null){
+        
             question.setText(text);
-            question.setSurvey(surveyClient.find(Survey.class, surveyId.toString()));
+            question.setSurvey(survey);
             questionClient.create(question);
-        }
+        
         
         addMessage("New Question added");
     }
