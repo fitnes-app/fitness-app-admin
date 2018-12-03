@@ -11,15 +11,15 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="basicWorkouts" widgetVar="basicWorkouts" var="basicWorkout" value="#{basicWorkoutEditRowView.basicWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+            <p:dataTable id="basicWorkouts" widgetVar="basicWorkouts" var="basicWorkout" value="#{basicWorkoutEditView.basicWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                 <f:facet name="header">
                     BasicWorkout
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
                     <p:columnToggler datasource="basicWorkouts" trigger="toggler" />
                 </f:facet>
 
-                <p:ajax event="rowEdit" listener="#{basicWorkoutEditRowView.onRowEdit}" update=":form:msgs" />
-                <p:ajax event="rowEditCancel" listener="#{basicWorkoutEditRowView.onRowCancel}" update=":form:msgs" />
+                <p:ajax event="rowEdit" listener="#{basicWorkoutEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{basicWorkoutEditView.onRowCancel}" update=":form:msgs" />
 
 
                 <p:column headerText="Id" sortBy="#{basicWorkout.id}" style="width: 8%;">
@@ -32,22 +32,25 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
+
                 <p:column headerText="bodyTypeId" style="width: 8%;">
                     <p:cellEditor>
                         <f:facet name="output">
                             <p:outputLabel value="#{basicWorkout.bodyTypeId}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{basicWorkout.bodyTypeId}" style="width:100%" label="basicWorkoutId"/>
+                            <p:selectOneMenu value="#{basicWorkout.bodyTypeId}" style="width:100%">
+                                <f:selectItem itemValue="1"></f:selectItem>
+                            </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-  
+
                 <p:column headerText="(Edit)" style="width:5%" >
                     <p:rowEditor />
                 </p:column>
                 <p:column headerText="(Delete)" style="width: 5%;" >
-                    <p:commandButton id="delete-button" action="#{basicWorkoutEditRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+                    <p:commandButton id="delete-button" action="#{basicWorkoutEditView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
                 </p:column>
             </p:dataTable>
         </h:form>

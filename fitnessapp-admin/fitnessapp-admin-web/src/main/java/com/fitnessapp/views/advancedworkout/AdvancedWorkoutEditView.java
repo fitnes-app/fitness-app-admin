@@ -34,18 +34,21 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class AdvancedWorkoutEditView implements Serializable {
 
-    private List<AdvancedWorkout> advancedWorkouts = new ArrayList<AdvancedWorkout>();
-    private AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
+    private List<AdvancedWorkout> advancedWorkouts;
     private AdvancedWorkout bw = new AdvancedWorkout();
 
     @PostConstruct
     public void init() {
-        advancedWorkouts = bwc.findAll(new GenericType<List<AdvancedWorkout>>() {
-        });
+        advancedWorkouts = new ArrayList<AdvancedWorkout>();
+        advancedWorkouts = getAdvancedWorkouts();
     }
 
     public List<AdvancedWorkout> getAdvancedWorkouts() {
-        return advancedWorkouts;
+        AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
+        List<AdvancedWorkout> advancedWorkoutstmp = bwc.findAll(new GenericType<List<AdvancedWorkout>>() {
+        });
+        bwc.close();
+        return advancedWorkoutstmp;
     }
 
     public void setAdvancedWorkouts(List<AdvancedWorkout> advancedWorkouts) {
@@ -53,8 +56,9 @@ public class AdvancedWorkoutEditView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
+        AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
         bwc.edit((AdvancedWorkout) event.getObject(), ((AdvancedWorkout) event.getObject()).getId().toString());
-
+        bwc.close();
         FacesMessage msg = new FacesMessage("AdvancedWorkoutEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -72,5 +76,13 @@ public class AdvancedWorkoutEditView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+
+    public void delete(String id) {
+        AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
+        bwc.remove(id);
+        bwc.close();
+        FacesMessage msg = new FacesMessage("Data Deleted", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }

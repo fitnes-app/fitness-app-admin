@@ -28,20 +28,37 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.ws.rs.core.GenericType;
 
 @Named(value = "advancedWorkoutCreateView")
 @ViewScoped
 public class AdvancedWorkoutCreateView implements Serializable {
 
     private Integer bodyTypeId;
-
-    private AdvancedWorkoutClient awc = new AdvancedWorkoutClient();
-
-    private AdvancedWorkout aw = new AdvancedWorkout();
-    private List<AdvancedWorkout> awl = new ArrayList<AdvancedWorkout>();
+    private List<Integer> btypeIds;
+    private AdvancedWorkoutClient bwc;
+    private AdvancedWorkout bw = new AdvancedWorkout();
+    private List<AdvancedWorkout> bwl = new ArrayList<AdvancedWorkout>();
 
     @PostConstruct
     public void init() {
+        bwc = new AdvancedWorkoutClient();
+        btypeIds = getBtypeIds();
+    }
+
+    public List<Integer> getBtypeIds() {
+        BodyTypeClient bClient = new BodyTypeClient();
+        List<BodyType> tmpBtype = bClient.findAll(new GenericType<List<BodyType>>() {
+        });
+        List<Integer> tmpIds = new ArrayList<>();
+        for (BodyType t : tmpBtype) {
+            tmpIds.add(t.getId());
+        }
+        return tmpIds;
+    }
+
+    public void setBtypeIds(List<Integer> btypeIds) {
+        this.btypeIds = btypeIds;
     }
 
     public Integer getBodyTypeId() {
@@ -53,21 +70,20 @@ public class AdvancedWorkoutCreateView implements Serializable {
     }
 
     public void save() {
-        aw.setBodyTypeId(bodyTypeId);
-        if (bodyTypeId != 0) {
-
-            awc.create(aw);
-
-            addMessage("AdvancedWorkout Added");
-        }
+        BodyTypeClient btc = new BodyTypeClient();
+        BodyType bt = btc.find(BodyType.class, bodyTypeId.toString());
+        AdvancedWorkout bwf = new AdvancedWorkout();
+        bwf.setBodyTypeId(bt);
+        bwc.create(bwf);
+        addMessage("Data saved");
     }
 
     public AdvancedWorkoutClient getAdvancedWorkoutClient() {
-        return awc;
+        return bwc;
     }
 
-    public void setAdvancedWorkoutClient(AdvancedWorkoutClient awc) {
-        this.awc = awc;
+    public void setAdvancedWorkoutClient(AdvancedWorkoutClient bwc) {
+        this.bwc = bwc;
     }
 
     public void addMessage(String summary) {

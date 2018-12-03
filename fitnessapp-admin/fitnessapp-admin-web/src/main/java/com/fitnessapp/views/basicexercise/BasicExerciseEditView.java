@@ -16,6 +16,7 @@
  */
 package com.fitnessapp.views.basicexercise;
 
+import com.fitnessapp.api.client.BasicExerciseClient;
 import com.fitnessapp.api.entities.AdvancedExercise;
 import com.fitnessapp.api.entities.BasicExercise;
 import java.io.Serializable;
@@ -27,6 +28,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -34,103 +36,50 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Naluem
  */
-@Named("basicExercisedtEditView")
+@Named("basicExerciseEditView")
 @ViewScoped
 public class BasicExerciseEditView implements Serializable {
 
+    private List<BasicExercise> basicExercises = new ArrayList<BasicExercise>();
+    private BasicExerciseClient bec = new BasicExerciseClient();
+    private BasicExercise bw = new BasicExercise();
 
-	/*@ManagedProperty("#{carService}")
-    private CarService service;*/
-	private List<BasicExercise> basicExercises;
+    @PostConstruct
+    public void init() {
+        basicExercises = bec.findAll(new GenericType<List<BasicExercise>>() {
+        });
+    }
 
-	@PostConstruct
-	public void init() {
-		/*cars1 = service.createCars(10);
-        cars2 = service.createCars(10);*/
-		basicExercises=new ArrayList<>();
-		BasicExercise basicExercise=new BasicExercise(1, "tocarse los huevos a dos manos basicamente", 5, 20,"descripcion de mierda basica");
-		basicExercise.setBasicWorkoutId(1);
-		basicExercise.setMuscularGroupId(1);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-	}
-
-	/*public void setService(CarService service) {
+    /*public void setService(CarService service) {
         this.service = service;
     }*/
-	public List<BasicExercise> getBasicExercises() {
-		return basicExercises;
-	}
+    public List<BasicExercise> getBasicExercises() {
+        return basicExercises;
+    }
 
-	public void setBasicExercises(List<BasicExercise> basicExercises) {
-		this.basicExercises = basicExercises;
-	}
+    public void setBasicExercises(List<BasicExercise> basicExercises) {
+        this.basicExercises = basicExercises;
+    }
 
-	public void onRowEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("BasicExerciseEdited", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onRowEdit(RowEditEvent event) {
+        bec.edit((BasicExercise) event.getObject(), ((BasicExercise) event.getObject()).getId().toString());
 
-	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+        FacesMessage msg = new FacesMessage("BasicExerciseEdited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onCellEdit(CellEditEvent event) {
-		Object oldValue = event.getOldValue();
-		Object newValue = event.getNewValue();
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-		if (newValue != null && !newValue.equals(oldValue)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-	}
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
 }

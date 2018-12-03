@@ -15,7 +15,7 @@ public class BasicWorkout implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private Integer bodyTypeId;
+    private BodyType bodyTypeId;
 
     public BasicWorkout() {
     }
@@ -24,7 +24,7 @@ public class BasicWorkout implements Serializable {
         this.id = id;
     }
     
-    public BasicWorkout(Integer id, Integer bodyTypeId) {
+    public BasicWorkout(Integer id, BodyType bodyTypeId) {
         this.id = id;
         this.bodyTypeId = bodyTypeId;
     }
@@ -37,11 +37,11 @@ public class BasicWorkout implements Serializable {
         this.id = id;
     }
 
-    public Integer getBodyTypeId() {
+    public BodyType getBodyTypeId() {
         return bodyTypeId;
     }
 
-    public void setBodyTypeId(Integer bodyTypeId) {
+    public void setBodyTypeId(BodyType bodyTypeId) {
         this.bodyTypeId = bodyTypeId;
     }
 

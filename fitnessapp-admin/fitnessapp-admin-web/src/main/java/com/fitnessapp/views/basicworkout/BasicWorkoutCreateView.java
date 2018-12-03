@@ -28,20 +28,37 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.ws.rs.core.GenericType;
 
 @Named(value = "basicWorkoutCreateView")
 @ViewScoped
 public class BasicWorkoutCreateView implements Serializable {
 
     private Integer bodyTypeId;
-
-    private BasicWorkoutClient bwc = new BasicWorkoutClient();
-
+    private List<Integer> btypeIds;
+    private BasicWorkoutClient bwc;
     private BasicWorkout bw = new BasicWorkout();
     private List<BasicWorkout> bwl = new ArrayList<BasicWorkout>();
 
     @PostConstruct
     public void init() {
+        bwc = new BasicWorkoutClient();
+        btypeIds = getBtypeIds();
+    }
+
+    public List<Integer> getBtypeIds() {
+        BodyTypeClient bClient = new BodyTypeClient();
+        List<BodyType> tmpBtype = bClient.findAll(new GenericType<List<BodyType>>() {
+        });
+        List<Integer> tmpIds = new ArrayList<>();
+        for (BodyType t : tmpBtype) {
+            tmpIds.add(t.getId());
+        }
+        return tmpIds;
+    }
+
+    public void setBtypeIds(List<Integer> btypeIds) {
+        this.btypeIds = btypeIds;
     }
 
     public Integer getBodyTypeId() {
@@ -53,13 +70,12 @@ public class BasicWorkoutCreateView implements Serializable {
     }
 
     public void save() {
-        bw.setBodyTypeId(bodyTypeId);
-        if (bodyTypeId != 0) {
-
-            bwc.create(bw);
-
-            addMessage("BasicWorkout Added");
-        }
+        BodyTypeClient btc = new BodyTypeClient();
+        BodyType bt = btc.find(BodyType.class, bodyTypeId.toString());
+        BasicWorkout bwf = new BasicWorkout();
+        bwf.setBodyTypeId(bt);
+        bwc.create(bwf);
+        addMessage("Data saved");
     }
 
     public BasicWorkoutClient getBasicWorkoutClient() {

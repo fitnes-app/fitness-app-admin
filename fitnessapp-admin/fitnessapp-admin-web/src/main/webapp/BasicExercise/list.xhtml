@@ -11,15 +11,15 @@
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true"/>
 
-			<p:dataTable id="basicExercises" widgetVar="basicExercises" var="basicExercise" value="#{basicExercisedtAddRowView.basicExercises}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+			<p:dataTable id="basicExercises" widgetVar="basicExercises" var="basicExercise" value="#{basicExerciseEditView.basicExercises}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 				<f:facet name="header">
 					BasicExercise
 					<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
 					<p:columnToggler datasource="basicExercises" trigger="toggler" />
 				</f:facet>
 
-				<p:ajax event="rowEdit" listener="#{basicExercisedtAddRowView.onRowEdit}" update=":form:msgs" />
-				<p:ajax event="rowEditCancel" listener="#{basicExercisedtAddRowView.onRowCancel}" update=":form:msgs" />
+				<p:ajax event="rowEdit" listener="#{basicExerciseEditView.onRowEdit}" update=":form:msgs" />
+				<p:ajax event="rowEditCancel" listener="#{basicExerciseEditView.onRowCancel}" update=":form:msgs" />
 
 				<p:column headerText="Id" sortBy="#{basicExercise.id}" style="width: 8%;">
 					<p:cellEditor>

@@ -34,18 +34,21 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class BasicWorkoutEditView implements Serializable {
 
-    private List<BasicWorkout> basicWorkouts = new ArrayList<BasicWorkout>();
-    private BasicWorkoutClient bwc = new BasicWorkoutClient();
+    private List<BasicWorkout> basicWorkouts;
     private BasicWorkout bw = new BasicWorkout();
 
     @PostConstruct
     public void init() {
-        basicWorkouts = bwc.findAll(new GenericType<List<BasicWorkout>>() {
-        });
+        basicWorkouts = new ArrayList<BasicWorkout>();
+        basicWorkouts = getBasicWorkouts();
     }
 
     public List<BasicWorkout> getBasicWorkouts() {
-        return basicWorkouts;
+        BasicWorkoutClient bwc = new BasicWorkoutClient();
+        List<BasicWorkout> basicWorkoutstmp = bwc.findAll(new GenericType<List<BasicWorkout>>() {
+        });
+        bwc.close();
+        return basicWorkoutstmp;
     }
 
     public void setBasicWorkouts(List<BasicWorkout> basicWorkouts) {
@@ -53,8 +56,9 @@ public class BasicWorkoutEditView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
+        BasicWorkoutClient bwc = new BasicWorkoutClient();
         bwc.edit((BasicWorkout) event.getObject(), ((BasicWorkout) event.getObject()).getId().toString());
-
+        bwc.close();
         FacesMessage msg = new FacesMessage("BasicWorkoutEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -72,5 +76,13 @@ public class BasicWorkoutEditView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+
+    public void delete(String id) {
+        BasicWorkoutClient bwc = new BasicWorkoutClient();
+        bwc.remove(id);
+        bwc.close();
+        FacesMessage msg = new FacesMessage("Data Deleted", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }
