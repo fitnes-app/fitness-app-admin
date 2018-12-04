@@ -17,7 +17,9 @@
 package com.fitnessapp.views;
 
 import com.fitnessapp.api.client.SurveyClient;
+import com.fitnessapp.api.client.TagClient;
 import com.fitnessapp.api.entities.Survey;
+import com.fitnessapp.api.entities.Tag;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +40,25 @@ import org.primefaces.event.RowEditEvent;
 public class SurveyAddRowView implements Serializable {
 
     private List<Survey> surveys;
-
+    private List<Tag> tags;
+    private Tag tag;
+    
     @PostConstruct
     public void init() {
+        tag = new Tag();
+        tags = getTags();
         surveys = new ArrayList<>();
         surveys = getSurveys();
     }
-
+    public List<Tag> getTags(){
+        TagClient client = new TagClient();
+        List<Tag> tmpTags = client.findAll(new GenericType<List<Tag>>() {});
+        return tmpTags;
+    }
+    
+    public void setTags(List<Tag> tags){
+        this.tags = tags;
+    }
     public List<Survey> getSurveys() {
         SurveyClient surveyClient = new SurveyClient();
         List<Survey> tmpSurveys = surveyClient.findAll(new GenericType<List<Survey>>() {
@@ -58,6 +72,10 @@ public class SurveyAddRowView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
+        Survey s = (Survey)event.getObject();
+        s.setTagId(tag);
+        SurveyClient client = new SurveyClient();
+        client.edit(s, s.getId().toString());
         FacesMessage msg = new FacesMessage("Survey Edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -78,5 +96,13 @@ public class SurveyAddRowView implements Serializable {
         surveyClient.close();
         FacesMessage msg = new FacesMessage("Data Deleted", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void setTag(Tag tag){
+        this.tag = tag;
+    }
+    
+    public Tag getTag(){
+        return this.tag;
     }
 }
