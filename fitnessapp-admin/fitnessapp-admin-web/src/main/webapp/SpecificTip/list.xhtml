@@ -4,64 +4,68 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-	<h:head>
-		<title>List Exercise</title>
-	</h:head>
-	<h:body>
-		<h:form id="form">
-			<p:growl id="msgs" showDetail="true"/>
-			<p:dataTable id="specificTips" widgetVar="specificTips" var="specificTip" value="#{specificTipdtAddRowView.specificTips}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
-				<f:facet name="header">
-					SpecificTip
-					<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
-					<p:columnToggler datasource="specificTips" trigger="toggler" />
-				</f:facet>
+    <h:head>
+        <title>List Exercise</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+            <p:dataTable id="specificTips" widgetVar="specificTips" var="specificTip" value="#{specificTipEditView.specificTips}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+                <f:facet name="header">
+                    SpecificTip
+                    <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
+                    <p:columnToggler datasource="specificTips" trigger="toggler" />
+                </f:facet>
 
-				<p:ajax event="rowEdit" listener="#{specificTipdtAddRowView.onRowEdit}" update=":form:msgs" />
-				<p:ajax event="rowEditCancel" listener="#{specificTipdtAddRowView.onRowCancel}" update=":form:msgs" />
+                <p:ajax event="rowEdit" listener="#{specificTipEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{specificTipEditView.onRowCancel}" update=":form:msgs" />
 
-				<p:column headerText="Id" sortBy="#{specificTip.id}" style="width: 5%;">
-					<p:cellEditor>
-						<f:facet name="output">
-							<p:outputLabel value="#{specificTip.id}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText readonly="true" id="modelInput" value="#{specificTip.id}" style="width:100%"/>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column headerText="Text" sortBy="#{specificTip.text}">
-					<p:cellEditor>
-					    <f:facet name="output">
-						    <p:inputTextarea value="#{specificTip.text}" readonly="true" style="color: black; width: 100%;" autoResize="true"/>
-					    </f:facet>
-					    <f:facet name="input">
-						    <p:inputTextarea value="#{specificTip.text}" style="width:100%" autoResize="true"/>
-					    </f:facet>
-					</p:cellEditor>
-				</p:column>
+                <p:column headerText="Id" sortBy="#{specificTip.id}" style="width: 5%;">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:outputLabel value="#{specificTip.id}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText readonly="true" id="modelInput" value="#{specificTip.id}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Text" sortBy="#{specificTip.text}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:inputTextarea value="#{specificTip.text}" readonly="true" style="color: black; width: 100%;" autoResize="true"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputTextarea value="#{specificTip.text}" style="width:100%" autoResize="true"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-				<p:column headerText="Muscular Group" sortBy="#{specificTip.muscularGroupId}" style="width: 8%;">
-					<p:cellEditor>
-						<f:facet name="output">
-							<p:outputLabel value="#{specificTip.muscularGroupId}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:selectOneMenu value="#{specificTip.muscularGroupId}" style="width:100%">
-								<f:selectItem itemValue="1"></f:selectItem>
-							</p:selectOneMenu>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
+                <p:column headerText="muscularGroupId" style="width: 8%;">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:outputLabel value="#{specificTip.muscularGroupId.id}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu value="#{specificTip.muscularGroupId.id}" style="width:100%">
+                                <f:selectItem itemValue="1"></f:selectItem>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-				<p:column headerText="(Edit)" style="width: 5%;" >
-					<p:rowEditor />
-				</p:column>
-				<p:column headerText="(Delete)" style="width: 5%;" >
-					<p:commandButton id="delete-button" action="#{specificTipdtAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
-				</p:column>
-			</p:dataTable>
-		</h:form>
-	</h:body>
+                <p:column headerText="(Edit)" style="width: 5%;" >
+                    <p:rowEditor />
+                </p:column>
+                <p:column style="width: 5%;">
+                    <p:commandButton action="#{specificTipEditView.delete}"  icon="fa fa-trash"
+                                     update=":form:msgs" process="@form" >
+                        <f:param name="idT" value="#{specificTip.id}" />
+                    </p:commandButton>
+ 
+                </p:column> 
+            </p:dataTable>
+        </h:form>
+    </h:body>
 </html>
 

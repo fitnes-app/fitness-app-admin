@@ -49,8 +49,12 @@
                 <p:column headerText="(Edit)" style="width:5%" >
                     <p:rowEditor />
                 </p:column>
-                <p:column headerText="(Delete)" style="width: 5%;" >
-                    <p:commandButton id="delete-button" action="#{basicWorkoutEditView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+                <p:column style="width: 5%;">
+                    <p:commandButton action="#{basicWorkoutEditView.delete}"  icon="fa fa-trash"
+                                     update=":form:msgs" process="@form" >
+                        <f:param name="idT" value="#{basicWorkout.id}" />
+                    </p:commandButton>
+ 
                 </p:column>
             </p:dataTable>
         </h:form>

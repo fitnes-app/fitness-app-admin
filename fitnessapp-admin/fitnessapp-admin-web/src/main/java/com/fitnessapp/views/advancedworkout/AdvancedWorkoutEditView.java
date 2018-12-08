@@ -78,11 +78,24 @@ public class AdvancedWorkoutEditView implements Serializable {
         }
     }
 
-    public void delete(String id) {
-        AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
-        bwc.remove(id);
-        bwc.close();
-        FacesMessage msg = new FacesMessage("Data Deleted", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+    public void delete() {
+        try {
+            AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
+
+            if (idT != null && !"".equals(idT)) {
+                bwc.remove(idT);
+                advancedWorkouts = bwc.findAll(new GenericType<List<AdvancedWorkout>>() {
+                });
+            }
+
+            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(
+                    "llist",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+        }
+
     }
 }

@@ -45,58 +45,7 @@ public class SpecificTipAddRowView implements Serializable {
 	public void init() {
 		//cars1 = service.createCars(15);
 		specificTips = new ArrayList<>();
-		SpecificTip specificTip = new SpecificTip(1, "Un tip de mierda cada dia",1);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-	}
+        }
 
 	public List<SpecificTip> getSpecificTips() {
 		return specificTips;
