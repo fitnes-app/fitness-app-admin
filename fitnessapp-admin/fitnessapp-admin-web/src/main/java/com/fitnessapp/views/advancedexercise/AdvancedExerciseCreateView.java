@@ -46,17 +46,20 @@ public class AdvancedExerciseCreateView implements Serializable {
     private int repetitions;
     private Integer advancedWorkoutId;
     private Integer muscularGroupId;
-    private List<Integer> workoutIds;
-    private List<Integer> mgroupIds;
-    private AdvancedExerciseClient bec = new AdvancedExerciseClient();
+    private AdvancedWorkoutClient aClient = new AdvancedWorkoutClient();
+    private MuscularGroupClient mgclient = new MuscularGroupClient();
+    private List<AdvancedWorkout> workoutIds;
+    private List<MuscularGroup> mgroupIds;
 
     private AdvancedExercise be = new AdvancedExercise();
     private List<AdvancedExercise> btl = new ArrayList<AdvancedExercise>();
 
     @PostConstruct
     public void init() {
-        workoutIds = getWorkoutIds();
-        mgroupIds = getMgroupIds();
+        workoutIds = aClient.findAll(new GenericType<List<AdvancedWorkout>>() {
+        });
+        mgroupIds = mgclient.findAll(new GenericType<List<MuscularGroup>>() {
+        });
     }
 
     public String getExerciseName() {
@@ -103,61 +106,43 @@ public class AdvancedExerciseCreateView implements Serializable {
         return muscularGroupId;
     }
 
-    public AdvancedExerciseClient getAdvancedExerciseClient() {
-        return bec;
-    }
-
-    public void setAdvancedExerciseClient(AdvancedExerciseClient bec) {
-        this.bec = bec;
-    }
-
     public void setMuscularGroupId(Integer muscularGroupId) {
         this.muscularGroupId = muscularGroupId;
     }
 
-    public List<Integer> getWorkoutIds() {
-        AdvancedWorkoutClient bClient = new AdvancedWorkoutClient();
-        List<AdvancedWorkout> tmpWorkout = bClient.findAll(new GenericType<List<AdvancedWorkout>>() {
-        });
-        List<Integer> tmpIds = new ArrayList<>();
-        for (AdvancedWorkout t : tmpWorkout) {
-            tmpIds.add(t.getId());
-        }
-        return tmpIds;
+    public List<AdvancedWorkout> getWorkoutIds() {
+        return workoutIds;
     }
 
-    public void setWorkoutIds(List<Integer> mgroupIds) {
-        this.mgroupIds = mgroupIds;
+    public void setWorkoutIds(List<AdvancedWorkout> workoutIds) {
+        this.workoutIds = workoutIds;
     }
 
-    public List<Integer> getMgroupIds() {
-        MuscularGroupClient mgclient = new MuscularGroupClient();
-        List<MuscularGroup> tmpMG = mgclient.findAll(new GenericType<List<MuscularGroup>>() {
-        });
-        List<Integer> tmpIds = new ArrayList<>();
-        for (MuscularGroup t : tmpMG) {
-            tmpIds.add(t.getId());
-        }
-        return tmpIds;
+    public List<MuscularGroup> getMgroupIds() {
+        return mgroupIds;
     }
 
-    public void setMgroupIds(List<Integer> mgroupIds) {
+    public void setMgroupIds(List<MuscularGroup> mgroupIds) {
         this.mgroupIds = mgroupIds;
     }
 
     public void save() {
+        AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
+        MuscularGroupClient mgc = new MuscularGroupClient();
+        AdvancedWorkout bw = bwc.find(AdvancedWorkout.class, advancedWorkoutId.toString());
+        MuscularGroup mg = mgc.find(MuscularGroup.class, muscularGroupId.toString());
+        AdvancedExercise be = new AdvancedExercise();
+        be.setAdvancedWorkoutId(bw);
+        be.setMuscularGroupId(mg);
         be.setExerciseName(exerciseName);
         be.setDescription(description);
         be.setExerciseSets(exerciseSets);
         be.setRepetitions(repetitions);
-        be.setAdvancedWorkoutId(advancedWorkoutId);
-        be.setMuscularGroupId(muscularGroupId);
-        if (exerciseName != null && description != null && exerciseSets != 0 && repetitions != 0 && advancedWorkoutId != 0 && muscularGroupId != 0) {
-
-            bec.create(be);
-
-            addMessage("AdvancedExercise Added");
-        }
+        AdvancedExerciseClient bec = new AdvancedExerciseClient();
+        bec.create(be);
+        bwc.close();
+        mgc.close();
+        addMessage("Data saved");
     }
 
     public void addMessage(String summary) {

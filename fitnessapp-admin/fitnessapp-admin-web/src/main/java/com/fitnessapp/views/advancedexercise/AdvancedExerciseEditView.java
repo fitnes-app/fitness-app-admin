@@ -18,7 +18,6 @@ package com.fitnessapp.views.advancedexercise;
 
 import com.fitnessapp.api.client.AdvancedExerciseClient;
 import com.fitnessapp.api.entities.AdvancedExercise;
-import com.fitnessapp.api.entities.AdvancedExercise;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,21 +39,21 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class AdvancedExerciseEditView implements Serializable {
 
-    private List<AdvancedExercise> advancedExercises = new ArrayList<AdvancedExercise>();
-    private AdvancedExerciseClient bec = new AdvancedExerciseClient();
+    private List<AdvancedExercise> advancedExercises;
     private AdvancedExercise bw = new AdvancedExercise();
 
     @PostConstruct
     public void init() {
-        advancedExercises = bec.findAll(new GenericType<List<AdvancedExercise>>() {
-        });
+        advancedExercises = new ArrayList<AdvancedExercise>();
+        advancedExercises = getAdvancedExercises();
     }
 
-    /*public void setService(CarService service) {
-        this.service = service;
-    }*/
     public List<AdvancedExercise> getAdvancedExercises() {
-        return advancedExercises;
+        AdvancedExerciseClient aec = new AdvancedExerciseClient();
+        List<AdvancedExercise> advancedExtmp = aec.findAll(new GenericType<List<AdvancedExercise>>() {
+        });
+        aec.close();
+        return advancedExtmp;
     }
 
     public void setAdvancedExercises(List<AdvancedExercise> advancedExercises) {
@@ -62,8 +61,9 @@ public class AdvancedExerciseEditView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
-        bec.edit((AdvancedExercise) event.getObject(), ((AdvancedExercise) event.getObject()).getId().toString());
-
+        AdvancedExerciseClient aec = new AdvancedExerciseClient();
+        aec.edit((AdvancedExercise) event.getObject(), ((AdvancedExercise) event.getObject()).getId().toString());
+        aec.close();
         FacesMessage msg = new FacesMessage("AdvancedExerciseEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -81,5 +81,13 @@ public class AdvancedExerciseEditView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+    
+    public void delete(String id) {
+        AdvancedExerciseClient aec = new AdvancedExerciseClient();
+        aec.remove(id);
+        aec.close();
+        FacesMessage msg = new FacesMessage("Data Deleted", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }

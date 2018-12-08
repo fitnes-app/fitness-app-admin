@@ -26,7 +26,7 @@ private Integer muscularGroupId;
                 <p:inputText value="#{basicExerciseCreateView.exerciseName}"/>
 
                 <p:outputLabel value="description" /> 
-                <p:inputTextarea rows="5" cols="30" value="#{basicExerciseCreateView.description}" counter="display" maxlength="10" counterTemplate="{0} characters remaining." autoResize="false" />
+                <p:inputTextarea rows="5" cols="30" value="#{basicExerciseCreateView.description}" counter="display" maxlength="500" counterTemplate="{0} characters remaining." autoResize="false" />
                 <br />
                 <p:outputLabel id="display" />
 
@@ -38,16 +38,14 @@ private Integer muscularGroupId;
                 <p:inputNumber id="input5" value="#{basicExerciseCreateView.repetitions}" decimalPlaces="0">  
                 </p:inputNumber>  
 
-                <p:outputLabel value="basicWorkoutId" /> 
-                <p:selectOneMenu id="console" value="#{basicExerciseCreateView.basicWorkoutId}" style="width:125px">
-                    <f:selectItem itemLabel="Select One" itemValue="" />
-                    <f:selectItems value="#{basicExerciseCreateView.workoutIds}" />
+                <h:outputText value="basicWorkoutId" /> 
+                <p:selectOneMenu style="display: block; width: 40% !important" value="#{basicExerciseCreateView.basicWorkoutId}" rendered="true" required="true" requiredMessage="Value for basic Workout is mandatory">
+                    <f:selectItems value="#{basicExerciseCreateView.workoutIds}" var="workoutId" itemValue="#{workoutId.id}" itemLabel="#{workoutId.id}"/>
                 </p:selectOneMenu>
 
-                <p:outputLabel value="MuscularGroupId" /> 
-                <p:selectOneMenu id="console2" value="#{basicExerciseCreateView.muscularGroupId}" style="width:125px">
-                    <f:selectItem itemLabel="Select One" itemValue="" />
-                    <f:selectItems value="#{basicExerciseCreateView.mgroupIds}" />
+                <h:outputText value="MuscularGroupId" /> 
+                <p:selectOneMenu style="display: block; width: 40% !important" value="#{basicExerciseCreateView.muscularGroupId}" rendered="true" required="true" requiredMessage="Value for basic Workout is mandatory">
+                    <f:selectItems value="#{basicExerciseCreateView.mgroupIds}" var="mgroupId" itemValue="#{mgroupId.id}" itemLabel="#{mgroupId.id}"/>
                 </p:selectOneMenu>
 
 

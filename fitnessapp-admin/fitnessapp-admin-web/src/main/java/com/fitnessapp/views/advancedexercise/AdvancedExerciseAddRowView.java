@@ -44,60 +44,6 @@ public class AdvancedExerciseAddRowView implements Serializable{
 	public void init() {
 		//cars1 = service.createCars(15);
 		advancedExercises = new ArrayList<>();
-		AdvancedExercise advancedExercise = new AdvancedExercise(1, "tocarse los huevos de formas mas avanzadas", 5, 20,"descripcion de mierda avanzada");
-		advancedExercise.setAdvancedWorkoutId(1);
-		advancedExercise.setMuscularGroupId(1);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-
 	}
 
 	public List<AdvancedExercise> getAdvancedExercises() {

@@ -19,8 +19,8 @@ public class BasicExercise implements Serializable {
 	private String description;
 	private int exerciseSets;
 	private int repetitions;
-	private Integer basicWorkoutId;
-	private Integer muscularGroupId;
+	private BasicWorkout basicWorkoutId;
+	private MuscularGroup muscularGroupId;
 
 	public BasicExercise() {
 	}
@@ -77,19 +77,19 @@ public class BasicExercise implements Serializable {
 		this.repetitions = repetitions;
 	}
 
-	public Integer getBasicWorkoutId() {
+	public BasicWorkout getBasicWorkoutId() {
 		return basicWorkoutId;
 	}
 
-	public void setBasicWorkoutId(Integer basicWorkoutId) {
+	public void setBasicWorkoutId(BasicWorkout basicWorkoutId) {
 		this.basicWorkoutId = basicWorkoutId;
 	}
 
-	public Integer getMuscularGroupId() {
+	public MuscularGroup getMuscularGroupId() {
 		return muscularGroupId;
 	}
 
-	public void setMuscularGroupId(Integer muscularGroupId) {
+	public void setMuscularGroupId(MuscularGroup muscularGroupId) {
 		this.muscularGroupId = muscularGroupId;
 	}
 

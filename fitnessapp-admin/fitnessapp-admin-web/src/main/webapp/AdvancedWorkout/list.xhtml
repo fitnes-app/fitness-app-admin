@@ -36,10 +36,10 @@
                 <p:column headerText="bodyTypeId" style="width: 8%;">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:outputLabel value="#{advancedWorkout.bodyTypeId}" />
+                            <p:outputLabel value="#{advancedWorkout.bodyTypeId.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:selectOneMenu value="#{advancedWorkout.bodyTypeId}" style="width:100%">
+                            <p:selectOneMenu value="#{advancedWorkout.bodyTypeId.id}" style="width:100%">
                                 <f:selectItem itemValue="1"></f:selectItem>
                             </p:selectOneMenu>
                         </f:facet>

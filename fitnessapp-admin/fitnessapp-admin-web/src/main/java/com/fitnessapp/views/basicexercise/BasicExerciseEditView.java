@@ -17,7 +17,6 @@
 package com.fitnessapp.views.basicexercise;
 
 import com.fitnessapp.api.client.BasicExerciseClient;
-import com.fitnessapp.api.entities.AdvancedExercise;
 import com.fitnessapp.api.entities.BasicExercise;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,21 +39,21 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class BasicExerciseEditView implements Serializable {
 
-    private List<BasicExercise> basicExercises = new ArrayList<BasicExercise>();
-    private BasicExerciseClient bec = new BasicExerciseClient();
+    private List<BasicExercise> basicExercises;
     private BasicExercise bw = new BasicExercise();
 
     @PostConstruct
     public void init() {
-        basicExercises = bec.findAll(new GenericType<List<BasicExercise>>() {
-        });
+        basicExercises = new ArrayList<BasicExercise>();
+        basicExercises = getBasicExercises();
     }
 
-    /*public void setService(CarService service) {
-        this.service = service;
-    }*/
     public List<BasicExercise> getBasicExercises() {
-        return basicExercises;
+        BasicExerciseClient bec = new BasicExerciseClient();
+        List<BasicExercise> basicExtmp = bec.findAll(new GenericType<List<BasicExercise>>() {
+        });
+        bec.close();
+        return basicExtmp;
     }
 
     public void setBasicExercises(List<BasicExercise> basicExercises) {
@@ -62,8 +61,9 @@ public class BasicExerciseEditView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
+        BasicExerciseClient bec = new BasicExerciseClient();
         bec.edit((BasicExercise) event.getObject(), ((BasicExercise) event.getObject()).getId().toString());
-
+        bec.close();
         FacesMessage msg = new FacesMessage("BasicExerciseEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -81,5 +81,13 @@ public class BasicExerciseEditView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+    
+    public void delete(String id) {
+        BasicExerciseClient bec = new BasicExerciseClient();
+        bec.remove(id);
+        bec.close();
+        FacesMessage msg = new FacesMessage("Data Deleted", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }

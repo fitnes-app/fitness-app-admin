@@ -4,107 +4,106 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-	<h:head>
-		<title>List Exercise</title>
-	</h:head>
-	<h:body>
-		<h:form id="form">
-			<p:growl id="msgs" showDetail="true"/>
+    <h:head>
+        <title>List Exercise</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
 
-			<p:dataTable id="basicExercises" widgetVar="basicExercises" var="basicExercise" value="#{basicExerciseEditView.basicExercises}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-				<f:facet name="header">
-					BasicExercise
-					<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
-					<p:columnToggler datasource="basicExercises" trigger="toggler" />
-				</f:facet>
+            <p:dataTable id="basicExercises" widgetVar="basicExercises" var="basicExercise" value="#{basicExerciseEditView.basicExercises}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+                <f:facet name="header">
+                    BasicExercise
+                    <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
+                    <p:columnToggler datasource="basicExercises" trigger="toggler" />
+                </f:facet>
 
-				<p:ajax event="rowEdit" listener="#{basicExerciseEditView.onRowEdit}" update=":form:msgs" />
-				<p:ajax event="rowEditCancel" listener="#{basicExerciseEditView.onRowCancel}" update=":form:msgs" />
+                <p:ajax event="rowEdit" listener="#{basicExerciseEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{basicExerciseEditView.onRowCancel}" update=":form:msgs" />
 
-				<p:column headerText="Id" sortBy="#{basicExercise.id}" style="width: 8%;">
-					<p:cellEditor>
-						<f:facet name="output">
-							<p:outputLabel value="#{basicExercise.id}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText readonly="true" id="modelInput" value="#{basicExercise.id}" style="width:100%"/>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
+                <p:column headerText="Id" sortBy="#{basicExercise.id}" style="width: 8%;">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:outputLabel value="#{basicExercise.id}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText readonly="true" id="modelInput" value="#{basicExercise.id}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-				<p:column headerText="Exercise Name" sortBy="#{basicExercise.exerciseName}" >
-					<p:cellEditor>
-						<f:facet name="output">
-							<p:outputLabel value="#{basicExercise.exerciseName}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText value="#{basicExercise.exerciseName}" style="width:100%" label="Exercise Name"/>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column headerText="Description" sortBy="#{basicExercise.description}">
-					<p:cellEditor>
-					    <f:facet name="output">
-						    <p:inputTextarea value="#{basicExercise.description}" readonly="true" style="color: black; width: 100%;" autoResize="true"/>
-					    </f:facet>
-					    <f:facet name="input">
-						    <p:inputTextarea value="#{basicExercise.description}" style="width:100%"/>
-					    </f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column headerText="Exercise Sets" sortBy="#{basicExercise.exerciseSets}" style="width: 8%;">
-					<p:cellEditor>
-						<f:facet name="output">
-							<p:outputLabel value="#{basicExercise.exerciseSets}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText value="#{basicExercise.exerciseSets}" style="width:100%" label="Exercise Sets"/>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column headerText="Repetitions" sortBy="#{basicExercise.repetitions}" style="width: 8%;">
-					<p:cellEditor>
-						<f:facet name="output">
-							<p:outputLabel value="#{basicExercise.repetitions}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText value="#{basicExercise.repetitions}" style="width:100%" label="Repetitions"/>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column headerText="BasicWorkout" sortBy="#{basicExercise.basicWorkoutId}" style="width: 8%;">
-					<p:cellEditor>
-						<f:facet name="output">
-							<p:outputLabel value="#{basicExercise.basicWorkoutId}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:selectOneMenu value="#{basicExercise.basicWorkoutId}" style="width:100%">
-								<f:selectItem itemValue="1"></f:selectItem>
-							</p:selectOneMenu>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column headerText="Muscular Group" sortBy="#{basicExercise.muscularGroupId}" style="width: 8%;">
-					<p:cellEditor>
-						<f:facet name="output">
-							<p:outputLabel value="#{basicExercise.muscularGroupId}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:selectOneMenu value="#{basicExercise.muscularGroupId}" style="width:100%">
-								<f:selectItem itemValue="1"></f:selectItem>
-							</p:selectOneMenu>
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
+                <p:column headerText="Exercise Name" sortBy="#{basicExercise.exerciseName}" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:outputLabel value="#{basicExercise.exerciseName}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{basicExercise.exerciseName}" style="width:100%" label="Exercise Name"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Description" sortBy="#{basicExercise.description}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:inputTextarea value="#{basicExercise.description}" readonly="true" style="color: black; width: 100%;" autoResize="true"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputTextarea value="#{basicExercise.description}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Exercise Sets" sortBy="#{basicExercise.exerciseSets}" style="width: 8%;">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:outputLabel value="#{basicExercise.exerciseSets}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{basicExercise.exerciseSets}" style="width:100%" label="Exercise Sets"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Repetitions" sortBy="#{basicExercise.repetitions}" style="width: 8%;">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:outputLabel value="#{basicExercise.repetitions}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{basicExercise.repetitions}" style="width:100%" label="Repetitions"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="BasicWorkout" sortBy="#{basicExercise.basicWorkoutId.id}" style="width: 8%;">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:outputLabel value="#{basicExercise.basicWorkoutId.id}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu value="#{basicExercise.basicWorkoutId.id}" style="width:100%">
+                                <f:selectItem itemValue="1"></f:selectItem>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Muscular Group" sortBy="#{basicExercise.muscularGroupId.id}" style="width: 8%;">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:outputLabel value="#{basicExercise.muscularGroupId.id}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu value="#{basicExercise.muscularGroupId.id}" style="width:100%">
+                                <f:selectItem itemValue="1"></f:selectItem>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-				<p:column headerText="(Edit)" style="width:5%" >
-					<p:rowEditor />
-				</p:column>
-				<p:column headerText="(Delete)" style="width: 5%;" >
-					<p:commandButton id="delete-button" action="#{basicExercisedAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
-				</p:column>
-			</p:dataTable>
-		</h:form>
-	</h:body>
+                <p:column headerText="(Edit)" style="width:5%" >
+                    <p:rowEditor />
+                </p:column>
+                <p:column headerText="(Delete)" style="width: 5%;" >
+                    <p:commandButton id="delete-button" action="#{basicExercisedAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
 </html>
-

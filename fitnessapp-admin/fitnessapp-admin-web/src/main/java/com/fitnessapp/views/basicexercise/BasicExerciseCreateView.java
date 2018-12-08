@@ -46,17 +46,24 @@ public class BasicExerciseCreateView implements Serializable {
     private int repetitions;
     private Integer basicWorkoutId;
     private Integer muscularGroupId;
-    private List<Integer> workoutIds;
-    private List<Integer> mgroupIds;
-    private BasicExerciseClient bec = new BasicExerciseClient();
+    //private BasicWorkoutClient bClient = new BasicWorkoutClient();
+    //private MuscularGroupClient mgclient = new MuscularGroupClient();
+    private List<BasicWorkout> workoutIds;
+    private List<MuscularGroup> mgroupIds;
 
     private BasicExercise be = new BasicExercise();
     private List<BasicExercise> btl = new ArrayList<BasicExercise>();
 
     @PostConstruct
     public void init() {
-        workoutIds = getWorkoutIds();
-        mgroupIds = getMgroupIds();
+        BasicWorkoutClient bClient = new BasicWorkoutClient();
+        MuscularGroupClient mgclient = new MuscularGroupClient();
+        workoutIds = bClient.findAll(new GenericType<List<BasicWorkout>>() {
+        });
+        mgroupIds = mgclient.findAll(new GenericType<List<MuscularGroup>>() {
+        });
+        bClient.close();
+        mgclient.close();
     }
 
     public String getExerciseName() {
@@ -103,61 +110,43 @@ public class BasicExerciseCreateView implements Serializable {
         return muscularGroupId;
     }
 
-    public BasicExerciseClient getBasicExerciseClient() {
-        return bec;
-    }
-
-    public void setBasicExerciseClient(BasicExerciseClient bec) {
-        this.bec = bec;
-    }
-
     public void setMuscularGroupId(Integer muscularGroupId) {
         this.muscularGroupId = muscularGroupId;
     }
 
-    public List<Integer> getWorkoutIds() {
-        BasicWorkoutClient bClient = new BasicWorkoutClient();
-        List<BasicWorkout> tmpWorkout = bClient.findAll(new GenericType<List<BasicWorkout>>() {
-        });
-        List<Integer> tmpIds = new ArrayList<>();
-        for (BasicWorkout t : tmpWorkout) {
-            tmpIds.add(t.getId());
-        }
-        return tmpIds;
+    public List<BasicWorkout> getWorkoutIds() {
+        return workoutIds;
     }
 
-    public void setWorkoutIds(List<Integer> mgroupIds) {
-        this.mgroupIds = mgroupIds;
+    public void setWorkoutIds(List<BasicWorkout> workoutIds) {
+        this.workoutIds = workoutIds;
     }
 
-    public List<Integer> getMgroupIds() {
-        MuscularGroupClient mgclient = new MuscularGroupClient();
-        List<MuscularGroup> tmpMG = mgclient.findAll(new GenericType<List<MuscularGroup>>() {
-        });
-        List<Integer> tmpIds = new ArrayList<>();
-        for (MuscularGroup t : tmpMG) {
-            tmpIds.add(t.getId());
-        }
-        return tmpIds;
+    public List<MuscularGroup> getMgroupIds() {
+        return mgroupIds;
     }
 
-    public void setMgroupIds(List<Integer> mgroupIds) {
+    public void setMgroupIds(List<MuscularGroup> mgroupIds) {
         this.mgroupIds = mgroupIds;
     }
 
     public void save() {
+        BasicWorkoutClient bwc = new BasicWorkoutClient();
+        MuscularGroupClient mgc = new MuscularGroupClient();
+        BasicWorkout bw = bwc.find(BasicWorkout.class, basicWorkoutId.toString());
+        MuscularGroup mg = mgc.find(MuscularGroup.class, muscularGroupId.toString());
+        BasicExercise be = new BasicExercise();
+        be.setBasicWorkoutId(bw);
+        be.setMuscularGroupId(mg);
         be.setExerciseName(exerciseName);
         be.setDescription(description);
         be.setExerciseSets(exerciseSets);
         be.setRepetitions(repetitions);
-        be.setBasicWorkoutId(basicWorkoutId);
-        be.setMuscularGroupId(muscularGroupId);
-        if (exerciseName != null && description != null && exerciseSets != 0 && repetitions != 0 && basicWorkoutId != 0 && muscularGroupId != 0) {
-
-            bec.create(be);
-
-            addMessage("BasicExercise Added");
-        }
+        BasicExerciseClient bec = new BasicExerciseClient();
+        bec.create(be);
+        bwc.close();
+        mgc.close();
+        addMessage("Data saved");
     }
 
     public void addMessage(String summary) {
