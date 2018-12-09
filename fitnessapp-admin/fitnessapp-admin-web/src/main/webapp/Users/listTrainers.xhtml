@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>List Clients</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:dataTable id="trainers" widgetVar="trainer" var="trainer" value="#{trainerEditView.trainers}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+                <f:facet name="header">
+                    Trainers
+                    <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
+                    <p:columnToggler datasource="trainers" trigger="toggler" />
+                </f:facet>
+
+                <p:ajax event="rowEdit" listener="#{trainerEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{trainerEditView.onRowCancel}" update=":form:msgs" />
+                <p:column headerText="Id" sortBy="#{trainer.id}">
+                    <h:outputText value="#{trainer.id}" />
+                </p:column>
+                <p:column headerText="UserName" sortBy="#{trainer.userName}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{trainer.userName}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{trainer.userName}" style="width:100%" label="UserName"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Mail" sortBy="#{trainer.mail}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{trainer.mail}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{trainer.mail}" style="width:100%" label="Mail"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Telephone" sortBy="#{trainer.telephone}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{trainer.telephone}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{trainer.telephone}" style="width:100%" label="Telephone"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Address" sortBy="#{trainer.address}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{trainer.address}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{trainer.address}" style="width:100%" label="Address"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
