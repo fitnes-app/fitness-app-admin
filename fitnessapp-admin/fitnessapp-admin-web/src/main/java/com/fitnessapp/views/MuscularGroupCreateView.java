@@ -51,11 +51,11 @@ public class MuscularGroupCreateView implements Serializable {
     }
 
     public void save() {
-
+        muscularGroup.setMuscularGroupName(muscularGroupName);
         if (muscularGroupName != null) {
             muscularGroup.setMuscularGroupName(muscularGroupName);
             muscularGroupClient.create(muscularGroup);
-
+            
             addMessage("MuscularGroup Added");
         }
     }

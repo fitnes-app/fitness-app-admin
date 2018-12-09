@@ -14,41 +14,81 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.fitnessapp.views.basicworkout;
 
+import com.fitnessapp.api.client.BasicWorkoutClient;
+import com.fitnessapp.api.client.BodyTypeClient;
+import com.fitnessapp.api.entities.BasicWorkout;
+import com.fitnessapp.api.entities.BodyType;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.ws.rs.core.GenericType;
 
 @Named(value = "basicWorkoutCreateView")
 @ViewScoped
 public class BasicWorkoutCreateView implements Serializable {
 
-	private Integer bodyTypeId;
+    private Integer bodyTypeId;
+    private List<Integer> btypeIds;
+    private BasicWorkoutClient bwc;
+    private BasicWorkout bw = new BasicWorkout();
+    private List<BasicWorkout> bwl = new ArrayList<BasicWorkout>();
 
-	@PostConstruct
-	public void init() {
-	}
+    @PostConstruct
+    public void init() {
+        bwc = new BasicWorkoutClient();
+        btypeIds = getBtypeIds();
+    }
 
-	public Integer getBodyTypeId() {
-		return bodyTypeId;
-	}
+    public List<Integer> getBtypeIds() {
+        BodyTypeClient bClient = new BodyTypeClient();
+        List<BodyType> tmpBtype = bClient.findAll(new GenericType<List<BodyType>>() {
+        });
+        List<Integer> tmpIds = new ArrayList<>();
+        for (BodyType t : tmpBtype) {
+            tmpIds.add(t.getId());
+        }
+        return tmpIds;
+    }
 
-	public void setBodyTypeId(Integer bodyTypeId) {
-		this.bodyTypeId = bodyTypeId;
-	}
+    public void setBtypeIds(List<Integer> btypeIds) {
+        this.btypeIds = btypeIds;
+    }
 
-	public void save() {
-		addMessage("Data saved");
-	}
+    public Integer getBodyTypeId() {
+        return bodyTypeId;
+    }
 
-	public void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
+    public void setBodyTypeId(Integer bodyTypeId) {
+        this.bodyTypeId = bodyTypeId;
+    }
+
+    public void save() {
+        BodyTypeClient btc = new BodyTypeClient();
+        BodyType bt = btc.find(BodyType.class, bodyTypeId.toString());
+        BasicWorkout bwf = new BasicWorkout();
+        bwf.setBodyTypeId(bt);
+        bwc.create(bwf);
+        addMessage("Data saved");
+    }
+
+    public BasicWorkoutClient getBasicWorkoutClient() {
+        return bwc;
+    }
+
+    public void setBasicWorkoutClient(BasicWorkoutClient bwc) {
+        this.bwc = bwc;
+    }
+
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 }

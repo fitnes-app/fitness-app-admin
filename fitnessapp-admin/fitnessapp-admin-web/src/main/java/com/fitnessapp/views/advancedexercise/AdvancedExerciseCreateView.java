@@ -16,13 +16,21 @@
  */
 package com.fitnessapp.views.advancedexercise;
 
+import com.fitnessapp.api.client.AdvancedExerciseClient;
+import com.fitnessapp.api.client.AdvancedWorkoutClient;
+import com.fitnessapp.api.client.MuscularGroupClient;
 import com.fitnessapp.api.entities.AdvancedExercise;
+import com.fitnessapp.api.entities.AdvancedWorkout;
+import com.fitnessapp.api.entities.MuscularGroup;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
@@ -30,75 +38,116 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "advancedExerciseCreateView")
 @ViewScoped
-public class AdvancedExerciseCreateView implements Serializable{
+public class AdvancedExerciseCreateView implements Serializable {
 
-	private String exerciseName;
-	private String description;
-	private int exerciseSets;
-	private int repetitions;
-	private Integer advancedWorkoutId;
-	private Integer muscularGroupId;
+    private String exerciseName;
+    private String description;
+    private int exerciseSets;
+    private int repetitions;
+    private Integer advancedWorkoutId;
+    private Integer muscularGroupId;
+    private AdvancedWorkoutClient aClient = new AdvancedWorkoutClient();
+    private MuscularGroupClient mgclient = new MuscularGroupClient();
+    private List<AdvancedWorkout> workoutIds;
+    private List<MuscularGroup> mgroupIds;
 
-	@PostConstruct
-	public void init() {
-	}
+    private AdvancedExercise be = new AdvancedExercise();
+    private List<AdvancedExercise> btl = new ArrayList<AdvancedExercise>();
 
-	public String getExerciseName() {
-		return exerciseName;
-	}
+    @PostConstruct
+    public void init() {
+        workoutIds = aClient.findAll(new GenericType<List<AdvancedWorkout>>() {
+        });
+        mgroupIds = mgclient.findAll(new GenericType<List<MuscularGroup>>() {
+        });
+    }
 
-	public void setExerciseName(String exerciseName) {
-		this.exerciseName = exerciseName;
-	}
+    public String getExerciseName() {
+        return exerciseName;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setExerciseName(String exerciseName) {
+        this.exerciseName = exerciseName;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public int getExerciseSets() {
-		return exerciseSets;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setExerciseSets(int exerciseSets) {
-		this.exerciseSets = exerciseSets;
-	}
+    public int getExerciseSets() {
+        return exerciseSets;
+    }
 
-	public int getRepetitions() {
-		return repetitions;
-	}
+    public void setExerciseSets(int exerciseSets) {
+        this.exerciseSets = exerciseSets;
+    }
 
-	public void setRepetitions(int repetitions) {
-		this.repetitions = repetitions;
-	}
+    public int getRepetitions() {
+        return repetitions;
+    }
 
-	public Integer getAdvancedWorkoutId() {
-		return advancedWorkoutId;
-	}
+    public void setRepetitions(int repetitions) {
+        this.repetitions = repetitions;
+    }
 
-	public void setAdvancedWorkoutId(Integer advancedWorkoutId) {
-		this.advancedWorkoutId = advancedWorkoutId;
-	}
+    public Integer getAdvancedWorkoutId() {
+        return advancedWorkoutId;
+    }
 
-	public Integer getMuscularGroupId() {
-		return muscularGroupId;
-	}
+    public void setAdvancedWorkoutId(Integer advancedWorkoutId) {
+        this.advancedWorkoutId = advancedWorkoutId;
+    }
 
-	public void setMuscularGroupId(Integer muscularGroupId) {
-		this.muscularGroupId = muscularGroupId;
-	}
+    public Integer getMuscularGroupId() {
+        return muscularGroupId;
+    }
 
+    public void setMuscularGroupId(Integer muscularGroupId) {
+        this.muscularGroupId = muscularGroupId;
+    }
 
-	public void save() {
-		addMessage("Data saved");
-	}
+    public List<AdvancedWorkout> getWorkoutIds() {
+        return workoutIds;
+    }
 
-	public void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
+    public void setWorkoutIds(List<AdvancedWorkout> workoutIds) {
+        this.workoutIds = workoutIds;
+    }
+
+    public List<MuscularGroup> getMgroupIds() {
+        return mgroupIds;
+    }
+
+    public void setMgroupIds(List<MuscularGroup> mgroupIds) {
+        this.mgroupIds = mgroupIds;
+    }
+
+    public void save() {
+        AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
+        MuscularGroupClient mgc = new MuscularGroupClient();
+        AdvancedWorkout bw = bwc.find(AdvancedWorkout.class, advancedWorkoutId.toString());
+        MuscularGroup mg = mgc.find(MuscularGroup.class, muscularGroupId.toString());
+        AdvancedExercise be = new AdvancedExercise();
+        be.setAdvancedWorkoutId(bw);
+        be.setMuscularGroupId(mg);
+        be.setExerciseName(exerciseName);
+        be.setDescription(description);
+        be.setExerciseSets(exerciseSets);
+        be.setRepetitions(repetitions);
+        AdvancedExerciseClient bec = new AdvancedExerciseClient();
+        bec.create(be);
+        bwc.close();
+        mgc.close();
+        addMessage("Data saved");
+    }
+
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 }

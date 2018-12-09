@@ -16,6 +16,7 @@
  */
 package com.fitnessapp.views.bodytype;
 
+import com.fitnessapp.api.client.BodyTypeClient;
 import com.fitnessapp.api.entities.BasicExercise;
 import com.fitnessapp.api.entities.BodyType;
 import java.io.Serializable;
@@ -27,43 +28,35 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
-
 
 @Named("bodyTypeEditView")
 @ViewScoped
 public class BodyTypeEditView implements Serializable {
 
-
-    /*@ManagedProperty("#{carService}")
-    private CarService service;*/
-    private List<BodyType> bodyTypes;
+    private List<BodyType> bodyTypes = new ArrayList<BodyType>();
+    private BodyTypeClient btc = new BodyTypeClient();
+    private BodyType bt = new BodyType();
 
     @PostConstruct
     public void init() {
-        /*cars1 = service.createCars(10);
-        cars2 = service.createCars(10);*/
-        bodyTypes = new ArrayList<>();
-        BodyType bt1 = new BodyType(1);
-        BodyType bt2 = new BodyType(2);
-        BodyType bt3 = new BodyType(3);
-        
-        bodyTypes.add(bt1);
-        bodyTypes.add(bt2);
-        bodyTypes.add(bt3);
-
+        bodyTypes = btc.findAll(new GenericType<List<BodyType>>() {
+        });
     }
 
-    public List<BodyType> getBodyType() {
+    public List<BodyType> getBodyTypes() {
         return bodyTypes;
     }
 
-    public void setBodyType(List<BodyType> bodyType) {
-        this.bodyTypes = bodyType;
+    public void setBodyTypes(List<BodyType> bodyTypes) {
+        this.bodyTypes = bodyTypes;
     }
 
     public void onRowEdit(RowEditEvent event) {
+        btc.edit((BodyType) event.getObject(), ((BodyType) event.getObject()).getId().toString());
+
         FacesMessage msg = new FacesMessage("BodyTypeEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

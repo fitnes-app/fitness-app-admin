@@ -16,12 +16,19 @@
  */
 package com.fitnessapp.views.specifictip;
 
+import com.fitnessapp.api.client.MuscularGroupClient;
+import com.fitnessapp.api.client.SpecificTipClient;
+import com.fitnessapp.api.entities.MuscularGroup;
+import com.fitnessapp.api.entities.SpecificTip;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
@@ -31,36 +38,64 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class SpecificTipCreateView implements Serializable {
 
-	private String text;
-	private Integer muscularGroupId;
+    private String text;
+    private Integer muscularGroupId;
 
-	@PostConstruct
-	public void init() {
-	}
+    private SpecificTipClient stc = new SpecificTipClient();
+    private List<Integer> mgroupIds;
+    private SpecificTip st = new SpecificTip();
+    private List<SpecificTip> stl = new ArrayList<SpecificTip>();
 
-	public String getText() {
-		return text;
-	}
+    @PostConstruct
+    public void init() {
+        stc = new SpecificTipClient();
+        mgroupIds = getMgroupIds();
+    }
+    
+    public List<Integer> getMgroupIds() {
+        MuscularGroupClient mClient = new MuscularGroupClient();
+        List<MuscularGroup> tmpBtype = mClient.findAll(new GenericType<List<MuscularGroup>>() {
+        });
+        List<Integer> tmpIds = new ArrayList<>();
+        for (MuscularGroup t : tmpBtype) {
+            tmpIds.add(t.getId());
+        }
+        return tmpIds;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setMgroupIds(List<Integer> mgroupIds) {
+        this.mgroupIds = mgroupIds;
+    }
 
-	public Integer getMuscularGroupId() {
-		return muscularGroupId;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public void setMuscularGroupId(Integer muscularGroupId) {
-		this.muscularGroupId = muscularGroupId;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public void save() {
-		addMessage("Data saved");
-	}
+    public Integer getMuscularGroupId() {
+        return muscularGroupId;
+    }
 
-	public void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
+    public void setMuscularGroupId(Integer muscularGroupId) {
+        this.muscularGroupId = muscularGroupId;
+    }
+
+    public void save() {
+        MuscularGroup mg = stc.find(MuscularGroup.class, muscularGroupId.toString());
+        SpecificTip st = new SpecificTip();
+        st.setMuscularGroupId(mg);
+        st.setText(text);
+        stc.create(st);
+        addMessage("Data saved");
+
+    }
+
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 }

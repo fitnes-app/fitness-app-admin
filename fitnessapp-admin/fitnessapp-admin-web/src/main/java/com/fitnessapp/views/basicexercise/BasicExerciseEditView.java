@@ -16,7 +16,7 @@
  */
 package com.fitnessapp.views.basicexercise;
 
-import com.fitnessapp.api.entities.AdvancedExercise;
+import com.fitnessapp.api.client.BasicExerciseClient;
 import com.fitnessapp.api.entities.BasicExercise;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -34,103 +35,72 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Naluem
  */
-@Named("basicExercisedtEditView")
+@Named("basicExerciseEditView")
 @ViewScoped
 public class BasicExerciseEditView implements Serializable {
 
+    private List<BasicExercise> basicExercises;
+    private BasicExercise bw = new BasicExercise();
 
-	/*@ManagedProperty("#{carService}")
-    private CarService service;*/
-	private List<BasicExercise> basicExercises;
+    @PostConstruct
+    public void init() {
+        basicExercises = new ArrayList<BasicExercise>();
+        basicExercises = getBasicExercises();
+    }
 
-	@PostConstruct
-	public void init() {
-		/*cars1 = service.createCars(10);
-        cars2 = service.createCars(10);*/
-		basicExercises=new ArrayList<>();
-		BasicExercise basicExercise=new BasicExercise(1, "tocarse los huevos a dos manos basicamente", 5, 20,"descripcion de mierda basica");
-		basicExercise.setBasicWorkoutId(1);
-		basicExercise.setMuscularGroupId(1);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-		basicExercises.add(basicExercise);
-	}
+    public List<BasicExercise> getBasicExercises() {
+        BasicExerciseClient bec = new BasicExerciseClient();
+        List<BasicExercise> basicExtmp = bec.findAll(new GenericType<List<BasicExercise>>() {
+        });
+        bec.close();
+        return basicExtmp;
+    }
 
-	/*public void setService(CarService service) {
-        this.service = service;
-    }*/
-	public List<BasicExercise> getBasicExercises() {
-		return basicExercises;
-	}
+    public void setBasicExercises(List<BasicExercise> basicExercises) {
+        this.basicExercises = basicExercises;
+    }
 
-	public void setBasicExercises(List<BasicExercise> basicExercises) {
-		this.basicExercises = basicExercises;
-	}
+    public void onRowEdit(RowEditEvent event) {
+        BasicExerciseClient bec = new BasicExerciseClient();
+        bec.edit((BasicExercise) event.getObject(), ((BasicExercise) event.getObject()).getId().toString());
+        bec.close();
+        FacesMessage msg = new FacesMessage("BasicExerciseEdited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onRowEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("BasicExerciseEdited", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
 
-	public void onCellEdit(CellEditEvent event) {
-		Object oldValue = event.getOldValue();
-		Object newValue = event.getNewValue();
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+    
+    public void delete() {
+        try {
+            BasicExerciseClient bwc = new BasicExerciseClient();
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
 
-		if (newValue != null && !newValue.equals(oldValue)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-	}
+            if (idT != null && !"".equals(idT)) {
+                bwc.remove(idT);
+                basicExercises = bwc.findAll(new GenericType<List<BasicExercise>>() {
+                });
+            }
+
+            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(
+                    "llist",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+        }
+
+    }
 }

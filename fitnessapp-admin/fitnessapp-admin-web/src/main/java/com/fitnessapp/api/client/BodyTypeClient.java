@@ -19,6 +19,7 @@ package com.fitnessapp.api.client;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 
 /**
  * Jersey REST client generated for REST resource:BodyTypeFacadeREST
@@ -74,10 +75,10 @@ public class BodyTypeClient {
 	public void create(Object requestEntity) throws ClientErrorException {
 		webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
 	}
-
-	public <T> T findAll(Class<T> responseType) throws ClientErrorException {
+        
+        public <T> T findAll(GenericType<T> genericType) throws ClientErrorException {
 		WebTarget resource = webTarget;
-		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+		return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(genericType);
 	}
 
 	public void remove(String id) throws ClientErrorException {

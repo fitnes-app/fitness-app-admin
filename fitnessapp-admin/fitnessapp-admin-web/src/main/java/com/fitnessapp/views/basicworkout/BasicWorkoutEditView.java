@@ -14,10 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.fitnessapp.views.basicworkout;
 
-import com.fitnessapp.api.entities.BasicExercise;
+import com.fitnessapp.api.client.BasicWorkoutClient;
 import com.fitnessapp.api.entities.BasicWorkout;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,53 +26,76 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
-
 
 @Named("basicWorkoutEditView")
 @ViewScoped
 public class BasicWorkoutEditView implements Serializable {
 
-	private List<BasicWorkout> basicWorkouts;
+    private List<BasicWorkout> basicWorkouts;
+    private BasicWorkout bw = new BasicWorkout();
 
-	@PostConstruct
-	public void init() {
+    @PostConstruct
+    public void init() {
+        basicWorkouts = new ArrayList<BasicWorkout>();
+        basicWorkouts = getBasicWorkouts();
+    }
 
-		basicWorkouts = new ArrayList<>();
-		BasicWorkout bw1 = new BasicWorkout(1);
-                BasicWorkout bw2 = new BasicWorkout(2);
-		basicWorkouts.add(bw1);
-		basicWorkouts.add(bw2);
-	}
+    public List<BasicWorkout> getBasicWorkouts() {
+        BasicWorkoutClient bwc = new BasicWorkoutClient();
+        List<BasicWorkout> basicWorkoutstmp = bwc.findAll(new GenericType<List<BasicWorkout>>() {
+        });
+        bwc.close();
+        return basicWorkoutstmp;
+    }
 
+    public void setBasicWorkouts(List<BasicWorkout> basicWorkouts) {
+        this.basicWorkouts = basicWorkouts;
+    }
 
-	public List<BasicWorkout> getBasicWorkouts() {
-		return basicWorkouts;
-	}
+    public void onRowEdit(RowEditEvent event) {
+        BasicWorkoutClient bwc = new BasicWorkoutClient();
+        bwc.edit((BasicWorkout) event.getObject(), ((BasicWorkout) event.getObject()).getId().toString());
+        bwc.close();
+        FacesMessage msg = new FacesMessage("BasicWorkoutEdited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void setBasicWorkouts(List<BasicWorkout> basicWorkouts) {
-		this.basicWorkouts = basicWorkouts;
-	}
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onRowEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("BasicWorkoutEdited", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
 
-	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
 
-	public void onCellEdit(CellEditEvent event) {
-		Object oldValue = event.getOldValue();
-		Object newValue = event.getNewValue();
+    public void delete() {
+        try {
+            BasicWorkoutClient bwc = new BasicWorkoutClient();
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
 
-		if (newValue != null && !newValue.equals(oldValue)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-	}
+            if (idT != null && !"".equals(idT)) {
+                bwc.remove(idT);
+                basicWorkouts = bwc.findAll(new GenericType<List<BasicWorkout>>() {
+                });
+            }
+
+            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(
+                    "llist",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+        }
+
+    }
 }

@@ -16,39 +16,58 @@
  */
 package com.fitnessapp.views.bodytype;
 
+import com.fitnessapp.api.client.BodyTypeClient;
+import com.fitnessapp.api.entities.BodyType;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
-
 @Named(value = "bodyTypeCreateView")
 @ViewScoped
 public class BodyTypeCreateView implements Serializable {
 
-	private int bodyTypeValue;
+    private String bodyTypeValue;
+    private BodyTypeClient btc = new BodyTypeClient();
 
-        @PostConstruct
-	public void init() {
-	}
+    private BodyType bt = new BodyType();
+    private List<BodyType> btl = new ArrayList<BodyType>();
 
-	public int getBodyTypeValue() {
-		return bodyTypeValue;
-	}
+    @PostConstruct
+    public void init() {
+    }
 
-	public void setBodyTypeValue(int bodyTypeValue) {
-		this.bodyTypeValue = bodyTypeValue;
-	}
+    public String getBodyTypeValue() {
+        return bodyTypeValue;
+    }
 
-	public void save() {
-		addMessage("Data saved");
-	}
+    public void setBodyTypeValue(String bodyTypeValue) {
+        this.bodyTypeValue = bodyTypeValue;
+    }
 
-	public void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
+    public void save() {
+        bt.setBodyTypeValue(bodyTypeValue);
+
+        btc.create(bt);
+
+        addMessage("BodyType Added");
+    }
+
+    public BodyTypeClient getBodyTypeClient() {
+        return btc;
+    }
+
+    public void setBodyTypeClient(BodyTypeClient btc) {
+        this.btc = btc;
+    }
+
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 }

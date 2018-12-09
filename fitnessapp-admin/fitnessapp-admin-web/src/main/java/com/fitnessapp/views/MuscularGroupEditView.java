@@ -37,14 +37,14 @@ import org.primefaces.event.RowEditEvent;
 @Named(value = "muscularGroupEditView")
 @ViewScoped
 public class MuscularGroupEditView implements Serializable {
+
     private MuscularGroupClient muscularGroupClient = new MuscularGroupClient();
 
     private MuscularGroup muscularGroup = new MuscularGroup();
     private List<MuscularGroup> muscularGroups = new ArrayList<MuscularGroup>();
-    
+
     @PostConstruct
     public void init() {
-
         muscularGroups = muscularGroupClient.findAll(new GenericType<List<MuscularGroup>>() {
         });
     }
@@ -57,11 +57,9 @@ public class MuscularGroupEditView implements Serializable {
         this.muscularGroups = muscularGroups;
     }
 
-
-
     public void onRowEdit(RowEditEvent event) {
-        muscularGroupClient.edit((MuscularGroup)event.getObject(), ((MuscularGroup)event.getObject()).getId().toString());
-        
+        muscularGroupClient.edit((MuscularGroup) event.getObject(), ((MuscularGroup) event.getObject()).getId().toString());
+
         FacesMessage msg = new FacesMessage("MuscularGroupEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
