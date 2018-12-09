@@ -20,10 +20,10 @@
 
                 <p:ajax event="rowEdit" listener="#{muscularGroupEditView.onRowEdit}" update=":form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{muscularGroupEditView.onRowCancel}" update=":form:msgs" />
-                <p:column headerText="Id" sortBy="#{muscularGroups.id}">
+                <p:column headerText="Id" sortBy="#{muscularGroup.id}">
                         <h:outputText value="#{muscularGroup.id}" />
                 </p:column>
-                <p:column headerText="Name" sortBy="#{muscularGroups.muscularGroupName}">
+                <p:column headerText="Name" sortBy="#{muscularGroup.muscularGroupName}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{muscularGroup.muscularGroupName}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{muscularGroup.muscularGroupName}" style="width:100%" label="Name"/></f:facet>
