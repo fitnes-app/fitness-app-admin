@@ -34,7 +34,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Survey" sortBy="#{question.survey}">
+                <p:column headerText="Survey" sortBy="#{question.survey.description}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{question.survey.description}" /></f:facet>
                         <f:facet name="input">
