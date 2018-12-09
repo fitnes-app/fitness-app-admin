@@ -31,7 +31,7 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class BodyTypeCreateView implements Serializable {
 
-    private int bodyTypeValue;
+    private String bodyTypeValue;
     private BodyTypeClient btc = new BodyTypeClient();
 
     private BodyType bt = new BodyType();
@@ -41,22 +41,20 @@ public class BodyTypeCreateView implements Serializable {
     public void init() {
     }
 
-    public int getBodyTypeValue() {
+    public String getBodyTypeValue() {
         return bodyTypeValue;
     }
 
-    public void setBodyTypeValue(int bodyTypeValue) {
+    public void setBodyTypeValue(String bodyTypeValue) {
         this.bodyTypeValue = bodyTypeValue;
     }
 
     public void save() {
         bt.setBodyTypeValue(bodyTypeValue);
-        if (bodyTypeValue != 0) {
 
-            btc.create(bt);
+        btc.create(bt);
 
-            addMessage("BodyType Added");
-        }
+        addMessage("BodyType Added");
     }
 
     public BodyTypeClient getBodyTypeClient() {

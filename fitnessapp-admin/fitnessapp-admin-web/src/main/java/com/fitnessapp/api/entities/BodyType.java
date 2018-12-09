@@ -15,7 +15,7 @@ public class BodyType implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private int bodyTypeValue;
+	private String bodyTypeValue;
 
 	public BodyType() {
 	}
@@ -24,7 +24,7 @@ public class BodyType implements Serializable {
 		this.id = id;
 	}
 
-	public BodyType(Integer id, int bodyTypeValue) {
+	public BodyType(Integer id, String bodyTypeValue) {
 		this.id = id;
 		this.bodyTypeValue = bodyTypeValue;
 	}
@@ -37,11 +37,11 @@ public class BodyType implements Serializable {
 		this.id = id;
 	}
 
-	public int getBodyTypeValue() {
+	public String getBodyTypeValue() {
 		return bodyTypeValue;
 	}
 
-	public void setBodyTypeValue(int bodyTypeValue) {
+	public void setBodyTypeValue(String bodyTypeValue) {
 		this.bodyTypeValue = bodyTypeValue;
 	}
 
