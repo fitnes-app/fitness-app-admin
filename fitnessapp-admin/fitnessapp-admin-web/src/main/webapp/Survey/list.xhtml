@@ -36,8 +36,12 @@
 				</p:column>
 				<p:column headerText="Tag ID" sortBy="#{survey.tagId}">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{survey.tagId}" /></f:facet>
-						<f:facet name="input"><p:inputText value="#{survey.tagId}" style="width:100%" label="Tag Id"/></f:facet>
+                                            <f:facet name="output"><h:outputText value="#{survey.tagId.tagName}" /></f:facet>
+						<f:facet name="input">
+                                                    <p:selectOneMenu value="#{surveyAddRowView.tag.id}" style="width:100%">
+                                                        <f:selectItems value="#{surveyAddRowView.tags}" var="tag" itemValue="#{tag.id}" itemLabel="#{tag.tagName}"/>
+                                                    </p:selectOneMenu>
+                                                </f:facet>
 					</p:cellEditor>
 				</p:column>
                                 

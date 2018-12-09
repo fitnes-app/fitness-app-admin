@@ -40,25 +40,22 @@ public class SurveyCreateView implements Serializable {
 
     private SurveyClient client;
     private String description;
-    private Integer tagId;
-    private List<Integer> tagIds; 
+    private Tag tag ;
+    private List<Tag> tagIds; 
 
     @PostConstruct
     public void init() {
+        tag = new Tag();
         client = new SurveyClient();
         tagIds = getTagIds();
     }
 
-    public List<Integer> getTagIds(){
+    public List<Tag> getTagIds(){
         TagClient tagClient = new TagClient();
         List<Tag> tmpTag = tagClient.findAll(new GenericType<List<Tag>>() {});
-        List<Integer> tmpIds = new ArrayList<>();
-        for(Tag t : tmpTag){
-            tmpIds.add(t.getId());
-        }
-        return tmpIds;
+        return tmpTag;
     }
-    public void setTagIds(List<Integer> tagIds){
+    public void setTagIds(List<Tag> tagIds){
         this.tagIds = tagIds;
     }
     public String getDescription() {
@@ -69,17 +66,15 @@ public class SurveyCreateView implements Serializable {
         this.description = description;
     }
 
-    public Integer getTagId() {
-        return tagId;
+    public Tag getTag() {
+        return tag;
     }
 
-    public void setTagId(Integer tagId) {
-        this.tagId = tagId;
+    public void setTag(Tag tagId) {
+        this.tag = tagId;
     }
 
     public void save() {
-        TagClient tagClient = new TagClient();
-        Tag tag = tagClient.find(Tag.class, tagId.toString());
         Survey survey = new Survey();
         survey.setTagId(tag);
         survey.setDescription(description);

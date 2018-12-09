@@ -15,9 +15,9 @@
 				<p:inputText value="#{surveyCreateView.description}"/>
 
 				<h:outputText value="Tag Id" /> 
-				<p:selectOneMenu id="console2" value="#{surveyCreateView.tagId}" style="width:125px">
+                                <p:selectOneMenu id="console2" value="#{surveyCreateView.tag.id}" rendered="true" required="true" requiredMessage="Value for Tag is mandatory" style="width:125px">
 					<f:selectItem itemLabel="Select One" itemValue="" />
-					<f:selectItems value="#{surveyCreateView.tagIds}" />
+                                        <f:selectItems value="#{surveyCreateView.tagIds}" var="tag" itemValue="#{tag.id}" itemLabel="#{tag.tagName}" />
 				</p:selectOneMenu>
 
 
