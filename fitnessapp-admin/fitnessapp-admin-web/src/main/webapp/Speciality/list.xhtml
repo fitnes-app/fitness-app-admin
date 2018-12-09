@@ -13,17 +13,17 @@
 
             <p:dataTable id="specialities" widgetVar="speciality" var="speciality" value="#{specialityEditView.specialities}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
                 <f:facet name="header">
-                    Muscular Groups
+                    Specialities
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
                     <p:columnToggler datasource="specialities" trigger="toggler" />
                 </f:facet>
 
                 <p:ajax event="rowEdit" listener="#{specialityEditView.onRowEdit}" update=":form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{specialityEditView.onRowCancel}" update=":form:msgs" />
-                <p:column headerText="Id" sortBy="#{specialities.id}">
+                <p:column headerText="Id" sortBy="#{speciality.id}">
                     <h:outputText value="#{speciality.id}" />
                 </p:column>
-                <p:column headerText="Name" sortBy="#{specialities.specialityName}">
+                <p:column headerText="Name" sortBy="#{speciality.specialityName}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{speciality.specialityName}" /></f:facet>
                         <f:facet name="input"><p:inputText value="#{speciality.specialityName}" style="width:100%" label="Name"/></f:facet>
