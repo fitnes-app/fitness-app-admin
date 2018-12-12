@@ -24,6 +24,8 @@
 
                 <p:outputLabel value="text" /> 
                 <p:inputTextarea rows="5" cols="30" value="#{specificTipCreateView.text}" counter="display" maxlength="500" counterTemplate="{0} characters remaining." autoResize="false" />
+                <br />
+                <p:outputLabel id="display" />
                 
                 <p:outputLabel value="muscularGroupId" /> 
                 <p:selectOneMenu id="console2" value="#{specificTipCreateView.muscularGroupId}" style="width:125px">
