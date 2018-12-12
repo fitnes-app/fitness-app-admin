@@ -17,6 +17,7 @@
 package com.fitnessapp.views;
 
 
+import com.fitnessapp.api.client.TagClient;
 import com.fitnessapp.api.entities.Tag;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -40,45 +42,39 @@ public class TagAddRowView implements Serializable{
     @PostConstruct
     public void init() {
         tags = new ArrayList<>();
-        Tag tag1 = new Tag(1,"Description for this tag");
-        Tag tag2 = new Tag(2,"Description for this tag");
-        Tag tag3 = new Tag(3,"Description for this tag");
-        Tag tag4 = new Tag(4,"Description for this tag");
-        Tag tag5 = new Tag(5,"Description for this tag");
-        Tag tag6 = new Tag(6,"Description for this tag");
-        Tag tag7 = new Tag(7,"Description for this tag");
-        tags.add(tag1);
-        tags.add(tag2);
-        tags.add(tag3);
-        tags.add(tag4);
-        tags.add(tag5);
-        tags.add(tag6);
-        tags.add(tag7);
+        tags = getTags();
     }
+    
     public List<Tag> getTags() {
-		return tags;
+        TagClient tagClient = new TagClient();
+        List<Tag> tmpTag = tagClient.findAll(new GenericType<List<Tag>>(){});
+        tagClient.close();
+        return tmpTag;
     }
 
     public void setTags(List<Tag> tags) {
-            this.tags = tags;
+        this.tags = tags;
     }
 
     public void onRowEdit(RowEditEvent event) {
-            FacesMessage msg = new FacesMessage("TagsEdited", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage("TagsEdited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onRowCancel(RowEditEvent event) {
-            FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onAddNew() {
-            FacesMessage msg = new FacesMessage("New Tag added", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage("New Tag added", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
-    public void delete() {
+    public void delete(String id) {
+        TagClient client = new TagClient();
+        client.remove(id);
+        client.close();
         FacesMessage msg = new FacesMessage("Data Deleted", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

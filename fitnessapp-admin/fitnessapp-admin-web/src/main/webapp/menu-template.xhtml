@@ -160,6 +160,28 @@
 								</p:menuitem>
 							</p:submenu>
 							<p:separator />
+                                                        <p:submenu label="Speciality" icon="fa fa-database">
+
+                                                            <p:menuitem value="#{msg.create}" action="#{leftMenuView.create}" update="main-content" icon="fa fa-save" >
+                                                                <f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Speciality/create.xhtml"/>
+                                                            </p:menuitem>
+                                                            <p:menuitem value="#{msg.list}" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+
+                                                                <f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Speciality/list.xhtml"/>
+                                                            </p:menuitem>
+                                                        </p:submenu>
+                                                        <p:separator />
+                                                        <p:submenu label="Users" icon="fa fa-database">
+
+                                                            <p:menuitem value="Clients" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+                                                                <f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Users/listClients.xhtml"/>
+                                                            </p:menuitem>
+                                                            <p:menuitem value="Trainers" action="#{leftMenuView.list}" update="main-content" icon="fa fa-list" >
+
+                                                                <f:setPropertyActionListener target="#{leftMenuView.selectedMenu}" value="Users/listTrainers.xhtml"/>
+                                                            </p:menuitem>
+                                                        </p:submenu>
+                                                        <p:separator />
 						</p:slideMenu>
 					</h:form>
 				</ui:insert>

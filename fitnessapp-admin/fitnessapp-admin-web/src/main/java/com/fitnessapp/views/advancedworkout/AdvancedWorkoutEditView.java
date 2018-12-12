@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.fitnessapp.views.advancedworkout;
 
+import com.fitnessapp.api.client.AdvancedWorkoutClient;
 import com.fitnessapp.api.entities.AdvancedWorkout;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,53 +26,76 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
-
 
 @Named("advancedWorkoutEditView")
 @ViewScoped
 public class AdvancedWorkoutEditView implements Serializable {
 
-	private List<AdvancedWorkout> advancedWorkouts;
+    private List<AdvancedWorkout> advancedWorkouts;
+    private AdvancedWorkout bw = new AdvancedWorkout();
 
-	@PostConstruct
-	public void init() {
+    @PostConstruct
+    public void init() {
+        advancedWorkouts = new ArrayList<AdvancedWorkout>();
+        advancedWorkouts = getAdvancedWorkouts();
+    }
 
-		advancedWorkouts = new ArrayList<>();
-		AdvancedWorkout bw1 = new AdvancedWorkout(1);
-                AdvancedWorkout bw2 = new AdvancedWorkout(2);
-		advancedWorkouts.add(bw1);
-		advancedWorkouts.add(bw2);
-	}
+    public List<AdvancedWorkout> getAdvancedWorkouts() {
+        AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
+        List<AdvancedWorkout> advancedWorkoutstmp = bwc.findAll(new GenericType<List<AdvancedWorkout>>() {
+        });
+        bwc.close();
+        return advancedWorkoutstmp;
+    }
 
+    public void setAdvancedWorkouts(List<AdvancedWorkout> advancedWorkouts) {
+        this.advancedWorkouts = advancedWorkouts;
+    }
 
-	public List<AdvancedWorkout> getAdvancedWorkouts() {
-		return advancedWorkouts;
-	}
+    public void onRowEdit(RowEditEvent event) {
+        AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
+        bwc.edit((AdvancedWorkout) event.getObject(), ((AdvancedWorkout) event.getObject()).getId().toString());
+        bwc.close();
+        FacesMessage msg = new FacesMessage("AdvancedWorkoutEdited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void setAdvancedWorkouts(List<AdvancedWorkout> advancedWorkouts) {
-		this.advancedWorkouts = advancedWorkouts;
-	}
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onRowEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("AdvancedWorkoutEdited", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
 
-	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
 
-	public void onCellEdit(CellEditEvent event) {
-		Object oldValue = event.getOldValue();
-		Object newValue = event.getNewValue();
+    public void delete() {
+        try {
+            AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
 
-		if (newValue != null && !newValue.equals(oldValue)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-	}
+            if (idT != null && !"".equals(idT)) {
+                bwc.remove(idT);
+                advancedWorkouts = bwc.findAll(new GenericType<List<AdvancedWorkout>>() {
+                });
+            }
+
+            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(
+                    "llist",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+        }
+
+    }
 }

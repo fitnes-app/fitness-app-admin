@@ -36,10 +36,6 @@ public class AdvancedWorkoutAddRowView implements Serializable {
     @PostConstruct
     public void init() {
         advancedWorkouts = new ArrayList<>();
-        AdvancedWorkout bw1 = new AdvancedWorkout(1,2);
-        AdvancedWorkout bw2 = new AdvancedWorkout(2,2);
-        advancedWorkouts.add(bw1);
-        advancedWorkouts.add(bw2);
 
     }
 

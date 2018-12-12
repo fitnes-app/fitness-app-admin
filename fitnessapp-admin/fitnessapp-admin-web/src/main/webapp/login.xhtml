@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <style>
         html, body {
             width: 100%;
@@ -52,23 +53,23 @@
             <img src="Images/logo.png" alt="Fit4You" />
             </div>
             <h:form id="loginForm">
+                <p:messages autoUpdate="true" closable="true" />
                 <div id="userNameDiv" class="textPlacement">
                     <table>
                         <tr>
                             <td><h:outputLabel value="Username" style="color: white"/></td>
-                            <td><h:inputText value=" " /></td>
+                            <td><h:inputText value="#{loginView.username}" required="true" requiredMessage="Insert Username is mandatory" /></td>
                         </tr>
                         <tr>
                             <td><h:outputLabel value="Password" style="color: white"/></td>
-                            <td><h:inputSecret value=" " /></td>
+                            <td><h:inputSecret value="#{loginView.password}" required="true" requiredMessage="Insert Password is mandatory" /></td>
                         </tr>                        
                     </table>
                 </div>
                 <div id="submitBtn" class="textPlacement">
-                    <h:commandButton value="Login" action="menu?faces-redirect=true" />
+                    <h:commandButton value="Login" action="#{loginView.validateCredentials}" />
 
                 </div>
-
             </h:form>
         </div>
     </h:body>

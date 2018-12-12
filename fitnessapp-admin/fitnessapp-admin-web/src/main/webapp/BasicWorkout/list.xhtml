@@ -11,15 +11,15 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="basicWorkouts" widgetVar="basicWorkouts" var="basicWorkout" value="#{basicWorkoutAddRowView.basicWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+            <p:dataTable id="basicWorkouts" widgetVar="basicWorkouts" var="basicWorkout" value="#{basicWorkoutEditView.basicWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                 <f:facet name="header">
                     BasicWorkout
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
                     <p:columnToggler datasource="basicWorkouts" trigger="toggler" />
                 </f:facet>
 
-                <p:ajax event="rowEdit" listener="#{basicWorkoutAddRowView.onRowEdit}" update=":form:msgs" />
-                <p:ajax event="rowEditCancel" listener="#{basicWorkoutAddRowView.onRowCancel}" update=":form:msgs" />
+                <p:ajax event="rowEdit" listener="#{basicWorkoutEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{basicWorkoutEditView.onRowCancel}" update=":form:msgs" />
 
 
                 <p:column headerText="Id" sortBy="#{basicWorkout.id}" style="width: 8%;">
@@ -28,35 +28,35 @@
                             <p:outputLabel value="#{basicWorkout.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{basicWorkout.id}" style="width:100%" label="Id"/>
+                            <p:inputText readonly="true" value="#{basicWorkout.id}" style="width:100%" label="Id"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column headerText="basicWorkoutId" style="width: 8%;">
+
+                <p:column headerText="bodyTypeId" style="width: 8%;">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:outputLabel value="#{basicWorkout.bodyTypeId}" />
+                            <p:outputLabel value="#{basicWorkout.bodyTypeId.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{basicWorkout.bodyTypeId}" style="width:100%" label="basicWorkoutId"/>
+                            <p:selectOneMenu value="#{basicWorkout.bodyTypeId.id}" style="width:100%">
+                                <f:selectItem itemValue="1"></f:selectItem>
+                            </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-  
+
                 <p:column headerText="(Edit)" style="width:5%" >
                     <p:rowEditor />
                 </p:column>
-                <p:column headerText="(Delete)" style="width: 5%;" >
-                    <p:commandButton id="delete-button" action="#{basicWorkoutAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+                <p:column style="width: 5%;">
+                    <p:commandButton action="#{basicWorkoutEditView.delete}"  icon="fa fa-trash"
+                                     update=":form:msgs" process="@form" >
+                        <f:param name="idT" value="#{basicWorkout.id}" />
+                    </p:commandButton>
+ 
                 </p:column>
             </p:dataTable>
-
-            <div class="ui-g">
-                <div class="ui-g-12">
-                    <p:commandButton value="Add new BasicWorkout" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
-                                     action="#{basicWorkoutAddRowView.onAddNew()}" oncomplete="PF('basicWorkouts').addRow();"/>
-                </div>
-            </div>
         </h:form>
 
     </h:body>

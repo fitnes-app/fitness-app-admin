@@ -16,6 +16,7 @@
  */
 package com.fitnessapp.views;
 
+import com.fitnessapp.api.client.MuscularGroupClient;
 import com.fitnessapp.api.entities.MuscularGroup;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -35,104 +37,16 @@ import org.primefaces.event.RowEditEvent;
 @Named(value = "muscularGroupEditView")
 @ViewScoped
 public class MuscularGroupEditView implements Serializable {
-    private List<MuscularGroup> muscularGroups;
-    
+
+    private MuscularGroupClient muscularGroupClient = new MuscularGroupClient();
+
+    private MuscularGroup muscularGroup = new MuscularGroup();
+    private List<MuscularGroup> muscularGroups = new ArrayList<MuscularGroup>();
+
     @PostConstruct
     public void init() {
-
-        muscularGroups = new ArrayList<>();
-        MuscularGroup muscularGroup = new MuscularGroup();
-        
-        muscularGroup.setMuscularGroupName("Quadriceps");
-        muscularGroup.setId(22);
-        
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-        muscularGroups.add(muscularGroup);
-
+        muscularGroups = muscularGroupClient.findAll(new GenericType<List<MuscularGroup>>() {
+        });
     }
 
     public List<MuscularGroup> getMuscularGroups() {
@@ -143,9 +57,9 @@ public class MuscularGroupEditView implements Serializable {
         this.muscularGroups = muscularGroups;
     }
 
-
-
     public void onRowEdit(RowEditEvent event) {
+        muscularGroupClient.edit((MuscularGroup) event.getObject(), ((MuscularGroup) event.getObject()).getId().toString());
+
         FacesMessage msg = new FacesMessage("MuscularGroupEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

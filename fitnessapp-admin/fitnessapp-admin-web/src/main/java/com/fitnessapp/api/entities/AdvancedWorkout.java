@@ -15,7 +15,7 @@ public class AdvancedWorkout implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private Integer bodyTypeId;
+    private BodyType bodyTypeId;
 
     public AdvancedWorkout() {
     }
@@ -24,17 +24,17 @@ public class AdvancedWorkout implements Serializable {
         this.id = id;
     }
 
-    public AdvancedWorkout(Integer id, Integer bodyTypeId) {
+    public AdvancedWorkout(Integer id, BodyType bodyTypeId) {
         this.id = id;
         this.bodyTypeId = bodyTypeId;
     }
 
     
-    public Integer getBodyTypeId() {
+    public BodyType getBodyTypeId() {
         return bodyTypeId;
     }
 
-    public void setBodyTypeId(Integer bodyTypeId) {
+    public void setBodyTypeId(BodyType bodyTypeId) {
         this.bodyTypeId = bodyTypeId;
     }
 

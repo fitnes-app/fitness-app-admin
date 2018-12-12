@@ -16,6 +16,8 @@
  */
 package com.fitnessapp.views;
 
+import com.fitnessapp.api.client.MuscularGroupClient;
+import com.fitnessapp.api.entities.MuscularGroup;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -29,9 +31,13 @@ import javax.inject.Named;
  */
 @Named(value = "muscularGroupCreateView")
 @ViewScoped
-public class MuscularGroupCreateView implements Serializable{
+public class MuscularGroupCreateView implements Serializable {
+
     private String muscularGroupName;
-    
+    private MuscularGroupClient muscularGroupClient = new MuscularGroupClient();
+
+    private MuscularGroup muscularGroup = new MuscularGroup();
+
     @PostConstruct
     public void init() {
     }
@@ -43,13 +49,36 @@ public class MuscularGroupCreateView implements Serializable{
     public void setMuscularGroupName(String muscularGroupName) {
         this.muscularGroupName = muscularGroupName;
     }
-    
+
     public void save() {
-        addMessage("Data saved");
+        muscularGroup.setMuscularGroupName(muscularGroupName);
+        if (muscularGroupName != null) {
+            muscularGroup.setMuscularGroupName(muscularGroupName);
+            muscularGroupClient.create(muscularGroup);
+            
+            addMessage("MuscularGroup Added");
+        }
+    }
+
+    public MuscularGroupClient getMuscularGroupClient() {
+        return muscularGroupClient;
+    }
+
+    public void setMuscularGroupClient(MuscularGroupClient muscularGroupClient) {
+        this.muscularGroupClient = muscularGroupClient;
     }
 
     public void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+
+    public MuscularGroup getMuscularGroup() {
+        return muscularGroup;
+    }
+
+    public void setMuscularGroup(MuscularGroup muscularGroup) {
+        this.muscularGroup = muscularGroup;
+    }
+
 }

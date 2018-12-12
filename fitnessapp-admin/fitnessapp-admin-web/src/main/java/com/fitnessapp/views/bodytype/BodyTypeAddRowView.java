@@ -35,12 +35,6 @@ public class BodyTypeAddRowView implements Serializable {
 	@PostConstruct
 	public void init() {
 		bodyTypes=new ArrayList<>();
-		BodyType bt1 = new BodyType(1,2);
-                BodyType bt2 = new BodyType(2,2);
-                BodyType bt3 = new BodyType(3,3);
-		bodyTypes.add(bt1);
-                bodyTypes.add(bt2);
-                bodyTypes.add(bt3);
 
 	}
 

@@ -16,6 +16,7 @@
  */
 package com.fitnessapp.views.specifictip;
 
+import com.fitnessapp.api.client.SpecificTipClient;
 import com.fitnessapp.views.advancedexercise.*;
 import com.fitnessapp.api.entities.SpecificTip;
 import java.io.Serializable;
@@ -26,6 +27,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -33,102 +35,73 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Naluem
  */
-@Named(value = "specificTipdtEditView")
+@Named(value = "specificTipEditView")
 @ViewScoped
 public class SpecificTipEditView implements Serializable {
 
-	/*@ManagedProperty("#{carService}")
-    private CarService service;*/
-	private List<SpecificTip> specificTips;
+    private List<SpecificTip> specificTips;
+    private SpecificTip st = new SpecificTip();
 
-	@PostConstruct
-	public void init() {
-		/*cars1 = service.createCars(10);
-        cars2 = service.createCars(10);*/
-		specificTips = new ArrayList<>();
+    @PostConstruct
+    public void init() {
+        specificTips = new ArrayList<SpecificTip>();
+        specificTips = getSpecificTips();
+    }
 
-		SpecificTip specificTip = new SpecificTip(1, "Un tip de mierda cada dia", 1);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-		specificTips.add(specificTip);
-	}
+    public List<SpecificTip> getSpecificTips() {
+        SpecificTipClient stc = new SpecificTipClient();
+        List<SpecificTip> sttmp = stc.findAll(new GenericType<List<SpecificTip>>() {
+        });
+        stc.close();
+        return sttmp;
+    }
 
-	/*public void setService(CarService service) {
-        this.service = service;
-    }*/
-	public List<SpecificTip> getSpecificTips() {
-		return specificTips;
-	}
+    public void setSpecificTips(List<SpecificTip> specificTips) {
+        this.specificTips = specificTips;
+    }
 
-	public void setSpecificTips(List<SpecificTip> specificTips) {
-		this.specificTips = specificTips;
-	}
+    public void onRowEdit(RowEditEvent event) {
+        SpecificTipClient stc = new SpecificTipClient();
+        stc.edit((SpecificTip) event.getObject(), ((SpecificTip) event.getObject()).getId().toString());
+        stc.close();
+        FacesMessage msg = new FacesMessage("SpecificTipEdited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onRowEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("SpecificTipEdited", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
 
-	public void onCellEdit(CellEditEvent event) {
-		Object oldValue = event.getOldValue();
-		Object newValue = event.getNewValue();
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+    
+    public void delete() {
+        try {
+            SpecificTipClient dtc = new SpecificTipClient();
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
 
-		if (newValue != null && !newValue.equals(oldValue)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-	}
+            if (idT != null && !"".equals(idT)) {
+                dtc.remove(idT);
+                specificTips = dtc.findAll(new GenericType<List<SpecificTip>>() {
+                });;
+            }
+
+            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(
+                    "llist",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+        }
+
+    }
 
 }

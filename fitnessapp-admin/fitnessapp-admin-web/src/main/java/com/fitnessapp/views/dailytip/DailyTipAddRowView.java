@@ -44,59 +44,7 @@ public class DailyTipAddRowView implements Serializable {
     private CarService service;*/
 	@PostConstruct
 	public void init() {
-		//cars1 = service.createCars(15);
-		dailyTips = new ArrayList<>();
-		DailyTip dailyTip = new DailyTip(1, "Un tip de mierda cada dia");
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
+		
 	}
 
 	public List<DailyTip> getDailyTips() {

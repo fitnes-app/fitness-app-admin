@@ -5,21 +5,21 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>List Basic Workouts</title>
+        <title>List Advanced Workouts</title>
     </h:head>
     <h:body>
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="advancedWorkouts" widgetVar="advancedWorkouts" var="advancedWorkout" value="#{advancedWorkoutAddRowView.advancedWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+            <p:dataTable id="advancedWorkouts" widgetVar="advancedWorkouts" var="advancedWorkout" value="#{advancedWorkoutEditView.advancedWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                 <f:facet name="header">
-                    BasicWorkout
+                    AdvancedWorkout
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
                     <p:columnToggler datasource="advancedWorkouts" trigger="toggler" />
                 </f:facet>
 
-                <p:ajax event="rowEdit" listener="#{advancedWorkoutAddRowView.onRowEdit}" update=":form:msgs" />
-                <p:ajax event="rowEditCancel" listener="#{advancedWorkoutAddRowView.onRowCancel}" update=":form:msgs" />
+                <p:ajax event="rowEdit" listener="#{advancedWorkoutEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{advancedWorkoutEditView.onRowCancel}" update=":form:msgs" />
 
 
                 <p:column headerText="Id" sortBy="#{advancedWorkout.id}" style="width: 8%;">
@@ -28,35 +28,35 @@
                             <p:outputLabel value="#{advancedWorkout.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{advancedWorkout.id}" style="width:100%" label="Id"/>
+                            <p:inputText readonly="true" value="#{advancedWorkout.id}" style="width:100%" label="Id"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column headerText="advancedWorkoutId" style="width: 8%;">
+
+                <p:column headerText="bodyTypeId" style="width: 8%;">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:outputLabel value="#{advancedWorkout.bodyTypeId}" />
+                            <p:outputLabel value="#{advancedWorkout.bodyTypeId.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{advancedWorkout.bodyTypeId}" style="width:100%" label="advancedWorkoutId"/>
+                            <p:selectOneMenu value="#{advancedWorkout.bodyTypeId.id}" style="width:100%">
+                                <f:selectItem itemValue="1"></f:selectItem>
+                            </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-  
+
                 <p:column headerText="(Edit)" style="width:5%" >
                     <p:rowEditor />
                 </p:column>
-                <p:column headerText="(Delete)" style="width: 5%;" >
-                    <p:commandButton id="delete-button" action="#{advancedWorkoutAddRowView.delete}" update=":form:msgs" style="margin-right:20px;" icon="fa fa-trash" />
+                <p:column style="width: 5%;">
+                    <p:commandButton action="#{advancedExerciseEditView.delete}"  icon="fa fa-trash"
+                                     update=":form:msgs" process="@form" >
+                        <f:param name="idT" value="#{advancedExercise.id}" />
+                    </p:commandButton>
+ 
                 </p:column>
             </p:dataTable>
-
-            <div class="ui-g">
-                <div class="ui-g-12">
-                    <p:commandButton value="Add new BasicWorkout" styleClass="ui-priority-primary" process="@this" update=":form:msgs"
-                                     action="#{advancedWorkoutAddRowView.onAddNew()}" oncomplete="PF('advancedWorkouts').addRow();"/>
-                </div>
-            </div>
         </h:form>
 
     </h:body>

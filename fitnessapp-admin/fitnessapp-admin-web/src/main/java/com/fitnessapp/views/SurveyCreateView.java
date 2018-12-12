@@ -16,26 +16,48 @@
  */
 package com.fitnessapp.views;
 
+import com.fitnessapp.api.client.SurveyClient;
+import com.fitnessapp.api.client.TagClient;
+import com.fitnessapp.api.entities.Survey;
+import com.fitnessapp.api.entities.Tag;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
  * @author Erox
  */
-
 @Named(value = "surveyCreateView")
 @ViewScoped
 public class SurveyCreateView implements Serializable {
 
+    private SurveyClient client;
     private String description;
-    private Integer tagId;
+    private Tag tag ;
+    private List<Tag> tagIds; 
 
-    public void init(){}
+    @PostConstruct
+    public void init() {
+        tag = new Tag();
+        client = new SurveyClient();
+        tagIds = getTagIds();
+    }
 
+    public List<Tag> getTagIds(){
+        TagClient tagClient = new TagClient();
+        List<Tag> tmpTag = tagClient.findAll(new GenericType<List<Tag>>() {});
+        return tmpTag;
+    }
+    public void setTagIds(List<Tag> tagIds){
+        this.tagIds = tagIds;
+    }
     public String getDescription() {
         return description;
     }
@@ -44,20 +66,24 @@ public class SurveyCreateView implements Serializable {
         this.description = description;
     }
 
-    public Integer getTagId() {
-        return tagId;
+    public Tag getTag() {
+        return tag;
     }
 
-    public void setTagId(Integer tagId) {
-        this.tagId = tagId;
+    public void setTag(Tag tagId) {
+        this.tag = tagId;
     }
 
     public void save() {
-            addMessage("Data saved");
+        Survey survey = new Survey();
+        survey.setTagId(tag);
+        survey.setDescription(description);
+        client.create(survey);
+        addMessage("Data saved");
     }
 
     public void addMessage(String summary) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-            FacesContext.getCurrentInstance().addMessage(null, message);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

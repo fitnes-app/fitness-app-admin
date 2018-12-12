@@ -16,6 +16,7 @@
  */
 package com.fitnessapp.views.advancedexercise;
 
+import com.fitnessapp.api.client.AdvancedExerciseClient;
 import com.fitnessapp.api.entities.AdvancedExercise;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -32,102 +35,72 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Naluem
  */
-@Named(value = "advancedExercisedtEditView")
+@Named("advancedExerciseEditView")
 @ViewScoped
-public class AdvancedExerciseEditView implements Serializable{
-	/*@ManagedProperty("#{carService}")
-    private CarService service;*/
-	private List<AdvancedExercise> advancedExercises;
+public class AdvancedExerciseEditView implements Serializable {
 
-	@PostConstruct
-	public void init() {
-		/*cars1 = service.createCars(10);
-        cars2 = service.createCars(10);*/
-		advancedExercises=new ArrayList<>();
-		AdvancedExercise advancedExercise=new AdvancedExercise(1, "tocarse los huevos a dos manos de forma avanzada", 5, 20,"descripcion de mierda avanzada");
-		advancedExercise.setAdvancedWorkoutId(1);
-		advancedExercise.setMuscularGroupId(1);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-		advancedExercises.add(advancedExercise);
-	}
+    private List<AdvancedExercise> advancedExercises;
+    private AdvancedExercise bw = new AdvancedExercise();
 
-	/*public void setService(CarService service) {
-        this.service = service;
-    }*/
-	public List<AdvancedExercise> getAdvancedExercises() {
-		return advancedExercises;
-	}
+    @PostConstruct
+    public void init() {
+        advancedExercises = new ArrayList<AdvancedExercise>();
+        advancedExercises = getAdvancedExercises();
+    }
 
-	public void setAdvancedExercises(List<AdvancedExercise> advancedExercises) {
-		this.advancedExercises = advancedExercises;
-	}
+    public List<AdvancedExercise> getAdvancedExercises() {
+        AdvancedExerciseClient aec = new AdvancedExerciseClient();
+        List<AdvancedExercise> advancedExtmp = aec.findAll(new GenericType<List<AdvancedExercise>>() {
+        });
+        aec.close();
+        return advancedExtmp;
+    }
 
-	public void onRowEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("AdvancedExerciseEdited", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void setAdvancedExercises(List<AdvancedExercise> advancedExercises) {
+        this.advancedExercises = advancedExercises;
+    }
 
-	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onRowEdit(RowEditEvent event) {
+        AdvancedExerciseClient aec = new AdvancedExerciseClient();
+        aec.edit((AdvancedExercise) event.getObject(), ((AdvancedExercise) event.getObject()).getId().toString());
+        aec.close();
+        FacesMessage msg = new FacesMessage("AdvancedExerciseEdited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onCellEdit(CellEditEvent event) {
-		Object oldValue = event.getOldValue();
-		Object newValue = event.getNewValue();
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-		if (newValue != null && !newValue.equals(oldValue)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-	}
-	
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+    
+    public void delete() {
+        try {
+            AdvancedExerciseClient bwc = new AdvancedExerciseClient();
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
+
+            if (idT != null && !"".equals(idT)) {
+                bwc.remove(idT);
+                advancedExercises = bwc.findAll(new GenericType<List<AdvancedExercise>>() {
+                });
+            }
+
+            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(
+                    "llist",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+        }
+
+    }
 }

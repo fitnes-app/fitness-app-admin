@@ -16,7 +16,10 @@
  */
 package com.fitnessapp.views;
 
+import com.fitnessapp.api.client.SurveyClient;
+import com.fitnessapp.api.client.TagClient;
 import com.fitnessapp.api.entities.Survey;
+import com.fitnessapp.api.entities.Tag;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -33,27 +37,34 @@ import org.primefaces.event.RowEditEvent;
  */
 @Named(value = "surveyAddRowView")
 @ViewScoped
-public class SurveyAddRowView implements Serializable{
+public class SurveyAddRowView implements Serializable {
 
     private List<Survey> surveys;
+    private List<Tag> tags;
+    private Tag tag;
     
     @PostConstruct
-    public void init(){
+    public void init() {
+        tag = new Tag();
+        tags = getTags();
         surveys = new ArrayList<>();
-        Survey survey = new Survey(1,"Test Survey", 1);
-        Survey survey2 = new Survey(2,"Test Survey", 2);
-        surveys.add(survey);
-        surveys.add(survey2);
-        surveys.add(survey);
-        surveys.add(survey);
-        surveys.add(survey);
-        surveys.add(survey);
-        surveys.add(survey);
-        surveys.add(survey);
+        surveys = getSurveys();
+    }
+    public List<Tag> getTags(){
+        TagClient client = new TagClient();
+        List<Tag> tmpTags = client.findAll(new GenericType<List<Tag>>() {});
+        return tmpTags;
     }
     
+    public void setTags(List<Tag> tags){
+        this.tags = tags;
+    }
     public List<Survey> getSurveys() {
-        return surveys;
+        SurveyClient surveyClient = new SurveyClient();
+        List<Survey> tmpSurveys = surveyClient.findAll(new GenericType<List<Survey>>() {
+        });
+        surveyClient.close();
+        return tmpSurveys;
     }
 
     public void setSurveys(List<Survey> surveys) {
@@ -61,6 +72,10 @@ public class SurveyAddRowView implements Serializable{
     }
 
     public void onRowEdit(RowEditEvent event) {
+        Survey s = (Survey)event.getObject();
+        s.setTagId(tag);
+        SurveyClient client = new SurveyClient();
+        client.edit(s, s.getId().toString());
         FacesMessage msg = new FacesMessage("Survey Edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -74,9 +89,20 @@ public class SurveyAddRowView implements Serializable{
         FacesMessage msg = new FacesMessage("New Survey added", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
-    public void delete() {
+
+    public void delete(String id) {
+        SurveyClient surveyClient = new SurveyClient();
+        surveyClient.remove(id);
+        surveyClient.close();
         FacesMessage msg = new FacesMessage("Data Deleted", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void setTag(Tag tag){
+        this.tag = tag;
+    }
+    
+    public Tag getTag(){
+        return this.tag;
     }
 }

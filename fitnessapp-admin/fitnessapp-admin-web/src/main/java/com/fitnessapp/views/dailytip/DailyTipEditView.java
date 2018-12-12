@@ -16,6 +16,8 @@
  */
 package com.fitnessapp.views.dailytip;
 
+import com.fitnessapp.api.client.DailyTipClient;
+import com.fitnessapp.views.advancedexercise.*;
 import com.fitnessapp.api.entities.DailyTip;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -32,102 +35,73 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Naluem
  */
-@Named(value = "dailyTipdtEditView")
+@Named(value = "dailyTipEditView")
 @ViewScoped
 public class DailyTipEditView implements Serializable {
 
-	/*@ManagedProperty("#{carService}")
-    private CarService service;*/
-	private List<DailyTip> dailyTips;
+    private List<DailyTip> dailyTips;
+    private DailyTip st = new DailyTip();
 
-	@PostConstruct
-	public void init() {
-		/*cars1 = service.createCars(10);
-        cars2 = service.createCars(10);*/
-		dailyTips = new ArrayList<>();
+    @PostConstruct
+    public void init() {
+        dailyTips = new ArrayList<DailyTip>();
+        dailyTips = getDailyTips();
+    }
 
-		DailyTip dailyTip = new DailyTip(1, "Un tip de mierda cada dia");
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-		dailyTips.add(dailyTip);
-	}
+    public List<DailyTip> getDailyTips() {
+        DailyTipClient stc = new DailyTipClient();
+        List<DailyTip> sttmp = stc.findAll(new GenericType<List<DailyTip>>() {
+        });
+        stc.close();
+        return sttmp;
+    }
 
-	/*public void setService(CarService service) {
-        this.service = service;
-    }*/
-	public List<DailyTip> getDailyTips() {
-		return dailyTips;
-	}
+    public void setDailyTips(List<DailyTip> dailyTips) {
+        this.dailyTips = dailyTips;
+    }
 
-	public void setDailyTips(List<DailyTip> dailyTips) {
-		this.dailyTips = dailyTips;
-	}
+    public void onRowEdit(RowEditEvent event) {
+        DailyTipClient stc = new DailyTipClient();
+        stc.edit((DailyTip) event.getObject(), ((DailyTip) event.getObject()).getId().toString());
+        stc.close();
+        FacesMessage msg = new FacesMessage("DailyTipEdited", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onRowEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("DailyTipEdited", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
 
-	public void onCellEdit(CellEditEvent event) {
-		Object oldValue = event.getOldValue();
-		Object newValue = event.getNewValue();
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+    
+    public void delete() {
+        try {
+            DailyTipClient dtc = new DailyTipClient();
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
 
-		if (newValue != null && !newValue.equals(oldValue)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-	}
+            if (idT != null && !"".equals(idT)) {
+                dtc.remove(idT);
+                dailyTips = dtc.findAll(new GenericType<List<DailyTip>>() {
+                });;
+            }
+
+            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(
+                    "llist",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+        }
+
+    }
 
 }
