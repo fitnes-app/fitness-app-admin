@@ -17,7 +17,11 @@
 package com.fitnessapp.views.basicexercise;
 
 import com.fitnessapp.api.client.BasicExerciseClient;
+import com.fitnessapp.api.client.BasicWorkoutClient;
+import com.fitnessapp.api.client.MuscularGroupClient;
 import com.fitnessapp.api.entities.BasicExercise;
+import com.fitnessapp.api.entities.BasicWorkout;
+import com.fitnessapp.api.entities.MuscularGroup;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +30,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
@@ -40,12 +43,59 @@ import org.primefaces.event.RowEditEvent;
 public class BasicExerciseEditView implements Serializable {
 
     private List<BasicExercise> basicExercises;
-    private BasicExercise bw = new BasicExercise();
+    private BasicWorkout bw = new BasicWorkout();
+    private List<BasicWorkout> basicWorkouts;
+    private MuscularGroup mg = new MuscularGroup();
+    private List<MuscularGroup> muscularGroups;
 
     @PostConstruct
     public void init() {
         basicExercises = new ArrayList<BasicExercise>();
         basicExercises = getBasicExercises();
+        basicWorkouts = new ArrayList<BasicWorkout>();
+        basicWorkouts = getBasicWorkouts();
+        muscularGroups = new ArrayList<MuscularGroup>();
+        muscularGroups = getMuscularGroups();
+    }
+
+    public BasicWorkout getBw() {
+        return bw;
+    }
+
+    public void setBw(BasicWorkout bw) {
+        this.bw = bw;
+    }
+
+    public List<BasicWorkout> getBasicWorkouts() {
+        BasicWorkoutClient client = new BasicWorkoutClient();
+        List<BasicWorkout> tmpWorkouts = client.findAll(new GenericType<List<BasicWorkout>>() {
+        });
+        client.close();
+        return tmpWorkouts;
+    }
+
+    public void setBasicWorkouts(List<BasicWorkout> basicWorkouts) {
+        this.basicWorkouts = basicWorkouts;
+    }
+
+    public MuscularGroup getMg() {
+        return mg;
+    }
+
+    public void setMg(MuscularGroup mg) {
+        this.mg = mg;
+    }
+
+    public List<MuscularGroup> getMuscularGroups() {
+        MuscularGroupClient client = new MuscularGroupClient();
+        List<MuscularGroup> tmpGroups = client.findAll(new GenericType<List<MuscularGroup>>() {
+        });
+        client.close();
+        return tmpGroups;
+    }
+
+    public void setMuscularGroups(List<MuscularGroup> muscularGroups) {
+        this.muscularGroups = muscularGroups;
     }
 
     public List<BasicExercise> getBasicExercises() {
@@ -61,10 +111,14 @@ public class BasicExerciseEditView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
+        BasicExercise beT = (BasicExercise) event.getObject();
+        beT.setBasicWorkoutId(bw);
+        beT.setMuscularGroupId(mg);
         BasicExerciseClient bec = new BasicExerciseClient();
-        bec.edit((BasicExercise) event.getObject(), ((BasicExercise) event.getObject()).getId().toString());
+        bec.edit(beT, beT.getId().toString());
         bec.close();
-        FacesMessage msg = new FacesMessage("BasicExerciseEdited", "");
+
+        FacesMessage msg = new FacesMessage("BasicExercise Edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -82,16 +136,16 @@ public class BasicExerciseEditView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-    
+
     public void delete() {
         try {
-            BasicExerciseClient bwc = new BasicExerciseClient();
+            BasicExerciseClient bec = new BasicExerciseClient();
             FacesContext facesContext = FacesContext.getCurrentInstance();
             String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
 
             if (idT != null && !"".equals(idT)) {
-                bwc.remove(idT);
-                basicExercises = bwc.findAll(new GenericType<List<BasicExercise>>() {
+                bec.remove(idT);
+                basicExercises = bec.findAll(new GenericType<List<BasicExercise>>() {
                 });
             }
 

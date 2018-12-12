@@ -17,7 +17,11 @@
 package com.fitnessapp.views.advancedexercise;
 
 import com.fitnessapp.api.client.AdvancedExerciseClient;
+import com.fitnessapp.api.client.AdvancedWorkoutClient;
+import com.fitnessapp.api.client.MuscularGroupClient;
 import com.fitnessapp.api.entities.AdvancedExercise;
+import com.fitnessapp.api.entities.AdvancedWorkout;
+import com.fitnessapp.api.entities.MuscularGroup;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +30,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.ws.rs.core.GenericType;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
@@ -40,12 +43,59 @@ import org.primefaces.event.RowEditEvent;
 public class AdvancedExerciseEditView implements Serializable {
 
     private List<AdvancedExercise> advancedExercises;
-    private AdvancedExercise bw = new AdvancedExercise();
+    private AdvancedWorkout aw = new AdvancedWorkout();
+    private List<AdvancedWorkout> advancedWorkouts;
+    private MuscularGroup mg = new MuscularGroup();
+    private List<MuscularGroup> muscularGroups;
 
     @PostConstruct
     public void init() {
         advancedExercises = new ArrayList<AdvancedExercise>();
         advancedExercises = getAdvancedExercises();
+        advancedWorkouts = new ArrayList<AdvancedWorkout>();
+        advancedWorkouts = getAdvancedWorkouts();
+        muscularGroups = new ArrayList<MuscularGroup>();
+        muscularGroups = getMuscularGroups();
+    }
+
+    public AdvancedWorkout getAw() {
+        return aw;
+    }
+
+    public void setAw(AdvancedWorkout aw) {
+        this.aw = aw;
+    }
+
+    public List<AdvancedWorkout> getAdvancedWorkouts() {
+        AdvancedWorkoutClient client = new AdvancedWorkoutClient();
+        List<AdvancedWorkout> tmpWorkouts = client.findAll(new GenericType<List<AdvancedWorkout>>() {
+        });
+        client.close();
+        return tmpWorkouts;
+    }
+
+    public void setAdvancedWorkouts(List<AdvancedWorkout> advancedWorkouts) {
+        this.advancedWorkouts = advancedWorkouts;
+    }
+
+    public MuscularGroup getMg() {
+        return mg;
+    }
+
+    public void setMg(MuscularGroup mg) {
+        this.mg = mg;
+    }
+
+    public List<MuscularGroup> getMuscularGroups() {
+        MuscularGroupClient client = new MuscularGroupClient();
+        List<MuscularGroup> tmpGroups = client.findAll(new GenericType<List<MuscularGroup>>() {
+        });
+        client.close();
+        return tmpGroups;
+    }
+
+    public void setMuscularGroups(List<MuscularGroup> muscularGroups) {
+        this.muscularGroups = muscularGroups;
     }
 
     public List<AdvancedExercise> getAdvancedExercises() {
@@ -61,10 +111,14 @@ public class AdvancedExerciseEditView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
+        AdvancedExercise aeT = (AdvancedExercise) event.getObject();
+        aeT.setAdvancedWorkoutId(aw);
+        aeT.setMuscularGroupId(mg);
         AdvancedExerciseClient aec = new AdvancedExerciseClient();
-        aec.edit((AdvancedExercise) event.getObject(), ((AdvancedExercise) event.getObject()).getId().toString());
+        aec.edit(aeT, aeT.getId().toString());
         aec.close();
-        FacesMessage msg = new FacesMessage("AdvancedExerciseEdited", "");
+
+        FacesMessage msg = new FacesMessage("AdvancedExercise Edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -82,16 +136,16 @@ public class AdvancedExerciseEditView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-    
+
     public void delete() {
         try {
-            AdvancedExerciseClient bwc = new AdvancedExerciseClient();
+            AdvancedExerciseClient aec = new AdvancedExerciseClient();
             FacesContext facesContext = FacesContext.getCurrentInstance();
             String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
 
             if (idT != null && !"".equals(idT)) {
-                bwc.remove(idT);
-                advancedExercises = bwc.findAll(new GenericType<List<AdvancedExercise>>() {
+                aec.remove(idT);
+                advancedExercises = aec.findAll(new GenericType<List<AdvancedExercise>>() {
                 });
             }
 

@@ -39,8 +39,8 @@
                             <p:outputLabel value="#{basicWorkout.bodyTypeId.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:selectOneMenu value="#{basicWorkout.bodyTypeId.id}" style="width:100%">
-                                <f:selectItem itemValue="1"></f:selectItem>
+                            <p:selectOneMenu value="#{basicWorkoutEditView.bt.id}" style="width:100%">
+                                <f:selectItems value="#{basicWorkoutEditView.bodyTypes}" var="bt" itemValue="#{bt.id}" itemLabel="#{bt.id}"/>
                             </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
@@ -54,7 +54,7 @@
                                      update=":form:msgs" process="@form" >
                         <f:param name="idT" value="#{basicWorkout.id}" />
                     </p:commandButton>
- 
+
                 </p:column>
             </p:dataTable>
         </h:form>

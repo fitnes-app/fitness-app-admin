@@ -17,7 +17,9 @@
 package com.fitnessapp.views.advancedworkout;
 
 import com.fitnessapp.api.client.AdvancedWorkoutClient;
+import com.fitnessapp.api.client.BodyTypeClient;
 import com.fitnessapp.api.entities.AdvancedWorkout;
+import com.fitnessapp.api.entities.BodyType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +37,16 @@ import org.primefaces.event.RowEditEvent;
 public class AdvancedWorkoutEditView implements Serializable {
 
     private List<AdvancedWorkout> advancedWorkouts;
-    private AdvancedWorkout bw = new AdvancedWorkout();
+    private List<BodyType> bodyTypes;
+    private AdvancedWorkout aw = new AdvancedWorkout();
+    private BodyType bt;
 
     @PostConstruct
     public void init() {
         advancedWorkouts = new ArrayList<AdvancedWorkout>();
         advancedWorkouts = getAdvancedWorkouts();
+        bt = new BodyType();
+        bodyTypes = getBodyTypes();
     }
 
     public List<AdvancedWorkout> getAdvancedWorkouts() {
@@ -55,9 +61,31 @@ public class AdvancedWorkoutEditView implements Serializable {
         this.advancedWorkouts = advancedWorkouts;
     }
 
-    public void onRowEdit(RowEditEvent event) {
+    public List<BodyType> getBodyTypes() {
+        BodyTypeClient client = new BodyTypeClient();
+        List<BodyType> tmpTypes = client.findAll(new GenericType<List<BodyType>>() {
+        });
+        client.close();
+        return tmpTypes;
+    }
+
+    public void setBodyTypes(List<BodyType> bodyTypes) {
+        this.bodyTypes = bodyTypes;
+    }
+
+    public BodyType getBt() {
+        return bt;
+    }
+
+    public void setBt(BodyType bt) {
+        this.bt = bt;
+    }
+
+    public void onRowEdit(RowEditEvent event) {        
+        AdvancedWorkout aw = (AdvancedWorkout)event.getObject();;
+        aw.setBodyTypeId(bt);
         AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
-        bwc.edit((AdvancedWorkout) event.getObject(), ((AdvancedWorkout) event.getObject()).getId().toString());
+        bwc.edit(aw, aw.getId().toString());
         bwc.close();
         FacesMessage msg = new FacesMessage("AdvancedWorkoutEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -80,13 +108,13 @@ public class AdvancedWorkoutEditView implements Serializable {
 
     public void delete() {
         try {
-            AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
+            AdvancedWorkoutClient awc = new AdvancedWorkoutClient();
             FacesContext facesContext = FacesContext.getCurrentInstance();
             String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
 
             if (idT != null && !"".equals(idT)) {
-                bwc.remove(idT);
-                advancedWorkouts = bwc.findAll(new GenericType<List<AdvancedWorkout>>() {
+                awc.remove(idT);
+                advancedWorkouts = awc.findAll(new GenericType<List<AdvancedWorkout>>() {
                 });
             }
 

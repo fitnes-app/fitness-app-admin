@@ -16,7 +16,9 @@
  */
 package com.fitnessapp.views.specifictip;
 
+import com.fitnessapp.api.client.MuscularGroupClient;
 import com.fitnessapp.api.client.SpecificTipClient;
+import com.fitnessapp.api.entities.MuscularGroup;
 import com.fitnessapp.views.advancedexercise.*;
 import com.fitnessapp.api.entities.SpecificTip;
 import java.io.Serializable;
@@ -40,12 +42,35 @@ import org.primefaces.event.RowEditEvent;
 public class SpecificTipEditView implements Serializable {
 
     private List<SpecificTip> specificTips;
+    private List<MuscularGroup> muscularGroups;
     private SpecificTip st = new SpecificTip();
+    private MuscularGroup mg = new MuscularGroup();
 
     @PostConstruct
     public void init() {
         specificTips = new ArrayList<SpecificTip>();
         specificTips = getSpecificTips();
+        muscularGroups = getMuscularGroups();
+    }
+
+    public List<MuscularGroup> getMuscularGroups() {
+        MuscularGroupClient client = new MuscularGroupClient();
+        List<MuscularGroup> tmpGroups = client.findAll(new GenericType<List<MuscularGroup>>() {
+        });
+        client.close();
+        return tmpGroups;
+    }
+
+    public void setMuscularGroups(List<MuscularGroup> muscularGroups) {
+        this.muscularGroups = muscularGroups;
+    }
+
+    public MuscularGroup getMg() {
+        return mg;
+    }
+
+    public void setMg(MuscularGroup mg) {
+        this.mg = mg;
     }
 
     public List<SpecificTip> getSpecificTips() {
@@ -62,7 +87,9 @@ public class SpecificTipEditView implements Serializable {
 
     public void onRowEdit(RowEditEvent event) {
         SpecificTipClient stc = new SpecificTipClient();
-        stc.edit((SpecificTip) event.getObject(), ((SpecificTip) event.getObject()).getId().toString());
+        SpecificTip s = (SpecificTip) event.getObject();
+        s.setMuscularGroupId(mg);
+        stc.edit(s, s.getId().toString());
         stc.close();
         FacesMessage msg = new FacesMessage("SpecificTipEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);

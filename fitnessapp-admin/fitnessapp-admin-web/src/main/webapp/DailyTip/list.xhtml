@@ -33,10 +33,10 @@
                 <p:column headerText="Text" sortBy="#{dailyTip.text}">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:inputTextarea value="#{dailyTip.text}" readonly="true" style="color: black; width: 100%;" autoResize="true"/>
+                            <p:inputText value="#{dailyTip.text}" readonly="true" style="color: black; width: 100%"/>
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputTextarea value="#{dailyTip.text}" style="width:100%" autoResize="true"/>
+                            <p:inputText value="#{dailyTip.text}" style="width:100%" label="Name"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>

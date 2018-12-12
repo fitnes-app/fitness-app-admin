@@ -31,17 +31,18 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-
+                
                 <p:column headerText="Exercise Name" sortBy="#{basicExercise.exerciseName}" >
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:outputLabel value="#{basicExercise.exerciseName}" />
+                            <h:outputText value="#{basicExercise.exerciseName}" />
                         </f:facet>
                         <f:facet name="input">
                             <p:inputText value="#{basicExercise.exerciseName}" style="width:100%" label="Exercise Name"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
+                
                 <p:column headerText="Description" sortBy="#{basicExercise.description}">
                     <p:cellEditor>
                         <f:facet name="output">
@@ -52,46 +53,50 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
+                
                 <p:column headerText="Exercise Sets" sortBy="#{basicExercise.exerciseSets}" style="width: 8%;">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:outputLabel value="#{basicExercise.exerciseSets}" />
+                            <h:outputText value="#{basicExercise.exerciseSets}" />
                         </f:facet>
                         <f:facet name="input">
                             <p:inputText value="#{basicExercise.exerciseSets}" style="width:100%" label="Exercise Sets"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column headerText="Repetitions" sortBy="#{basicExercise.repetitions}" style="width: 8%;">
+                
+                <p:column headerText="Repetitions" sortBy="#{basicExercise.repetitions}" style="width: 10%;">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:outputLabel value="#{basicExercise.repetitions}" />
+                            <h:outputText value="#{basicExercise.repetitions}" />
                         </f:facet>
                         <f:facet name="input">
                             <p:inputText value="#{basicExercise.repetitions}" style="width:100%" label="Repetitions"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column headerText="BasicWorkout" sortBy="#{basicExercise.basicWorkoutId.id}" style="width: 8%;">
+                
+                <p:column headerText="basicWorkoutId" style="width: 10%;">
                     <p:cellEditor>
                         <f:facet name="output">
                             <p:outputLabel value="#{basicExercise.basicWorkoutId.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:selectOneMenu value="#{basicExercise.basicWorkoutId.id}" style="width:100%">
-                                <f:selectItem itemValue="1"></f:selectItem>
+                            <p:selectOneMenu value="#{basicExerciseEditView.bw.id}" style="width:100%">
+                                <f:selectItems value="#{basicExerciseEditView.basicWorkouts}" var="bw" itemValue="#{bw.id}" itemLabel="#{bw.id}"/>
                             </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column headerText="Muscular Group" sortBy="#{basicExercise.muscularGroupId.id}" style="width: 8%;">
+                
+                <p:column headerText="MuscularGroupId" style="width: 10%;">
                     <p:cellEditor>
                         <f:facet name="output">
                             <p:outputLabel value="#{basicExercise.muscularGroupId.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:selectOneMenu value="#{basicExercise.muscularGroupId.id}" style="width:100%">
-                                <f:selectItem itemValue="1"></f:selectItem>
+                            <p:selectOneMenu value="#{basicExerciseEditView.mg.id}" style="width:100%">
+                                <f:selectItems value="#{basicExerciseEditView.muscularGroups}" var="mg" itemValue="#{mg.id}" itemLabel="#{mg.id}"/>
                             </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>

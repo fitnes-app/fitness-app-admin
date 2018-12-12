@@ -41,14 +41,14 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="muscularGroupId" style="width: 8%;">
+                <p:column headerText="muscularGroupId" style="width: 15%;">
                     <p:cellEditor>
                         <f:facet name="output">
                             <p:outputLabel value="#{specificTip.muscularGroupId.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:selectOneMenu value="#{specificTip.muscularGroupId.id}" style="width:100%">
-                                <f:selectItem itemValue="1"></f:selectItem>
+                            <p:selectOneMenu value="#{specificTipEditView.mg.id}" style="width:100%">
+                                <f:selectItems value="#{specificTipEditView.muscularGroups}" var="mg" itemValue="#{mg.id}" itemLabel="#{mg.id}"/>
                             </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>

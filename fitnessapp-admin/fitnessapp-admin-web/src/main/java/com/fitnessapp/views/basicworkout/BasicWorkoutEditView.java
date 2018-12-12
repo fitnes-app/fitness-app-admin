@@ -17,7 +17,9 @@
 package com.fitnessapp.views.basicworkout;
 
 import com.fitnessapp.api.client.BasicWorkoutClient;
+import com.fitnessapp.api.client.BodyTypeClient;
 import com.fitnessapp.api.entities.BasicWorkout;
+import com.fitnessapp.api.entities.BodyType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +37,16 @@ import org.primefaces.event.RowEditEvent;
 public class BasicWorkoutEditView implements Serializable {
 
     private List<BasicWorkout> basicWorkouts;
+    private List<BodyType> bodyTypes;
     private BasicWorkout bw = new BasicWorkout();
+    private BodyType bt;
 
     @PostConstruct
     public void init() {
         basicWorkouts = new ArrayList<BasicWorkout>();
         basicWorkouts = getBasicWorkouts();
+        bt = new BodyType();
+        bodyTypes = getBodyTypes();
     }
 
     public List<BasicWorkout> getBasicWorkouts() {
@@ -55,9 +61,31 @@ public class BasicWorkoutEditView implements Serializable {
         this.basicWorkouts = basicWorkouts;
     }
 
-    public void onRowEdit(RowEditEvent event) {
+    public List<BodyType> getBodyTypes() {
+        BodyTypeClient client = new BodyTypeClient();
+        List<BodyType> tmpTypes = client.findAll(new GenericType<List<BodyType>>() {
+        });
+        client.close();
+        return tmpTypes;
+    }
+
+    public void setBodyTypes(List<BodyType> bodyTypes) {
+        this.bodyTypes = bodyTypes;
+    }
+
+    public BodyType getBt() {
+        return bt;
+    }
+
+    public void setBt(BodyType bt) {
+        this.bt = bt;
+    }
+
+    public void onRowEdit(RowEditEvent event) {        
+        BasicWorkout bw = (BasicWorkout)event.getObject();;
+        bw.setBodyTypeId(bt);
         BasicWorkoutClient bwc = new BasicWorkoutClient();
-        bwc.edit((BasicWorkout) event.getObject(), ((BasicWorkout) event.getObject()).getId().toString());
+        bwc.edit(bw, bw.getId().toString());
         bwc.close();
         FacesMessage msg = new FacesMessage("BasicWorkoutEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);

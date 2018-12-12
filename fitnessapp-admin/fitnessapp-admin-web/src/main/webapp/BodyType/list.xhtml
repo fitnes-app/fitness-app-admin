@@ -20,14 +20,19 @@
 
                 <p:ajax event="rowEdit" listener="#{bodyTypeEditView.onRowEdit}" update=":form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{bodyTypeEditView.onRowCancel}" update=":form:msgs" />
+
                 <p:column headerText="Id" sortBy="#{bodyTypes.id}">
                     <h:outputText value="#{bodyType.id}" />
                 </p:column>
-                
+
                 <p:column headerText="Value" sortBy="#{bodyType.bodyTypeValue}">
                     <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{bodyType.bodyTypeValue}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{bodyType.bodyTypeValue}" style="width:100%" label="Name"/></f:facet>
+                        <f:facet name="output">
+                            <h:outputText value="#{bodyType.bodyTypeValue}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{bodyType.bodyTypeValue}" style="width:100%" label="Name"/>
+                        </f:facet>
                     </p:cellEditor>
                 </p:column>
 

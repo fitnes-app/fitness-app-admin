@@ -17,7 +17,6 @@
 package com.fitnessapp.views.dailytip;
 
 import com.fitnessapp.api.client.DailyTipClient;
-import com.fitnessapp.views.advancedexercise.*;
 import com.fitnessapp.api.entities.DailyTip;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,21 +38,19 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class DailyTipEditView implements Serializable {
 
+    private DailyTipClient dtc = new DailyTipClient();
     private List<DailyTip> dailyTips;
-    private DailyTip st = new DailyTip();
+    private DailyTip dt = new DailyTip();
 
     @PostConstruct
     public void init() {
         dailyTips = new ArrayList<DailyTip>();
-        dailyTips = getDailyTips();
+        dailyTips = dtc.findAll(new GenericType<List<DailyTip>>() {
+        });
     }
 
     public List<DailyTip> getDailyTips() {
-        DailyTipClient stc = new DailyTipClient();
-        List<DailyTip> sttmp = stc.findAll(new GenericType<List<DailyTip>>() {
-        });
-        stc.close();
-        return sttmp;
+        return dailyTips;
     }
 
     public void setDailyTips(List<DailyTip> dailyTips) {
@@ -61,9 +58,9 @@ public class DailyTipEditView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
-        DailyTipClient stc = new DailyTipClient();
-        stc.edit((DailyTip) event.getObject(), ((DailyTip) event.getObject()).getId().toString());
-        stc.close();
+        DailyTip dt = (DailyTip)event.getObject();
+        dtc.edit(dt, dt.getId().toString());
+        
         FacesMessage msg = new FacesMessage("DailyTipEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
