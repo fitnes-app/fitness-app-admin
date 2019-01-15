@@ -8,16 +8,7 @@
 		<title>Create SpecificTip</title>
 	</h:head>
 	<h:body>
-		<!--
-
-	private Integer id;
-	private String exerciseName;
-	private String description;
-	private int exerciseSets;
-	private int repetitions;
-	private Integer advancedWorkoutId;
-	private Integer muscularGroupId;
-		-->
+            
         <h3>SpecificTip</h3>
         <h:form>
             <p:panelGrid columns="2" layout="grid">            
@@ -27,10 +18,10 @@
                 <br />
                 <p:outputLabel id="display" />
                 
-                <p:outputLabel value="muscularGroupId" /> 
-                <p:selectOneMenu id="console2" value="#{specificTipCreateView.muscularGroupId}" style="width:125px">
+                <p:outputLabel value="muscularGroup" /> 
+                <p:selectOneMenu id="console2" value="#{specificTipCreateView.muscularGroup.id}" style="width:125px" rendered="true" required="true" requiredMessage="Value for MuscularGroup is mandatory" >
                     <f:selectItem itemLabel="Select One" itemValue="" />
-                    <f:selectItems value="#{specificTipCreateView.mgroupIds}" />
+                    <f:selectItems value="#{specificTipCreateView.muscularGroupOptions}" var="muscularGroup" itemValue="#{muscularGroup.id}" itemLabel="#{muscularGroup.muscularGroupName}" />
                 </p:selectOneMenu>
 
                 <p:commandButton value="#{msg.create}" id="create-button" action="#{specificTipCreateView.save()}" update="growl" style="margin-right:20px;" icon="fa fa-save" />

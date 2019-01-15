@@ -39,8 +39,9 @@
                         <f:facet name="output"><h:outputText value="#{question.survey.description}" /></f:facet>
                         <f:facet name="input">
                             <p:selectOneMenu value="#{questionEditView.survey.id}" style="width:100%">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
                                 <f:selectItems value="#{questionEditView.surveys}" var="survey" itemValue="#{survey.id}" itemLabel="#{survey.description}"/>
-                                <f:param name="idQuestion" value="#{survey}" />
+                                <f:param name="idQuestion" value="#{question.id}" />
                                 <p:ajax event="change" listener="#{questionEditView.recuperarValorCamp}"/>
                             </p:selectOneMenu>
                         </f:facet>
@@ -49,14 +50,7 @@
 
                 <p:column style="width:32px">
                     <p:rowEditor />
-                </p:column>
-                <p:column style="width:40px">
-                    <p:commandButton action="#{questionEditView.eliminarQuestion}"  icon="fa fa-trash"
-                                     update=":form:questions" process="@form" >
-                        <f:param name="idQuestion" value="#{question.id}" />
-                    </p:commandButton>
- 
-                </p:column>          
+                </p:column>        
             </p:dataTable>
         </h:form>
     </h:body>

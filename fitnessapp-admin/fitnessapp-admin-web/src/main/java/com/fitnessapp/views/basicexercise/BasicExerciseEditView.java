@@ -17,13 +17,17 @@
 package com.fitnessapp.views.basicexercise;
 
 import com.fitnessapp.api.client.BasicExerciseClient;
+import com.fitnessapp.api.client.MuscularGroupClient;
 import com.fitnessapp.api.entities.BasicExercise;
+import com.fitnessapp.api.entities.MuscularGroup;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -39,31 +43,72 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class BasicExerciseEditView implements Serializable {
 
-    private List<BasicExercise> basicExercises;
-    private BasicExercise bw = new BasicExercise();
+    private List<BasicExercise> basicExercises = new ArrayList<BasicExercise>();
+    private BasicExercise be = new BasicExercise();
+    private BasicExerciseClient basicExerciseClient = new BasicExerciseClient();
+    
+    private List<MuscularGroup> muscularGroupOptions = new ArrayList<MuscularGroup>();
+    private MuscularGroupClient muscularGroupClient = new MuscularGroupClient();
+    private MuscularGroup muscularGroup = new MuscularGroup();
+    
+    private boolean mgHasChanged=false;
 
     @PostConstruct
     public void init() {
-        basicExercises = new ArrayList<BasicExercise>();
-        basicExercises = getBasicExercises();
+        basicExercises = basicExerciseClient.findAll(new GenericType<List<BasicExercise>>() {
+        });
+        muscularGroupOptions = muscularGroupClient.findAll(new GenericType<List<MuscularGroup>>() {
+        });
     }
 
     public List<BasicExercise> getBasicExercises() {
-        BasicExerciseClient bec = new BasicExerciseClient();
-        List<BasicExercise> basicExtmp = bec.findAll(new GenericType<List<BasicExercise>>() {
-        });
-        bec.close();
-        return basicExtmp;
+        return basicExercises;
     }
 
     public void setBasicExercises(List<BasicExercise> basicExercises) {
         this.basicExercises = basicExercises;
     }
 
+    public BasicExercise getBe() {
+        return be;
+    }
+
+    public void setBe(BasicExercise be) {
+        this.be = be;
+    }
+
+    public List<MuscularGroup> getMuscularGroupOptions() {
+        return muscularGroupOptions;
+    }
+
+    public void setMuscularGroupOptions(List<MuscularGroup> muscularGroupOptions) {
+        this.muscularGroupOptions = muscularGroupOptions;
+    }
+
+    public MuscularGroup getMuscularGroup() {
+        return muscularGroup;
+    }
+
+    public void setMuscularGroup(MuscularGroup muscularGroup) {
+        this.muscularGroup = muscularGroup;
+    }
+
+    public boolean isMgHasChanged() {
+        return mgHasChanged;
+    }
+
+    public void setMgHasChanged(boolean mgHasChanged) {
+        this.mgHasChanged = mgHasChanged;
+    }
+
+
     public void onRowEdit(RowEditEvent event) {
-        BasicExerciseClient bec = new BasicExerciseClient();
-        bec.edit((BasicExercise) event.getObject(), ((BasicExercise) event.getObject()).getId().toString());
-        bec.close();
+        be = (BasicExercise) event.getObject();
+        if(mgHasChanged){
+            be.setMuscularGroupId(muscularGroup);
+        }
+        basicExerciseClient.edit((be), be.getId().toString());
+        
         FacesMessage msg = new FacesMessage("BasicExerciseEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -82,25 +127,40 @@ public class BasicExerciseEditView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-    
-    public void delete() {
-        try {
-            BasicExerciseClient bwc = new BasicExerciseClient();
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
+    public void recuperarValorCamp(AjaxBehaviorEvent e) {
+        //assign new value to localeCode
+        Integer idMG = (Integer) ((UIOutput) e.getSource()).getValue();
+        muscularGroup = muscularGroupClient.find(MuscularGroup.class, idMG.toString());
 
-            if (idT != null && !"".equals(idT)) {
-                bwc.remove(idT);
-                basicExercises = bwc.findAll(new GenericType<List<BasicExercise>>() {
-                });
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        int idExercise = Integer.parseInt(facesContext.getExternalContext().getRequestParameterMap().get("idExercise"));
+
+        for (BasicExercise q : basicExercises) {
+            if (q.getId().equals(idExercise)) {
+                q.setMuscularGroupId(muscularGroup);
+                mgHasChanged = true;
+                break;
             }
-
-            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(
-                    "llist",
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
         }
-
     }
+//    public void delete() {
+//        try {
+//            BasicExerciseClient bwc = new BasicExerciseClient();
+//            FacesContext facesContext = FacesContext.getCurrentInstance();
+//            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
+//
+//            if (idT != null && !"".equals(idT)) {
+//                bwc.remove(idT);
+//                basicExercises = bwc.findAll(new GenericType<List<BasicExercise>>() {
+//                });
+//            }
+//
+//            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+//        } catch (Exception e) {
+//            FacesContext.getCurrentInstance().addMessage(
+//                    "llist",
+//                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+//        }
+//
+//    }
 }

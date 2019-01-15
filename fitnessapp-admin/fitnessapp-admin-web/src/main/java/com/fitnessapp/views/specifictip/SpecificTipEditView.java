@@ -16,7 +16,9 @@
  */
 package com.fitnessapp.views.specifictip;
 
+import com.fitnessapp.api.client.MuscularGroupClient;
 import com.fitnessapp.api.client.SpecificTipClient;
+import com.fitnessapp.api.entities.MuscularGroup;
 import com.fitnessapp.views.advancedexercise.*;
 import com.fitnessapp.api.entities.SpecificTip;
 import java.io.Serializable;
@@ -24,7 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.ws.rs.core.GenericType;
@@ -39,31 +43,72 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class SpecificTipEditView implements Serializable {
 
-    private List<SpecificTip> specificTips;
+    private List<SpecificTip> specificTips = new ArrayList<SpecificTip>();
     private SpecificTip st = new SpecificTip();
+    private SpecificTipClient stc = new SpecificTipClient();
 
+    private List<MuscularGroup> muscularGroupOptions = new ArrayList<MuscularGroup>();
+    private MuscularGroupClient muscularGroupClient = new MuscularGroupClient();
+    private MuscularGroup muscularGroup = new MuscularGroup();
+    
+    private boolean mgHasChanged=false;
+    
     @PostConstruct
     public void init() {
-        specificTips = new ArrayList<SpecificTip>();
-        specificTips = getSpecificTips();
+        specificTips = stc.findAll(new GenericType<List<SpecificTip>>() {
+        });
+        muscularGroupOptions = muscularGroupClient.findAll(new GenericType<List<MuscularGroup>>() {
+        });
     }
 
     public List<SpecificTip> getSpecificTips() {
-        SpecificTipClient stc = new SpecificTipClient();
-        List<SpecificTip> sttmp = stc.findAll(new GenericType<List<SpecificTip>>() {
-        });
-        stc.close();
-        return sttmp;
+        return specificTips;
     }
 
     public void setSpecificTips(List<SpecificTip> specificTips) {
         this.specificTips = specificTips;
     }
 
+    public SpecificTip getSt() {
+        return st;
+    }
+
+    public void setSt(SpecificTip st) {
+        this.st = st;
+    }
+
+    public List<MuscularGroup> getMuscularGroupOptions() {
+        return muscularGroupOptions;
+    }
+
+    public void setMuscularGroupOptions(List<MuscularGroup> muscularGroupOptions) {
+        this.muscularGroupOptions = muscularGroupOptions;
+    }
+
+    public MuscularGroup getMuscularGroup() {
+        return muscularGroup;
+    }
+
+    public void setMuscularGroup(MuscularGroup muscularGroup) {
+        this.muscularGroup = muscularGroup;
+    }
+
+    public boolean isMgHasChanged() {
+        return mgHasChanged;
+    }
+
+    public void setMgHasChanged(boolean mgHasChanged) {
+        this.mgHasChanged = mgHasChanged;
+    }
+
+
     public void onRowEdit(RowEditEvent event) {
-        SpecificTipClient stc = new SpecificTipClient();
-        stc.edit((SpecificTip) event.getObject(), ((SpecificTip) event.getObject()).getId().toString());
-        stc.close();
+        st = (SpecificTip) event.getObject();
+        if (mgHasChanged) {
+            st.setMuscularGroupId(muscularGroup);
+        }
+        stc.edit(st, st.getId().toString());
+        
         FacesMessage msg = new FacesMessage("SpecificTipEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -82,26 +127,41 @@ public class SpecificTipEditView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-    
-    public void delete() {
-        try {
-            SpecificTipClient dtc = new SpecificTipClient();
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
+    public void recuperarValorCamp(AjaxBehaviorEvent e) {
+        //assign new value to localeCode
+        Integer idMuscularGroup = (Integer) ((UIOutput) e.getSource()).getValue();
+        muscularGroup = muscularGroupClient.find(MuscularGroup.class, idMuscularGroup.toString());
 
-            if (idT != null && !"".equals(idT)) {
-                dtc.remove(idT);
-                specificTips = dtc.findAll(new GenericType<List<SpecificTip>>() {
-                });;
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        int idTip = Integer.parseInt(facesContext.getExternalContext().getRequestParameterMap().get("idTip"));
+
+        for (SpecificTip q : specificTips) {
+            if (q.getId().equals(idTip)) {
+                q.setMuscularGroupId(muscularGroup);
+                mgHasChanged = true;
+                break;
             }
-
-            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(
-                    "llist",
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
         }
-
     }
+//    public void delete() {
+//        try {
+//            SpecificTipClient dtc = new SpecificTipClient();
+//            FacesContext facesContext = FacesContext.getCurrentInstance();
+//            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
+//
+//            if (idT != null && !"".equals(idT)) {
+//                dtc.remove(idT);
+//                specificTips = dtc.findAll(new GenericType<List<SpecificTip>>() {
+//                });;
+//            }
+//
+//            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+//        } catch (Exception e) {
+//            FacesContext.getCurrentInstance().addMessage(
+//                    "llist",
+//                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+//        }
+//
+//    }
 
 }

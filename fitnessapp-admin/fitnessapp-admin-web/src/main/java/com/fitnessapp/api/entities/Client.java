@@ -31,8 +31,8 @@ public class Client implements Serializable {
     private String userName;
     private String userPassword;
     private String mail;
-    private BigInteger weight;
-    private BigInteger height;
+    private Float weight;
+    private Float height;
     private String telephone;
     private String address;
     private BodyType bodyTypeId;
@@ -76,19 +76,19 @@ public class Client implements Serializable {
         this.mail = mail;
     }
 
-    public BigInteger getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(BigInteger weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 
-    public BigInteger getHeight() {
+    public Float getHeight() {
         return height;
     }
 
-    public void setHeight(BigInteger height) {
+    public void setHeight(Float height) {
         this.height = height;
     }
 

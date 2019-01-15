@@ -16,6 +16,8 @@ public class BasicWorkout implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
     private BodyType bodyTypeId;
+    private String name;
+    private Integer duration;
 
     public BasicWorkout() {
     }
@@ -23,12 +25,13 @@ public class BasicWorkout implements Serializable {
     public BasicWorkout(Integer id) {
         this.id = id;
     }
-    
-    public BasicWorkout(Integer id, BodyType bodyTypeId) {
-        this.id = id;
-        this.bodyTypeId = bodyTypeId;
-    }
 
+    public BasicWorkout(BodyType bodyTypeId, String name, Integer duration) {
+        this.bodyTypeId = bodyTypeId;
+        this.name = name;
+        this.duration = duration;
+    }
+    
     public Integer getId() {
         return id;
     }
@@ -43,6 +46,22 @@ public class BasicWorkout implements Serializable {
 
     public void setBodyTypeId(BodyType bodyTypeId) {
         this.bodyTypeId = bodyTypeId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     @Override

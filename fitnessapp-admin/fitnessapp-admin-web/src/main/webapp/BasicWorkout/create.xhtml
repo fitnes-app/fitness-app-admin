@@ -9,19 +9,22 @@
     </h:head>
     <h:body>
 
-        <!--
-
-private Integer bodyTypeId;
-
-        -->
         <h3>BasicWorkout</h3>
         <h:form>
             <p:panelGrid columns="2" layout="grid">            
-
-                <p:outputLabel value="bodyTypeId" /> 
-                <p:selectOneMenu id="console2" value="#{basicWorkoutCreateView.bodyTypeId}" style="width:125px">
+                <p:outputLabel value="basicWorkoutName" /> 
+                <p:inputText value="#{basicWorkoutCreateView.basicWorkoutName}" required="true" requiredMessage="Value for basicWorkoutName is mandatory"/>
+                
+                <p:outputLabel value="basicWorkoutDuration" /> 
+                <p:selectOneMenu id="durationPickerBW" value="#{basicWorkoutCreateView.basicWorkoutDuration}" style="width:125px" required="true" requiredMessage="Value for Duration is mandatory">
                     <f:selectItem itemLabel="Select One" itemValue="" />
-                    <f:selectItems value="#{basicWorkoutCreateView.btypeIds}" />
+                    <f:selectItems value="#{basicWorkoutCreateView.durationOptions}" />
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="bodyTypeId" /> 
+                <p:selectOneMenu style="display: block; width: 40% !important" value="#{basicWorkoutCreateView.bodyType.id}" rendered="true" required="true" requiredMessage="Value for BodyType is mandatory">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{basicWorkoutCreateView.bodyTypeOptions}" var="bodyType" itemValue="#{bodyType.id}" itemLabel="#{bodyType.bodyTypeValue}"/>
                 </p:selectOneMenu>
 
                 <p:commandButton value="#{msg.create}" id="create-button" action="#{basicWorkoutCreateView.save()}" update="growl" style="margin-right:20px;" icon="fa fa-save" />

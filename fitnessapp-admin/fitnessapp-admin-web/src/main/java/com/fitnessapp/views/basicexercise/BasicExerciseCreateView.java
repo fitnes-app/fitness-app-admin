@@ -44,26 +44,19 @@ public class BasicExerciseCreateView implements Serializable {
     private String description;
     private int exerciseSets;
     private int repetitions;
-    private Integer basicWorkoutId;
-    private Integer muscularGroupId;
-    //private BasicWorkoutClient bClient = new BasicWorkoutClient();
-    //private MuscularGroupClient mgclient = new MuscularGroupClient();
-    private List<BasicWorkout> workoutIds;
-    private List<MuscularGroup> mgroupIds;
+    private Float kcal;
+    
+    private List<MuscularGroup> muscularGroupOptions = new ArrayList<MuscularGroup>();
+    private MuscularGroupClient muscularGroupClient = new MuscularGroupClient();
+    private MuscularGroup muscularGroup = new MuscularGroup();
 
     private BasicExercise be = new BasicExercise();
-    private List<BasicExercise> btl = new ArrayList<BasicExercise>();
+    private BasicExerciseClient basicExerciseClient = new BasicExerciseClient();
 
     @PostConstruct
     public void init() {
-        BasicWorkoutClient bClient = new BasicWorkoutClient();
-        MuscularGroupClient mgclient = new MuscularGroupClient();
-        workoutIds = bClient.findAll(new GenericType<List<BasicWorkout>>() {
+        muscularGroupOptions = muscularGroupClient.findAll(new GenericType<List<MuscularGroup>>() {
         });
-        mgroupIds = mgclient.findAll(new GenericType<List<MuscularGroup>>() {
-        });
-        bClient.close();
-        mgclient.close();
     }
 
     public String getExerciseName() {
@@ -98,54 +91,46 @@ public class BasicExerciseCreateView implements Serializable {
         this.repetitions = repetitions;
     }
 
-    public Integer getBasicWorkoutId() {
-        return basicWorkoutId;
-    }
+        public Float getKcal() {
+            return kcal;
+        }
 
-    public void setBasicWorkoutId(Integer basicWorkoutId) {
-        this.basicWorkoutId = basicWorkoutId;
-    }
+        public void setKcal(Float kcal) {
+            this.kcal = kcal;
+        }
 
-    public Integer getMuscularGroupId() {
-        return muscularGroupId;
-    }
+        public List<MuscularGroup> getMuscularGroupOptions() {
+            return muscularGroupOptions;
+        }
 
-    public void setMuscularGroupId(Integer muscularGroupId) {
-        this.muscularGroupId = muscularGroupId;
-    }
+        public void setMuscularGroupOptions(List<MuscularGroup> muscularGroupOptions) {
+            this.muscularGroupOptions = muscularGroupOptions;
+        }
 
-    public List<BasicWorkout> getWorkoutIds() {
-        return workoutIds;
-    }
+        public MuscularGroup getMuscularGroup() {
+            return muscularGroup;
+        }
 
-    public void setWorkoutIds(List<BasicWorkout> workoutIds) {
-        this.workoutIds = workoutIds;
-    }
+        public void setMuscularGroup(MuscularGroup muscularGroup) {
+            this.muscularGroup = muscularGroup;
+        }
 
-    public List<MuscularGroup> getMgroupIds() {
-        return mgroupIds;
-    }
+        public BasicExercise getBe() {
+            return be;
+        }
 
-    public void setMgroupIds(List<MuscularGroup> mgroupIds) {
-        this.mgroupIds = mgroupIds;
-    }
-
+        public void setBe(BasicExercise be) {
+            this.be = be;
+        }
+    
     public void save() {
-        BasicWorkoutClient bwc = new BasicWorkoutClient();
-        MuscularGroupClient mgc = new MuscularGroupClient();
-        BasicWorkout bw = bwc.find(BasicWorkout.class, basicWorkoutId.toString());
-        MuscularGroup mg = mgc.find(MuscularGroup.class, muscularGroupId.toString());
-        BasicExercise be = new BasicExercise();
-        be.setBasicWorkoutId(bw);
-        be.setMuscularGroupId(mg);
         be.setExerciseName(exerciseName);
         be.setDescription(description);
         be.setExerciseSets(exerciseSets);
         be.setRepetitions(repetitions);
-        BasicExerciseClient bec = new BasicExerciseClient();
-        bec.create(be);
-        bwc.close();
-        mgc.close();
+        be.setKcal(kcal);
+        be.setMuscularGroupId(muscularGroup);
+        basicExerciseClient.create(be);
         addMessage("Data saved");
     }
 

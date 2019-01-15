@@ -34,46 +34,98 @@ import javax.ws.rs.core.GenericType;
 @ViewScoped
 public class BasicWorkoutCreateView implements Serializable {
 
-    private Integer bodyTypeId;
-    private List<Integer> btypeIds;
+    private String basicWorkoutName;
+    private String basicWorkoutDuration;
+
     private BasicWorkoutClient bwc;
     private BasicWorkout bw = new BasicWorkout();
     private List<BasicWorkout> bwl = new ArrayList<BasicWorkout>();
 
+    private List<BodyType> bodyTypeOptions = new ArrayList<BodyType>();
+    private BodyTypeClient bodyTypeClient = new BodyTypeClient();
+    private BodyType bodyType = new BodyType();
+    
+    private List<String> durationOptions = new ArrayList<String>();
+    
     @PostConstruct
     public void init() {
         bwc = new BasicWorkoutClient();
-        btypeIds = getBtypeIds();
-    }
-
-    public List<Integer> getBtypeIds() {
-        BodyTypeClient bClient = new BodyTypeClient();
-        List<BodyType> tmpBtype = bClient.findAll(new GenericType<List<BodyType>>() {
+        bodyTypeOptions = bodyTypeClient.findAll(new GenericType<List<BodyType>>() {
         });
-        List<Integer> tmpIds = new ArrayList<>();
-        for (BodyType t : tmpBtype) {
-            tmpIds.add(t.getId());
-        }
-        return tmpIds;
+
+        durationOptions.add("5 days");
+        durationOptions.add("3 days");
     }
 
-    public void setBtypeIds(List<Integer> btypeIds) {
-        this.btypeIds = btypeIds;
+    public List<String> getDurationOptions() {
+        return durationOptions;
     }
 
-    public Integer getBodyTypeId() {
-        return bodyTypeId;
+    public void setDurationOptions(List<String> durationOptions) {
+        this.durationOptions = durationOptions;
     }
 
-    public void setBodyTypeId(Integer bodyTypeId) {
-        this.bodyTypeId = bodyTypeId;
+    public List<BodyType> getBodyTypeOptions() {
+        return bodyTypeOptions;
+    }
+
+    public void setBodyTypeOptions(List<BodyType> bodyTypeOptions) {
+        this.bodyTypeOptions = bodyTypeOptions;
+    }
+
+    public BodyType getBodyType() {
+        return bodyType;
+    }
+
+    public void setBodyType(BodyType bodyType) {
+        this.bodyType = bodyType;
+    }
+
+
+    public String getBasicWorkoutName() {
+        return basicWorkoutName;
+    }
+
+    public void setBasicWorkoutName(String basicWorkoutName) {
+        this.basicWorkoutName = basicWorkoutName;
+    }
+
+    public String getBasicWorkoutDuration() {
+        return basicWorkoutDuration;
+    }
+
+    public void setBasicWorkoutDuration(String basicWorkoutDuration) {
+        this.basicWorkoutDuration = basicWorkoutDuration;
+    }
+
+    public BasicWorkout getBw() {
+        return bw;
+    }
+
+    public void setBw(BasicWorkout bw) {
+        this.bw = bw;
+    }
+
+    public List<BasicWorkout> getBwl() {
+        return bwl;
+    }
+
+    public void setBwl(List<BasicWorkout> bwl) {
+        this.bwl = bwl;
     }
 
     public void save() {
-        BodyTypeClient btc = new BodyTypeClient();
-        BodyType bt = btc.find(BodyType.class, bodyTypeId.toString());
+
         BasicWorkout bwf = new BasicWorkout();
-        bwf.setBodyTypeId(bt);
+        if(basicWorkoutDuration.equals("5 days")){
+            bwf.setDuration(5);
+        }else if(basicWorkoutDuration.equals("3 days")){
+            bwf.setDuration(3);
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Duration is mandatory", null));
+        }
+        bwf.setName(basicWorkoutName);
+        bwf.setBodyTypeId(bodyType);
         bwc.create(bwf);
         addMessage("Data saved");
     }

@@ -19,8 +19,8 @@ public class BasicExercise implements Serializable {
 	private String description;
 	private int exerciseSets;
 	private int repetitions;
-	private BasicWorkout basicWorkoutId;
 	private MuscularGroup muscularGroupId;
+        private Float kcal;
 
 	public BasicExercise() {
 	}
@@ -29,13 +29,14 @@ public class BasicExercise implements Serializable {
 		this.id = id;
 	}
 
-	public BasicExercise(Integer id, String exerciseName, int exerciseSets, int repetitions, String description) {
-		this.id = id;
-		this.exerciseName = exerciseName;
-		this.exerciseSets = exerciseSets;
-		this.repetitions = repetitions;
-		this.description = description;
-	}
+        public BasicExercise(String exerciseName, String description, int exerciseSets, int repetitions, MuscularGroup muscularGroupId, float kcal) {
+            this.exerciseName = exerciseName;
+            this.description = description;
+            this.exerciseSets = exerciseSets;
+            this.repetitions = repetitions;
+            this.muscularGroupId = muscularGroupId;
+            this.kcal = kcal;
+        }
 
 	public Integer getId() {
 		return id;
@@ -77,14 +78,6 @@ public class BasicExercise implements Serializable {
 		this.repetitions = repetitions;
 	}
 
-	public BasicWorkout getBasicWorkoutId() {
-		return basicWorkoutId;
-	}
-
-	public void setBasicWorkoutId(BasicWorkout basicWorkoutId) {
-		this.basicWorkoutId = basicWorkoutId;
-	}
-
 	public MuscularGroup getMuscularGroupId() {
 		return muscularGroupId;
 	}
@@ -92,6 +85,14 @@ public class BasicExercise implements Serializable {
 	public void setMuscularGroupId(MuscularGroup muscularGroupId) {
 		this.muscularGroupId = muscularGroupId;
 	}
+
+        public Float getKcal() {
+            return kcal;
+        }
+
+        public void setKcal(Float kcal) {
+            this.kcal = kcal;
+        }
 
 	@Override
 	public int hashCode() {
