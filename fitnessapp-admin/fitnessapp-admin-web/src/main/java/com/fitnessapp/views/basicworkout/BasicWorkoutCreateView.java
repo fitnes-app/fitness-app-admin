@@ -18,8 +18,10 @@ package com.fitnessapp.views.basicworkout;
 
 import com.fitnessapp.api.client.BasicWorkoutClient;
 import com.fitnessapp.api.client.BodyTypeClient;
+import com.fitnessapp.api.client.DailyBasicWorkoutClient;
 import com.fitnessapp.api.entities.BasicWorkout;
 import com.fitnessapp.api.entities.BodyType;
+import com.fitnessapp.api.entities.DailyBasicWorkout;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,14 @@ public class BasicWorkoutCreateView implements Serializable {
     
     private List<String> durationOptions = new ArrayList<String>();
     
+    private DailyBasicWorkout dailyBasicWorkout = new DailyBasicWorkout();
+    private DailyBasicWorkoutClient dailyBasicWorkoutClient = new DailyBasicWorkoutClient();
+
+    private List<Integer> threeDays;
+    private List<Integer> fiveDays;
+
+    private Integer workoutId;
+    
     @PostConstruct
     public void init() {
         bwc = new BasicWorkoutClient();
@@ -55,6 +65,23 @@ public class BasicWorkoutCreateView implements Serializable {
 
         durationOptions.add("5 days");
         durationOptions.add("3 days");
+        
+        threeDays = new ArrayList<Integer>() {
+            {
+                add(1);
+                add(3);
+                add(5);
+            }
+        };
+        fiveDays = new ArrayList<Integer>() {
+            {
+                add(1);
+                add(2);
+                add(3);
+                add(4);
+                add(5);
+            }
+        };
     }
 
     public List<String> getDurationOptions() {
@@ -114,6 +141,38 @@ public class BasicWorkoutCreateView implements Serializable {
         this.bwl = bwl;
     }
 
+    public DailyBasicWorkout getDailyBasicWorkout() {
+        return dailyBasicWorkout;
+    }
+
+    public void setDailyBasicWorkout(DailyBasicWorkout dailyBasicWorkout) {
+        this.dailyBasicWorkout = dailyBasicWorkout;
+    }
+
+    public List<Integer> getThreeDays() {
+        return threeDays;
+    }
+
+    public void setThreeDays(List<Integer> threeDays) {
+        this.threeDays = threeDays;
+    }
+
+    public List<Integer> getFiveDays() {
+        return fiveDays;
+    }
+
+    public void setFiveDays(List<Integer> fiveDays) {
+        this.fiveDays = fiveDays;
+    }
+
+    public Integer getWorkoutId() {
+        return workoutId;
+    }
+
+    public void setWorkoutId(Integer workoutId) {
+        this.workoutId = workoutId;
+    }
+
     public void save() {
 
         BasicWorkout bwf = new BasicWorkout();
@@ -127,6 +186,19 @@ public class BasicWorkoutCreateView implements Serializable {
         bwf.setName(basicWorkoutName);
         bwf.setBodyTypeId(bodyType);
         bwc.create(bwf);
+        
+        bwf = bwc.findByName(BasicWorkout.class, basicWorkoutName);
+        workoutId = bwf.getId();
+        for (int i = 0; i < bwf.getDuration(); i++) {
+            dailyBasicWorkout.setBasicWorkoutId(bwf);
+            if (bwf.getDuration() == 3) {
+                dailyBasicWorkout.setWeek_day(threeDays.get(i));
+            } else if (bwf.getDuration() == 5) {
+                dailyBasicWorkout.setWeek_day(fiveDays.get(i));
+            }
+            dailyBasicWorkoutClient.create(dailyBasicWorkout);
+        }
+        
         addMessage("Data saved");
     }
 

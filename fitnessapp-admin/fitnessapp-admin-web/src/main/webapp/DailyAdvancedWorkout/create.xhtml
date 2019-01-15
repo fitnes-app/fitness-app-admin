@@ -30,9 +30,10 @@
     </h:head>
     <body>
         <h:form>
-            <p:remoteCommand name="myCommand" actionListener="#{dailyAdvancedWorkoutCreateView.getValues()}" update=":mondayPanel :tuesdayPanel :wednesdayPanel :thursdayPanel :fridayPanel"/>
+            <p:remoteCommand name="myCommand" actionListener="#{dailyAdvancedWorkoutCreateView.getValues()}" update=":div1 :div2 :div3 :div4 :div5"/>
         </h:form>
-        <p:panel id="mondayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderMonday}" header="DEFINE: MONDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
+        <p:panel id="div1">
+            <p:panel id="mondayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderMonday}" header="DEFINE: MONDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
             <p:ajax event="toggle"/>
 
             <h:panelGrid columns="2" cellpadding="10">
@@ -41,7 +42,7 @@
 
                     <p:dataTable id="advancedExercises" widgetVar="advancedExercise" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.mondayAdvancedExercises}" style="margin-bottom:20px">
                         <f:facet name="header">
-                            AdvancedExercises
+                            Advanced Exercises
                         </f:facet>
 
                         <p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}" >
@@ -54,14 +55,14 @@
                         <p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId.muscularGroupName}" >
                                     <h:outputText value="#{advancedExercise.muscularGroupId.muscularGroupName}" />
                         </p:column>
-                        <p:column headerText="Exercise Sets" sortBy="#{advancedExercise.exerciseSets}" style="width: 8%;">
+                        <p:column headerText="Sets" sortBy="#{advancedExercise.exerciseSets}">
                                     <h:outputText value="#{advancedExercise.exerciseSets}" />
                         </p:column>
 
-                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}" style="width: 8%;">
+                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
                                     <h:outputText value="#{advancedExercise.repetitions}" />
                         </p:column>
-                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}" style="width: 8%;">
+                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}" >
                                     <h:outputText value="#{advancedExercise.kcal}" />
                         </p:column>
 
@@ -78,7 +79,7 @@
                 </h:form>
             </h:panelGrid>
         </p:panel>
-        <p:dialog header="Add exercises to Monday's workout"  id="addMondayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addMondayExercisesPanel"  width="50%">	
+            <p:dialog header="Add exercises to Monday's workout"  id="addMondayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addMondayExercisesPanel"  width="50%">	
             <h:panelGroup id="contenedorAddMondayExercises">	
                 <h:form id="frmAddMondayExercises">
 		
@@ -101,7 +102,7 @@
                             <f:facet name="header">
                                 Pick from able exercises:
                             </f:facet>
-                            <p:column selectionMode="multiple" style="width:25px;text-align:center"/>
+                            <p:column selectionMode="multiple" style="width: 8%;text-align:center"/>
                             <p:column headerText="Name">
                                 <h:outputText value="#{advancedExercise.exerciseName}" />
                             </p:column>
@@ -124,7 +125,9 @@
                 </h:form>
             </h:panelGroup>
         </p:dialog>
-        <p:panel id="tuesdayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderTuesday}" header="DEFINE: TUESDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
+        </p:panel>
+        <p:panel id="div2">
+            <p:panel id="tuesdayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderTuesday}" header="DEFINE: TUESDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
             <p:ajax event="toggle"/>
 
             <h:panelGrid columns="2" cellpadding="10">
@@ -133,7 +136,7 @@
 
                     <p:dataTable id="advancedExercises" widgetVar="advancedExercise" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.tuesdayAdvancedExercises}" style="margin-bottom:20px">
                         <f:facet name="header">
-                            AdvancedExercises
+                            Advanced Exercises
                         </f:facet>
 
                         <p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}" >
@@ -146,14 +149,14 @@
                         <p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId.muscularGroupName}" >
                             <h:outputText value="#{advancedExercise.muscularGroupId.muscularGroupName}" />
                         </p:column>
-                        <p:column headerText="Exercise Sets" sortBy="#{advancedExercise.exerciseSets}" style="width: 8%;">
+                        <p:column headerText="Sets" sortBy="#{advancedExercise.exerciseSets}">
                             <h:outputText value="#{advancedExercise.exerciseSets}" />
                         </p:column>
 
-                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}" style="width: 8%;">
+                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
                             <h:outputText value="#{advancedExercise.repetitions}" />
                         </p:column>
-                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}" style="width: 8%;">
+                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}">
                             <h:outputText value="#{advancedExercise.kcal}" />
                         </p:column>
 
@@ -170,7 +173,7 @@
                 </h:form>
             </h:panelGrid>
         </p:panel>
-        <p:dialog header="Add exercises to Tuesday's workout"  id="addTuesdayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addTuesdayExercisesPanel"  width="50%">	
+            <p:dialog header="Add exercises to Tuesday's workout"  id="addTuesdayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addTuesdayExercisesPanel"  width="50%">	
             <h:panelGroup id="contenedorAddTuesdayExercises">	
                 <h:form id="frmAddTuesdayExercises">
 
@@ -193,7 +196,7 @@
                             <f:facet name="header">
                                 Pick from able exercises:
                             </f:facet>
-                            <p:column selectionMode="multiple" style="width:25px;text-align:center"/>
+                            <p:column selectionMode="multiple" style="width: 8%;text-align:center"/>
                             <p:column headerText="Name">
                                 <h:outputText value="#{advancedExercise.exerciseName}" />
                             </p:column>
@@ -216,7 +219,9 @@
                 </h:form>
             </h:panelGroup>
         </p:dialog>
-        <p:panel id="wednesdayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderWednesday}" header="DEFINE: WEDNESDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
+        </p:panel>
+        <p:panel id="div3">
+            <p:panel id="wednesdayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderWednesday}" header="DEFINE: WEDNESDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
             <p:ajax event="toggle"/>
 
             <h:panelGrid columns="2" cellpadding="10">
@@ -225,7 +230,7 @@
 
                     <p:dataTable id="advancedExercises" widgetVar="advancedExercise" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.wednesdayAdvancedExercises}" style="margin-bottom:20px">
                         <f:facet name="header">
-                            AdvancedExercises
+                            Advanced Exercises
                         </f:facet>
 
                         <p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}" >
@@ -238,14 +243,14 @@
                         <p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId.muscularGroupName}" >
                             <h:outputText value="#{advancedExercise.muscularGroupId.muscularGroupName}" />
                         </p:column>
-                        <p:column headerText="Exercise Sets" sortBy="#{advancedExercise.exerciseSets}" style="width: 8%;">
+                        <p:column headerText="Sets" sortBy="#{advancedExercise.exerciseSets}">
                             <h:outputText value="#{advancedExercise.exerciseSets}" />
                         </p:column>
 
-                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}" style="width: 8%;">
+                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
                             <h:outputText value="#{advancedExercise.repetitions}" />
                         </p:column>
-                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}" style="width: 8%;">
+                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}">
                             <h:outputText value="#{advancedExercise.kcal}" />
                         </p:column>
 
@@ -262,7 +267,7 @@
                 </h:form>
             </h:panelGrid>
         </p:panel>
-        <p:dialog header="Add exercises to Wednesday's workout"  id="addWednesdayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addWednesdayExercisesPanel"  width="50%">	
+            <p:dialog header="Add exercises to Wednesday's workout"  id="addWednesdayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addWednesdayExercisesPanel"  width="50%">	
             <h:panelGroup id="contenedorAddWednesdayExercises">	
                 <h:form id="frmAddWednesdayExercises">
 
@@ -285,7 +290,7 @@
                             <f:facet name="header">
                                 Pick from able exercises:
                             </f:facet>
-                            <p:column selectionMode="multiple" style="width:25px;text-align:center"/>
+                            <p:column selectionMode="multiple" style="width: 8%;text-align:center"/>
                             <p:column headerText="Name">
                                 <h:outputText value="#{advancedExercise.exerciseName}" />
                             </p:column>
@@ -308,7 +313,9 @@
                 </h:form>
             </h:panelGroup>
         </p:dialog>
-        <p:panel id="thursdayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderThursday}" header="DEFINE: THURSDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
+        </p:panel>
+        <p:panel id="div4">
+            <p:panel id="thursdayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderThursday}" header="DEFINE: THURSDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
             <p:ajax event="toggle"/>
 
             <h:panelGrid columns="2" cellpadding="10">
@@ -317,7 +324,7 @@
 
                     <p:dataTable id="advancedExercises" widgetVar="advancedExercise" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.thursdayAdvancedExercises}" style="margin-bottom:20px">
                         <f:facet name="header">
-                            AdvancedExercises
+                            Advanced Exercises
                         </f:facet>
 
                         <p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}" >
@@ -330,14 +337,14 @@
                         <p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId.muscularGroupName}" >
                             <h:outputText value="#{advancedExercise.muscularGroupId.muscularGroupName}" />
                         </p:column>
-                        <p:column headerText="Exercise Sets" sortBy="#{advancedExercise.exerciseSets}" style="width: 8%;">
+                        <p:column headerText="Sets" sortBy="#{advancedExercise.exerciseSets}">
                             <h:outputText value="#{advancedExercise.exerciseSets}" />
                         </p:column>
 
-                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}" style="width: 8%;">
+                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
                             <h:outputText value="#{advancedExercise.repetitions}" />
                         </p:column>
-                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}" style="width: 8%;">
+                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}">
                             <h:outputText value="#{advancedExercise.kcal}" />
                         </p:column>
 
@@ -354,7 +361,7 @@
                 </h:form>
             </h:panelGrid>
         </p:panel>
-        <p:dialog header="Add exercises to Thursday's workout"  id="addThursdayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addThursdayExercisesPanel"  width="50%">	
+            <p:dialog header="Add exercises to Thursday's workout"  id="addThursdayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addThursdayExercisesPanel"  width="50%">	
             <h:panelGroup id="contenedorAddThursdayExercises">	
                 <h:form id="frmAddThursdayExercises">
 
@@ -377,7 +384,7 @@
                             <f:facet name="header">
                                 Pick from able exercises:
                             </f:facet>
-                            <p:column selectionMode="multiple" style="width:25px;text-align:center"/>
+                            <p:column selectionMode="multiple" style="width: 8%;text-align:center"/>
                             <p:column headerText="Name">
                                 <h:outputText value="#{advancedExercise.exerciseName}" />
                             </p:column>
@@ -400,7 +407,9 @@
                 </h:form>
             </h:panelGroup>
         </p:dialog>
-        <p:panel id="fridayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderFriday}" header="DEFINE: FRIDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
+        </p:panel>
+        <p:panel id="div5">
+            <p:panel id="fridayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderFriday}" header="DEFINE: FRIDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
             <p:ajax event="toggle"/>
 
             <h:panelGrid columns="2" cellpadding="10">
@@ -409,7 +418,7 @@
 
                     <p:dataTable id="advancedExercises" widgetVar="advancedExercise" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.fridayAdvancedExercises}" style="margin-bottom:20px">
                         <f:facet name="header">
-                            AdvancedExercises
+                            Advanced Exercises
                         </f:facet>
 
                         <p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}" >
@@ -422,14 +431,14 @@
                         <p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId.muscularGroupName}" >
                             <h:outputText value="#{advancedExercise.muscularGroupId.muscularGroupName}" />
                         </p:column>
-                        <p:column headerText="Exercise Sets" sortBy="#{advancedExercise.exerciseSets}" style="width: 8%;">
+                        <p:column headerText="Sets" sortBy="#{advancedExercise.exerciseSets}">
                             <h:outputText value="#{advancedExercise.exerciseSets}" />
                         </p:column>
 
-                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}" style="width: 8%;">
+                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
                             <h:outputText value="#{advancedExercise.repetitions}" />
                         </p:column>
-                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}" style="width: 8%;">
+                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}">
                             <h:outputText value="#{advancedExercise.kcal}" />
                         </p:column>
 
@@ -446,7 +455,7 @@
                 </h:form>
             </h:panelGrid>
         </p:panel>
-        <p:dialog header="Add exercises to Friday's workout"  id="addFridayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addFridayExercisesPanel"  width="50%">	
+            <p:dialog header="Add exercises to Friday's workout"  id="addFridayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addFridayExercisesPanel"  width="50%">	
             <h:panelGroup id="contenedorAddFridayExercises">	
                 <h:form id="frmAddFridayExercises">
 
@@ -469,7 +478,7 @@
                             <f:facet name="header">
                                 Pick from able exercises:
                             </f:facet>
-                            <p:column selectionMode="multiple" style="width:25px;text-align:center"/>
+                            <p:column selectionMode="multiple" style="width: 8%;text-align:center"/>
                             <p:column headerText="Name">
                                 <h:outputText value="#{advancedExercise.exerciseName}" />
                             </p:column>
@@ -492,6 +501,7 @@
                 </h:form>
             </h:panelGroup>
         </p:dialog>
+        </p:panel>
         <h:form>
             <p:commandButton value="CREATE" action="#{dailyAdvancedWorkoutCreateView.create()}"/>
         </h:form>
