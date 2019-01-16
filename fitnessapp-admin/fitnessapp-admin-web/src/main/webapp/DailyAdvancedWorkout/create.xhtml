@@ -1,0 +1,510 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="/css/default.css"/>
+        <h:outputStylesheet name="/css/cssLayout.css"/>
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
+        <!-- Bootstrap -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <title>Fit4You</title>
+        <style>
+            .companyHeaderGrid.ui-panelgrid>*>tr,
+            .companyHeaderGrid.ui-panelgrid .ui-panelgrid-cell {
+                border: none;
+            }
+        </style>
+    </h:head>
+    <body>
+        <h:form>
+            <p:remoteCommand name="myCommand" actionListener="#{dailyAdvancedWorkoutCreateView.getValues()}" update=":div1 :div2 :div3 :div4 :div5"/>
+        </h:form>
+        <p:panel id="div1">
+            <p:panel id="mondayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderMonday}" header="DEFINE: MONDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
+            <p:ajax event="toggle"/>
+
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:form id="formDayOne">
+                    <p:growl id="msgs" showDetail="true"/>
+
+                    <p:dataTable id="advancedExercises" widgetVar="advancedExercise" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.mondayAdvancedExercises}" style="margin-bottom:20px">
+                        <f:facet name="header">
+                            Advanced Exercises
+                        </f:facet>
+
+                        <p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}" >
+                                    <h:outputText value="#{advancedExercise.exerciseName}" />
+                        </p:column>
+                        <p:column headerText="Description" sortBy="#{advancedExercise.description}">
+                                    <h:outputText value="#{advancedExercise.description}" />
+                        </p:column>
+
+                        <p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId.muscularGroupName}" >
+                                    <h:outputText value="#{advancedExercise.muscularGroupId.muscularGroupName}" />
+                        </p:column>
+                        <p:column headerText="Sets" sortBy="#{advancedExercise.exerciseSets}">
+                                    <h:outputText value="#{advancedExercise.exerciseSets}" />
+                        </p:column>
+
+                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
+                                    <h:outputText value="#{advancedExercise.repetitions}" />
+                        </p:column>
+                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}" >
+                                    <h:outputText value="#{advancedExercise.kcal}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <h:panelGrid columns="1"  styleClass="alignmentRight" >
+                        <p:commandButton value="Add Exercises"
+                                         action="#{dailyAdvancedWorkoutCreateView.loadFilterOptions()}"
+                                         oncomplete="PF('addMondayExercisesPanel').show(); return false;"							
+                                         update="frmAddMondayExercises contenedorAddMondayExercises" 
+                                         />
+
+
+                    </h:panelGrid> 
+                </h:form>
+            </h:panelGrid>
+        </p:panel>
+            <p:dialog header="Add exercises to Monday's workout"  id="addMondayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addMondayExercisesPanel"  width="50%">	
+            <h:panelGroup id="contenedorAddMondayExercises">	
+                <h:form id="frmAddMondayExercises">
+		
+                    <p:panelGrid styleClass="companyHeaderGrid" columns="2" style="width: 100%">
+
+                        <p:outputLabel for="filterMonday" value="Filter by Muscular Group"/>				
+
+                        <p:selectOneMenu id="filterMonday" value="#{dailyAdvancedWorkoutCreateView.muscularGroup.id}"  rendered="true" style="float:right">
+                            <f:selectItem noSelectionOption="true" itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{dailyAdvancedWorkoutCreateView.muscularGroupOptions}" var="muscularGroup" itemValue="#{muscularGroup.id}" itemLabel="#{muscularGroup.muscularGroupName}"/>
+                            <f:param name="idMuscularGroup" value="#{muscularGroup.id}" />
+                            <p:ajax event="change" update="mondayAbleExercises" listener="#{dailyAdvancedWorkoutCreateView.recuperarValorCampMonday}"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    
+                    <p:panelGrid columns="1" style="width: 100%">
+                        <p:dataTable id="mondayAbleExercises" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.mondayAbleExercises}" 
+                                     selection="#{dailyAdvancedWorkoutCreateView.mondaySelectedExercises}" rowKey="#{advancedExercise.id}" style="margin-bottom:0">
+                            <f:facet name="header">
+                                Pick from able exercises:
+                            </f:facet>
+                            <p:column selectionMode="multiple" style="width: 8%;text-align:center"/>
+                            <p:column headerText="Name">
+                                <h:outputText value="#{advancedExercise.exerciseName}" />
+                            </p:column>
+                            <p:column headerText="Sets">
+                                <h:outputText value="#{advancedExercise.exerciseSets}" />
+                            </p:column>
+                            <p:column headerText="Repetitions">
+                                <h:outputText value="#{advancedExercise.repetitions}" />
+                            </p:column>
+                            <p:column headerText="Kcal">
+                                <h:outputText value="#{advancedExercise.kcal}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Add" action="#{dailyAdvancedWorkoutCreateView.addMondayExercises()}" process="mondayAbleExercises" update=":addMondayExercisesPanel :formDayOne:advancedExercises :frmAddMondayExercises:mondayAbleExercises :frmAddMondayExercises:filterMonday ">
+                                </p:commandButton>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panelGrid>
+                    
+                </h:form>
+            </h:panelGroup>
+        </p:dialog>
+        </p:panel>
+        <p:panel id="div2">
+            <p:panel id="tuesdayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderTuesday}" header="DEFINE: TUESDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
+            <p:ajax event="toggle"/>
+
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:form id="formDayTwo">
+                    <p:growl id="msgs" showDetail="true"/>
+
+                    <p:dataTable id="advancedExercises" widgetVar="advancedExercise" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.tuesdayAdvancedExercises}" style="margin-bottom:20px">
+                        <f:facet name="header">
+                            Advanced Exercises
+                        </f:facet>
+
+                        <p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}" >
+                            <h:outputText value="#{advancedExercise.exerciseName}" />
+                        </p:column>
+                        <p:column headerText="Description" sortBy="#{advancedExercise.description}">
+                            <h:outputText value="#{advancedExercise.description}" />
+                        </p:column>
+
+                        <p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId.muscularGroupName}" >
+                            <h:outputText value="#{advancedExercise.muscularGroupId.muscularGroupName}" />
+                        </p:column>
+                        <p:column headerText="Sets" sortBy="#{advancedExercise.exerciseSets}">
+                            <h:outputText value="#{advancedExercise.exerciseSets}" />
+                        </p:column>
+
+                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
+                            <h:outputText value="#{advancedExercise.repetitions}" />
+                        </p:column>
+                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}">
+                            <h:outputText value="#{advancedExercise.kcal}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <h:panelGrid columns="1"  styleClass="alignmentRight" >
+                        <p:commandButton value="Add Exercises"
+                                         action="#{dailyAdvancedWorkoutCreateView.loadFilterOptions()}"
+                                         oncomplete="PF('addTuesdayExercisesPanel').show(); return false;"							
+                                         update="frmAddTuesdayExercises contenedorAddTuesdayExercises" 
+                                         />
+
+
+                    </h:panelGrid> 
+                </h:form>
+            </h:panelGrid>
+        </p:panel>
+            <p:dialog header="Add exercises to Tuesday's workout"  id="addTuesdayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addTuesdayExercisesPanel"  width="50%">	
+            <h:panelGroup id="contenedorAddTuesdayExercises">	
+                <h:form id="frmAddTuesdayExercises">
+
+                    <p:panelGrid styleClass="companyHeaderGrid" columns="2" style="width: 100%">
+
+                        <p:outputLabel for="filterTuesday" value="Filter by Muscular Group"/>				
+
+                        <p:selectOneMenu id="filterTuesday" value="#{dailyAdvancedWorkoutCreateView.muscularGroup.id}"  rendered="true" style="float:right">
+                            <f:selectItem noSelectionOption="true" itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{dailyAdvancedWorkoutCreateView.muscularGroupOptions}" var="muscularGroup" itemValue="#{muscularGroup.id}" itemLabel="#{muscularGroup.muscularGroupName}"/>
+                            <f:param name="idMuscularGroup" value="#{muscularGroup.id}" />
+                            <p:ajax event="change" update="tuesdayAbleExercises" listener="#{dailyAdvancedWorkoutCreateView.recuperarValorCampTuesday}"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="1" style="width: 100%">
+                        <p:dataTable id="tuesdayAbleExercises" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.tuesdayAbleExercises}" 
+                                     selection="#{dailyAdvancedWorkoutCreateView.tuesdaySelectedExercises}" rowKey="#{advancedExercise.id}" style="margin-bottom:0">
+                            <f:facet name="header">
+                                Pick from able exercises:
+                            </f:facet>
+                            <p:column selectionMode="multiple" style="width: 8%;text-align:center"/>
+                            <p:column headerText="Name">
+                                <h:outputText value="#{advancedExercise.exerciseName}" />
+                            </p:column>
+                            <p:column headerText="Sets">
+                                <h:outputText value="#{advancedExercise.exerciseSets}" />
+                            </p:column>
+                            <p:column headerText="Repetitions">
+                                <h:outputText value="#{advancedExercise.repetitions}" />
+                            </p:column>
+                            <p:column headerText="Kcal">
+                                <h:outputText value="#{advancedExercise.kcal}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Add" action="#{dailyAdvancedWorkoutCreateView.addTuesdayExercises()}" process="tuesdayAbleExercises" update=":addTuesdayExercisesPanel :formDayTwo:advancedExercises :frmAddTuesdayExercises:tuesdayAbleExercises :frmAddTuesdayExercises:filterTuesday ">
+                                </p:commandButton>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panelGrid>
+
+                </h:form>
+            </h:panelGroup>
+        </p:dialog>
+        </p:panel>
+        <p:panel id="div3">
+            <p:panel id="wednesdayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderWednesday}" header="DEFINE: WEDNESDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
+            <p:ajax event="toggle"/>
+
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:form id="formDayThree">
+                    <p:growl id="msgs" showDetail="true"/>
+
+                    <p:dataTable id="advancedExercises" widgetVar="advancedExercise" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.wednesdayAdvancedExercises}" style="margin-bottom:20px">
+                        <f:facet name="header">
+                            Advanced Exercises
+                        </f:facet>
+
+                        <p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}" >
+                            <h:outputText value="#{advancedExercise.exerciseName}" />
+                        </p:column>
+                        <p:column headerText="Description" sortBy="#{advancedExercise.description}">
+                            <h:outputText value="#{advancedExercise.description}" />
+                        </p:column>
+
+                        <p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId.muscularGroupName}" >
+                            <h:outputText value="#{advancedExercise.muscularGroupId.muscularGroupName}" />
+                        </p:column>
+                        <p:column headerText="Sets" sortBy="#{advancedExercise.exerciseSets}">
+                            <h:outputText value="#{advancedExercise.exerciseSets}" />
+                        </p:column>
+
+                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
+                            <h:outputText value="#{advancedExercise.repetitions}" />
+                        </p:column>
+                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}">
+                            <h:outputText value="#{advancedExercise.kcal}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <h:panelGrid columns="1"  styleClass="alignmentRight" >
+                        <p:commandButton value="Add Exercises"
+                                         action="#{dailyAdvancedWorkoutCreateView.loadFilterOptions()}"
+                                         oncomplete="PF('addWednesdayExercisesPanel').show(); return false;"							
+                                         update="frmAddWednesdayExercises contenedorAddWednesdayExercises" 
+                                         />
+
+
+                    </h:panelGrid> 
+                </h:form>
+            </h:panelGrid>
+        </p:panel>
+            <p:dialog header="Add exercises to Wednesday's workout"  id="addWednesdayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addWednesdayExercisesPanel"  width="50%">	
+            <h:panelGroup id="contenedorAddWednesdayExercises">	
+                <h:form id="frmAddWednesdayExercises">
+
+                    <p:panelGrid styleClass="companyHeaderGrid" columns="2" style="width: 100%">
+
+                        <p:outputLabel for="filterWednesday" value="Filter by Muscular Group"/>				
+
+                        <p:selectOneMenu id="filterWednesday" value="#{dailyAdvancedWorkoutCreateView.muscularGroup.id}"  rendered="true" style="float:right">
+                            <f:selectItem noSelectionOption="true" itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{dailyAdvancedWorkoutCreateView.muscularGroupOptions}" var="muscularGroup" itemValue="#{muscularGroup.id}" itemLabel="#{muscularGroup.muscularGroupName}"/>
+                            <f:param name="idMuscularGroup" value="#{muscularGroup.id}" />
+                            <p:ajax event="change" update="wednesdayAbleExercises" listener="#{dailyAdvancedWorkoutCreateView.recuperarValorCampWednesday}"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="1" style="width: 100%">
+                        <p:dataTable id="wednesdayAbleExercises" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.wednesdayAbleExercises}" 
+                                     selection="#{dailyAdvancedWorkoutCreateView.wednesdaySelectedExercises}" rowKey="#{advancedExercise.id}" style="margin-bottom:0">
+                            <f:facet name="header">
+                                Pick from able exercises:
+                            </f:facet>
+                            <p:column selectionMode="multiple" style="width: 8%;text-align:center"/>
+                            <p:column headerText="Name">
+                                <h:outputText value="#{advancedExercise.exerciseName}" />
+                            </p:column>
+                            <p:column headerText="Sets">
+                                <h:outputText value="#{advancedExercise.exerciseSets}" />
+                            </p:column>
+                            <p:column headerText="Repetitions">
+                                <h:outputText value="#{advancedExercise.repetitions}" />
+                            </p:column>
+                            <p:column headerText="Kcal">
+                                <h:outputText value="#{advancedExercise.kcal}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Add" action="#{dailyAdvancedWorkoutCreateView.addWednesdayExercises()}" process="wednesdayAbleExercises" update=":addWednesdayExercisesPanel :formDayThree:advancedExercises :frmAddWednesdayExercises:wednesdayAbleExercises :frmAddWednesdayExercises:filterWednesday">
+                                </p:commandButton>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panelGrid>
+
+                </h:form>
+            </h:panelGroup>
+        </p:dialog>
+        </p:panel>
+        <p:panel id="div4">
+            <p:panel id="thursdayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderThursday}" header="DEFINE: THURSDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
+            <p:ajax event="toggle"/>
+
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:form id="formDayFour">
+                    <p:growl id="msgs" showDetail="true"/>
+
+                    <p:dataTable id="advancedExercises" widgetVar="advancedExercise" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.thursdayAdvancedExercises}" style="margin-bottom:20px">
+                        <f:facet name="header">
+                            Advanced Exercises
+                        </f:facet>
+
+                        <p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}" >
+                            <h:outputText value="#{advancedExercise.exerciseName}" />
+                        </p:column>
+                        <p:column headerText="Description" sortBy="#{advancedExercise.description}">
+                            <h:outputText value="#{advancedExercise.description}" />
+                        </p:column>
+
+                        <p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId.muscularGroupName}" >
+                            <h:outputText value="#{advancedExercise.muscularGroupId.muscularGroupName}" />
+                        </p:column>
+                        <p:column headerText="Sets" sortBy="#{advancedExercise.exerciseSets}">
+                            <h:outputText value="#{advancedExercise.exerciseSets}" />
+                        </p:column>
+
+                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
+                            <h:outputText value="#{advancedExercise.repetitions}" />
+                        </p:column>
+                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}">
+                            <h:outputText value="#{advancedExercise.kcal}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <h:panelGrid columns="1"  styleClass="alignmentRight" >
+                        <p:commandButton value="Add Exercises"
+                                         action="#{dailyAdvancedWorkoutCreateView.loadFilterOptions()}"
+                                         oncomplete="PF('addThursdayExercisesPanel').show(); return false;"							
+                                         update="frmAddThursdayExercises contenedorAddThursdayExercises" 
+                                         />
+
+
+                    </h:panelGrid> 
+                </h:form>
+            </h:panelGrid>
+        </p:panel>
+            <p:dialog header="Add exercises to Thursday's workout"  id="addThursdayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addThursdayExercisesPanel"  width="50%">	
+            <h:panelGroup id="contenedorAddThursdayExercises">	
+                <h:form id="frmAddThursdayExercises">
+
+                    <p:panelGrid styleClass="companyHeaderGrid" columns="2" style="width: 100%">
+
+                        <p:outputLabel for="filterThursday" value="Filter by Muscular Group"/>				
+
+                        <p:selectOneMenu id="filterThursday" value="#{dailyAdvancedWorkoutCreateView.muscularGroup.id}"  rendered="true" style="float:right">
+                            <f:selectItem noSelectionOption="true" itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{dailyAdvancedWorkoutCreateView.muscularGroupOptions}" var="muscularGroup" itemValue="#{muscularGroup.id}" itemLabel="#{muscularGroup.muscularGroupName}"/>
+                            <f:param name="idMuscularGroup" value="#{muscularGroup.id}" />
+                            <p:ajax event="change" update="thursdayAbleExercises" listener="#{dailyAdvancedWorkoutCreateView.recuperarValorCampThursday}"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="1" style="width: 100%">
+                        <p:dataTable id="thursdayAbleExercises" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.thursdayAbleExercises}" 
+                                     selection="#{dailyAdvancedWorkoutCreateView.thursdaySelectedExercises}" rowKey="#{advancedExercise.id}" style="margin-bottom:0">
+                            <f:facet name="header">
+                                Pick from able exercises:
+                            </f:facet>
+                            <p:column selectionMode="multiple" style="width: 8%;text-align:center"/>
+                            <p:column headerText="Name">
+                                <h:outputText value="#{advancedExercise.exerciseName}" />
+                            </p:column>
+                            <p:column headerText="Sets">
+                                <h:outputText value="#{advancedExercise.exerciseSets}" />
+                            </p:column>
+                            <p:column headerText="Repetitions">
+                                <h:outputText value="#{advancedExercise.repetitions}" />
+                            </p:column>
+                            <p:column headerText="Kcal">
+                                <h:outputText value="#{advancedExercise.kcal}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Add" action="#{dailyAdvancedWorkoutCreateView.addThursdayExercises()}" process="thursdayAbleExercises" update=":addThursdayExercisesPanel :formDayFour:advancedExercises :frmAddThursdayExercises:thursdayAbleExercises :frmAddThursdayExercises:filterThursday">
+                                </p:commandButton>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panelGrid>
+
+                </h:form>
+            </h:panelGroup>
+        </p:dialog>
+        </p:panel>
+        <p:panel id="div5">
+            <p:panel id="fridayPanel" rendered="#{dailyAdvancedWorkoutCreateView.renderFriday}" header="DEFINE: FRIDAY'S DAILY WORKOUT" collapsed="true" toggleable="true" toggleSpeed="500" closeSpeed="500"  style="margin-bottom:20px">
+            <p:ajax event="toggle"/>
+
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:form id="formDayFive">
+                    <p:growl id="msgs" showDetail="true"/>
+
+                    <p:dataTable id="advancedExercises" widgetVar="advancedExercise" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.fridayAdvancedExercises}" style="margin-bottom:20px">
+                        <f:facet name="header">
+                            Advanced Exercises
+                        </f:facet>
+
+                        <p:column headerText="Exercise Name" sortBy="#{advancedExercise.exerciseName}" >
+                            <h:outputText value="#{advancedExercise.exerciseName}" />
+                        </p:column>
+                        <p:column headerText="Description" sortBy="#{advancedExercise.description}">
+                            <h:outputText value="#{advancedExercise.description}" />
+                        </p:column>
+
+                        <p:column headerText="Muscular Group" sortBy="#{advancedExercise.muscularGroupId.muscularGroupName}" >
+                            <h:outputText value="#{advancedExercise.muscularGroupId.muscularGroupName}" />
+                        </p:column>
+                        <p:column headerText="Sets" sortBy="#{advancedExercise.exerciseSets}">
+                            <h:outputText value="#{advancedExercise.exerciseSets}" />
+                        </p:column>
+
+                        <p:column headerText="Repetitions" sortBy="#{advancedExercise.repetitions}">
+                            <h:outputText value="#{advancedExercise.repetitions}" />
+                        </p:column>
+                        <p:column headerText="Kcal" sortBy="#{advancedExercise.kcal}">
+                            <h:outputText value="#{advancedExercise.kcal}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <h:panelGrid columns="1"  styleClass="alignmentRight" >
+                        <p:commandButton value="Add Exercises"
+                                         action="#{dailyAdvancedWorkoutCreateView.loadFilterOptions()}"
+                                         oncomplete="PF('addFridayExercisesPanel').show(); return false;"							
+                                         update="frmAddFridayExercises contenedorAddFridayExercises" 
+                                         />
+
+
+                    </h:panelGrid> 
+                </h:form>
+            </h:panelGrid>
+        </p:panel>
+            <p:dialog header="Add exercises to Friday's workout"  id="addFridayExercisesPanel" closable="true"   modal="true" appendTo="@(body)"  resizable="false"  widgetVar="addFridayExercisesPanel"  width="50%">	
+            <h:panelGroup id="contenedorAddFridayExercises">	
+                <h:form id="frmAddFridayExercises">
+
+                    <p:panelGrid styleClass="companyHeaderGrid" columns="2" style="width: 100%">
+
+                        <p:outputLabel for="filterFriday" value="Filter by Muscular Group"/>				
+
+                        <p:selectOneMenu id="filterFriday" value="#{dailyAdvancedWorkoutCreateView.muscularGroup.id}"  rendered="true" style="float:right">
+                            <f:selectItem noSelectionOption="true" itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{dailyAdvancedWorkoutCreateView.muscularGroupOptions}" var="muscularGroup" itemValue="#{muscularGroup.id}" itemLabel="#{muscularGroup.muscularGroupName}"/>
+                            <f:param name="idMuscularGroup" value="#{muscularGroup.id}" />
+                            <p:ajax event="change" update="fridayAbleExercises" listener="#{dailyAdvancedWorkoutCreateView.recuperarValorCampFriday}"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="1" style="width: 100%">
+                        <p:dataTable id="fridayAbleExercises" var="advancedExercise" value="#{dailyAdvancedWorkoutCreateView.fridayAbleExercises}" 
+                                     selection="#{dailyAdvancedWorkoutCreateView.fridaySelectedExercises}" rowKey="#{advancedExercise.id}" style="margin-bottom:0">
+                            <f:facet name="header">
+                                Pick from able exercises:
+                            </f:facet>
+                            <p:column selectionMode="multiple" style="width: 8%;text-align:center"/>
+                            <p:column headerText="Name">
+                                <h:outputText value="#{advancedExercise.exerciseName}" />
+                            </p:column>
+                            <p:column headerText="Sets">
+                                <h:outputText value="#{advancedExercise.exerciseSets}" />
+                            </p:column>
+                            <p:column headerText="Repetitions">
+                                <h:outputText value="#{advancedExercise.repetitions}" />
+                            </p:column>
+                            <p:column headerText="Kcal">
+                                <h:outputText value="#{advancedExercise.kcal}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Add" action="#{dailyAdvancedWorkoutCreateView.addFridayExercises()}" process="fridayAbleExercises" update=":addFridayExercisesPanel :formDayFive:advancedExercises :frmAddFridayExercises:fridayAbleExercises :frmAddFridayExercises:filterFriday">
+                                </p:commandButton>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panelGrid>
+
+                </h:form>
+            </h:panelGroup>
+        </p:dialog>
+        </p:panel>
+        <h:form>
+            <p:commandButton value="CREATE" action="#{dailyAdvancedWorkoutCreateView.create()}"/>
+        </h:form>
+    </body>
+</html>
+

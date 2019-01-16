@@ -93,5 +93,9 @@ public class BasicWorkoutClient {
         //webTarget.register(new org.glassfish.jersey.client.filter.HttpBasicAuthFilter(username, password));
         client.register(new Authenticator(username, password));
     }
-
+    public <T> T findByName(Class<T> responseType, String id) {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("findByName/{0}", new Object[]{id}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
 }

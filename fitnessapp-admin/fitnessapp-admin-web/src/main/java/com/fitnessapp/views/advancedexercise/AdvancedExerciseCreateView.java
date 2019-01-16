@@ -44,21 +44,18 @@ public class AdvancedExerciseCreateView implements Serializable {
     private String description;
     private int exerciseSets;
     private int repetitions;
-    private Integer advancedWorkoutId;
-    private Integer muscularGroupId;
-    private AdvancedWorkoutClient aClient = new AdvancedWorkoutClient();
-    private MuscularGroupClient mgclient = new MuscularGroupClient();
-    private List<AdvancedWorkout> workoutIds;
-    private List<MuscularGroup> mgroupIds;
+    private Float kcal;
 
-    private AdvancedExercise be = new AdvancedExercise();
-    private List<AdvancedExercise> btl = new ArrayList<AdvancedExercise>();
+    private List<MuscularGroup> muscularGroupOptions = new ArrayList<MuscularGroup>();
+    private MuscularGroupClient muscularGroupClient = new MuscularGroupClient();
+    private MuscularGroup muscularGroup = new MuscularGroup();
+
+    private AdvancedExercise ae = new AdvancedExercise();
+    private AdvancedExerciseClient advancedExerciseClient = new AdvancedExerciseClient();
 
     @PostConstruct
     public void init() {
-        workoutIds = aClient.findAll(new GenericType<List<AdvancedWorkout>>() {
-        });
-        mgroupIds = mgclient.findAll(new GenericType<List<MuscularGroup>>() {
+        muscularGroupOptions = muscularGroupClient.findAll(new GenericType<List<MuscularGroup>>() {
         });
     }
 
@@ -94,54 +91,46 @@ public class AdvancedExerciseCreateView implements Serializable {
         this.repetitions = repetitions;
     }
 
-    public Integer getAdvancedWorkoutId() {
-        return advancedWorkoutId;
+    public Float getKcal() {
+        return kcal;
     }
 
-    public void setAdvancedWorkoutId(Integer advancedWorkoutId) {
-        this.advancedWorkoutId = advancedWorkoutId;
+    public void setKcal(Float kcal) {
+        this.kcal = kcal;
     }
 
-    public Integer getMuscularGroupId() {
-        return muscularGroupId;
+    public List<MuscularGroup> getMuscularGroupOptions() {
+        return muscularGroupOptions;
     }
 
-    public void setMuscularGroupId(Integer muscularGroupId) {
-        this.muscularGroupId = muscularGroupId;
+    public void setMuscularGroupOptions(List<MuscularGroup> muscularGroupOptions) {
+        this.muscularGroupOptions = muscularGroupOptions;
     }
 
-    public List<AdvancedWorkout> getWorkoutIds() {
-        return workoutIds;
+    public MuscularGroup getMuscularGroup() {
+        return muscularGroup;
     }
 
-    public void setWorkoutIds(List<AdvancedWorkout> workoutIds) {
-        this.workoutIds = workoutIds;
+    public void setMuscularGroup(MuscularGroup muscularGroup) {
+        this.muscularGroup = muscularGroup;
     }
 
-    public List<MuscularGroup> getMgroupIds() {
-        return mgroupIds;
+    public AdvancedExercise getAe() {
+        return ae;
     }
 
-    public void setMgroupIds(List<MuscularGroup> mgroupIds) {
-        this.mgroupIds = mgroupIds;
+    public void setAe(AdvancedExercise ae) {
+        this.ae = ae;
     }
 
     public void save() {
-        AdvancedWorkoutClient bwc = new AdvancedWorkoutClient();
-        MuscularGroupClient mgc = new MuscularGroupClient();
-        AdvancedWorkout bw = bwc.find(AdvancedWorkout.class, advancedWorkoutId.toString());
-        MuscularGroup mg = mgc.find(MuscularGroup.class, muscularGroupId.toString());
-        AdvancedExercise be = new AdvancedExercise();
-        be.setAdvancedWorkoutId(bw);
-        be.setMuscularGroupId(mg);
-        be.setExerciseName(exerciseName);
-        be.setDescription(description);
-        be.setExerciseSets(exerciseSets);
-        be.setRepetitions(repetitions);
-        AdvancedExerciseClient bec = new AdvancedExerciseClient();
-        bec.create(be);
-        bwc.close();
-        mgc.close();
+        ae.setExerciseName(exerciseName);
+        ae.setDescription(description);
+        ae.setExerciseSets(exerciseSets);
+        ae.setRepetitions(repetitions);
+        ae.setKcal(kcal);
+        ae.setMuscularGroupId(muscularGroup);
+        advancedExerciseClient.create(ae);
         addMessage("Data saved");
     }
 

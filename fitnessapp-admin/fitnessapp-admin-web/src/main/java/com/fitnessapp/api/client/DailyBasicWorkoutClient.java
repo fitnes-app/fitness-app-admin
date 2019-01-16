@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Naluem
+ * Copyright (C) 2019 Jordi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,30 +22,20 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 
 /**
- * Jersey REST client generated for REST resource:AdvancedExerciseFacadeREST
- * [advancedexercise]<br>
- * USAGE:
- * <pre>
- *        AdvancedExerciseClient client = new AdvancedExerciseClient();
- *        Object response = client.XXX(...);
- *        // do whatever with response
- *        client.close();
- * </pre>
  *
- * @author Naluem
+ * @author Jordi
  */
-public class AdvancedExerciseClient {
-
+public class DailyBasicWorkoutClient {
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/fitness-app-api-web/api";
 
-    public AdvancedExerciseClient() {
+    public DailyBasicWorkoutClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("advancedexercise");
+        webTarget = client.target(BASE_URI).path("dailybasicworkout");
     }
 
-    public AdvancedExerciseClient(String username, String password) {
+    public DailyBasicWorkoutClient(String username, String password) {
         this();
         setUsernamePassword(username, password);
     }
@@ -93,9 +83,22 @@ public class AdvancedExerciseClient {
         //webTarget.register(new org.glassfish.jersey.client.filter.HttpBasicAuthFilter(username, password));
         client.register(new Authenticator(username, password));
     }
-    public <T> T findByMuscularGroupId(GenericType<T> genericType, String id) {
+
+    public <T> T findByUsername(Class<T> responseType, String username) throws ClientErrorException {
         WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("findByMuscularGroupId/{0}", new Object[]{id}));
+        resource = resource.path(java.text.MessageFormat.format("findByUserName/{0}", new Object[]{username}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public <T> T findByBasicWorkoutId(GenericType<T> genericType, String id) {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("findByBasicWorkoutId/{0}", new Object[]{id}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(genericType);
+    }
+
+    public <T> T findDailyExercises(GenericType<T> genericType, String id) {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("findDailyExercises/{0}", new Object[]{id}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(genericType);
     }
 }

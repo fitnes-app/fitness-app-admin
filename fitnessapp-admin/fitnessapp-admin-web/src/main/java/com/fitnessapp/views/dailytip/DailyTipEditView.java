@@ -39,31 +39,37 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class DailyTipEditView implements Serializable {
 
-    private List<DailyTip> dailyTips;
-    private DailyTip st = new DailyTip();
+    private List<DailyTip> dailyTips = new ArrayList<DailyTip>();
+    private DailyTip dailyTip = new DailyTip();
+    private DailyTipClient dailyTipClient = new DailyTipClient();
 
     @PostConstruct
     public void init() {
-        dailyTips = new ArrayList<DailyTip>();
-        dailyTips = getDailyTips();
+        dailyTips = dailyTipClient.findAll(new GenericType<List<DailyTip>>() {
+        });
     }
 
     public List<DailyTip> getDailyTips() {
-        DailyTipClient stc = new DailyTipClient();
-        List<DailyTip> sttmp = stc.findAll(new GenericType<List<DailyTip>>() {
-        });
-        stc.close();
-        return sttmp;
+        return dailyTips;
     }
 
     public void setDailyTips(List<DailyTip> dailyTips) {
         this.dailyTips = dailyTips;
     }
 
+    public DailyTip getSt() {
+        return dailyTip;
+    }
+
+    public void setSt(DailyTip dailyTip) {
+        this.dailyTip = dailyTip;
+    }
+
+
     public void onRowEdit(RowEditEvent event) {
-        DailyTipClient stc = new DailyTipClient();
-        stc.edit((DailyTip) event.getObject(), ((DailyTip) event.getObject()).getId().toString());
-        stc.close();
+        dailyTip = (DailyTip) event.getObject();
+        dailyTipClient.edit(dailyTip, dailyTip.getId().toString());
+        
         FacesMessage msg = new FacesMessage("DailyTipEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -83,25 +89,25 @@ public class DailyTipEditView implements Serializable {
         }
     }
     
-    public void delete() {
-        try {
-            DailyTipClient dtc = new DailyTipClient();
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
-
-            if (idT != null && !"".equals(idT)) {
-                dtc.remove(idT);
-                dailyTips = dtc.findAll(new GenericType<List<DailyTip>>() {
-                });;
-            }
-
-            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(
-                    "llist",
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
-        }
-
-    }
+//    public void delete() {
+//        try {
+//            DailyTipClient dtc = new DailyTipClient();
+//            FacesContext facesContext = FacesContext.getCurrentInstance();
+//            String idT = (String) facesContext.getExternalContext().getRequestParameterMap().get("idT");
+//
+//            if (idT != null && !"".equals(idT)) {
+//                dtc.remove(idT);
+//                dailyTips = dtc.findAll(new GenericType<List<DailyTip>>() {
+//                });;
+//            }
+//
+//            FacesContext.getCurrentInstance().addMessage("llist", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+//        } catch (Exception e) {
+//            FacesContext.getCurrentInstance().addMessage(
+//                    "llist",
+//                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+//        }
+//
+//    }
 
 }

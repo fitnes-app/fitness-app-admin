@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.ws.rs.core.GenericType;
@@ -39,16 +41,18 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class SurveyAddRowView implements Serializable {
 
-    private List<Survey> surveys;
-    private List<Tag> tags;
-    private Tag tag;
+    private List<Survey> surveys = new ArrayList<Survey>();
+    private List<Tag> tags = getTags();
+    private Tag tag = new Tag();
+    private Survey survey = new Survey();
+    private TagClient tagClient = new TagClient();
+    private SurveyClient surveyClient = new SurveyClient();
+    
+    private boolean tagHasChanged = false;
     
     @PostConstruct
     public void init() {
-        tag = new Tag();
-        tags = getTags();
-        surveys = new ArrayList<>();
-        surveys = getSurveys();
+            surveys = surveyClient.findAll(new GenericType<List<Survey>>() {});
     }
     public List<Tag> getTags(){
         TagClient client = new TagClient();
@@ -59,23 +63,14 @@ public class SurveyAddRowView implements Serializable {
     public void setTags(List<Tag> tags){
         this.tags = tags;
     }
-    public List<Survey> getSurveys() {
-        SurveyClient surveyClient = new SurveyClient();
-        List<Survey> tmpSurveys = surveyClient.findAll(new GenericType<List<Survey>>() {
-        });
-        surveyClient.close();
-        return tmpSurveys;
-    }
-
-    public void setSurveys(List<Survey> surveys) {
-        this.surveys = surveys;
-    }
-
+    
     public void onRowEdit(RowEditEvent event) {
-        Survey s = (Survey)event.getObject();
-        s.setTagId(tag);
+        survey = (Survey)event.getObject();
+        if(tagHasChanged){
+            survey.setTagId(tag);
+        }
         SurveyClient client = new SurveyClient();
-        client.edit(s, s.getId().toString());
+        client.edit(survey, survey.getId().toString());
         FacesMessage msg = new FacesMessage("Survey Edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -90,14 +85,30 @@ public class SurveyAddRowView implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void delete(String id) {
-        SurveyClient surveyClient = new SurveyClient();
-        surveyClient.remove(id);
-        surveyClient.close();
-        FacesMessage msg = new FacesMessage("Data Deleted", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+//    public void delete(String id) {
+//        SurveyClient surveyClient = new SurveyClient();
+//        surveyClient.remove(id);
+//        surveyClient.close();
+//        FacesMessage msg = new FacesMessage("Data Deleted", "");
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+//    }
+    public void recuperarValorCamp(AjaxBehaviorEvent e) {
+        //assign new value to localeCode
+        Integer idTag = (Integer) ((UIOutput) e.getSource()).getValue();
+        tag = tagClient.find(Tag.class, idTag.toString());
+
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        int idSurvey = Integer.parseInt(facesContext.getExternalContext().getRequestParameterMap().get("idSurvey"));
+
+        for (Survey q : surveys) {
+            if (q.getId().equals(idSurvey)) {
+                q.setTagId(tag);
+                tagHasChanged=true;
+                break;
+            }
+        }
+
     }
-    
     public void setTag(Tag tag){
         this.tag = tag;
     }
@@ -105,4 +116,29 @@ public class SurveyAddRowView implements Serializable {
     public Tag getTag(){
         return this.tag;
     }
+
+    public List<Survey> getSurveys() {
+        return surveys;
+    }
+
+    public void setSurveys(List<Survey> surveys) {
+        this.surveys = surveys;
+    }
+
+    public Survey getSurvey() {
+        return survey;
+    }
+
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
+    }
+
+    public boolean isTagHasChanged() {
+        return tagHasChanged;
+    }
+
+    public void setTagHasChanged(boolean tagHasChanged) {
+        this.tagHasChanged = tagHasChanged;
+    }
+    
 }

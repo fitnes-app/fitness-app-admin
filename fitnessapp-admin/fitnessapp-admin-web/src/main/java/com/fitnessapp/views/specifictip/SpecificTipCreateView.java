@@ -39,34 +39,21 @@ import javax.ws.rs.core.GenericType;
 public class SpecificTipCreateView implements Serializable {
 
     private String text;
-    private Integer muscularGroupId;
 
     private SpecificTipClient stc = new SpecificTipClient();
-    private List<Integer> mgroupIds;
     private SpecificTip st = new SpecificTip();
     private List<SpecificTip> stl = new ArrayList<SpecificTip>();
+    
+    private List<MuscularGroup> muscularGroupOptions = new ArrayList<MuscularGroup>();
+    private MuscularGroupClient muscularGroupClient = new MuscularGroupClient();
+    private MuscularGroup muscularGroup = new MuscularGroup();
 
     @PostConstruct
     public void init() {
-        stc = new SpecificTipClient();
-        mgroupIds = getMgroupIds();
+        muscularGroupOptions = muscularGroupClient.findAll(new GenericType<List<MuscularGroup>>() {
+        });
     }
     
-    public List<Integer> getMgroupIds() {
-        MuscularGroupClient mClient = new MuscularGroupClient();
-        List<MuscularGroup> tmpBtype = mClient.findAll(new GenericType<List<MuscularGroup>>() {
-        });
-        List<Integer> tmpIds = new ArrayList<>();
-        for (MuscularGroup t : tmpBtype) {
-            tmpIds.add(t.getId());
-        }
-        return tmpIds;
-    }
-
-    public void setMgroupIds(List<Integer> mgroupIds) {
-        this.mgroupIds = mgroupIds;
-    }
-
     public String getText() {
         return text;
     }
@@ -75,18 +62,40 @@ public class SpecificTipCreateView implements Serializable {
         this.text = text;
     }
 
-    public Integer getMuscularGroupId() {
-        return muscularGroupId;
+    public SpecificTip getSt() {
+        return st;
     }
 
-    public void setMuscularGroupId(Integer muscularGroupId) {
-        this.muscularGroupId = muscularGroupId;
+    public void setSt(SpecificTip st) {
+        this.st = st;
+    }
+
+    public List<SpecificTip> getStl() {
+        return stl;
+    }
+
+    public void setStl(List<SpecificTip> stl) {
+        this.stl = stl;
+    }
+
+    public List<MuscularGroup> getMuscularGroupOptions() {
+        return muscularGroupOptions;
+    }
+
+    public void setMuscularGroupOptions(List<MuscularGroup> muscularGroupOptions) {
+        this.muscularGroupOptions = muscularGroupOptions;
+    }
+
+    public MuscularGroup getMuscularGroup() {
+        return muscularGroup;
+    }
+
+    public void setMuscularGroup(MuscularGroup muscularGroup) {
+        this.muscularGroup = muscularGroup;
     }
 
     public void save() {
-        MuscularGroup mg = stc.find(MuscularGroup.class, muscularGroupId.toString());
-        SpecificTip st = new SpecificTip();
-        st.setMuscularGroupId(mg);
+        st.setMuscularGroupId(muscularGroup);
         st.setText(text);
         stc.create(st);
         addMessage("Data saved");

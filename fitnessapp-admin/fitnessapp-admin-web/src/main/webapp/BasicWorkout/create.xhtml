@@ -3,32 +3,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Create BasicWorkout</title>
     </h:head>
     <h:body>
-
-        <!--
-
-private Integer bodyTypeId;
-
-        -->
+        <script>
+    function swapViews(){
+            document.getElementById("createWorkoutForm").style.display="none";               
+            document.getElementById("defineDailiesPanel").style.display="block";
+            myCommand();
+    }
+        </script>
         <h3>BasicWorkout</h3>
-        <h:form>
+        <h:form id="createWorkoutForm">
             <p:panelGrid columns="2" layout="grid">            
-
-                <p:outputLabel value="bodyTypeId" /> 
-                <p:selectOneMenu id="console2" value="#{basicWorkoutCreateView.bodyTypeId}" style="width:125px">
+                <p:outputLabel value="basicWorkoutName" /> 
+                <p:inputText value="#{basicWorkoutCreateView.basicWorkoutName}" required="true" requiredMessage="Value for basicWorkoutName is mandatory"/>
+                
+                <p:outputLabel value="basicWorkoutDuration" /> 
+                <p:selectOneMenu id="durationPickerBW" value="#{basicWorkoutCreateView.basicWorkoutDuration}" style="width:125px" required="true" requiredMessage="Value for Duration is mandatory">
                     <f:selectItem itemLabel="Select One" itemValue="" />
-                    <f:selectItems value="#{basicWorkoutCreateView.btypeIds}" />
+                    <f:selectItems value="#{basicWorkoutCreateView.durationOptions}" />
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="bodyTypeId" /> 
+                <p:selectOneMenu style="display: block; width: 40% !important" value="#{basicWorkoutCreateView.bodyType.id}" rendered="true" required="true" requiredMessage="Value for BodyType is mandatory">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{basicWorkoutCreateView.bodyTypeOptions}" var="bodyType" itemValue="#{bodyType.id}" itemLabel="#{bodyType.bodyTypeValue}"/>
                 </p:selectOneMenu>
 
-                <p:commandButton value="#{msg.create}" id="create-button" action="#{basicWorkoutCreateView.save()}" update="growl" style="margin-right:20px;" icon="fa fa-save" />
+                <p:commandButton value="Continue" id="create-button" action="#{basicWorkoutCreateView.save()}"
+                                 oncomplete="swapViews()"
+                                 update="growl" style="margin-right:20px;" icon="fa fa-save" />
                 <p:growl id="growl" life="2000" />
             </p:panelGrid>
         </h:form>
+        <h:panelGroup id="defineDailiesPanel" style="display:none">
+            <ui:include src="/DailyBasicWorkout/create.xhtml">
+                <ui:param name="workoutId" value="#{basicWorkoutCreateView.workoutId}" />
+            </ui:include>
 
+        </h:panelGroup>
     </h:body>
 </html>
 

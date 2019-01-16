@@ -50,6 +50,8 @@ public class QuestionEditView implements Serializable{
     private Survey survey = new Survey();
     private List<Survey> surveys = new ArrayList<Survey>();
     
+    private boolean surveyHasChanged = false;
+    
     @PostConstruct
     public void init() {
         questions = questionClient.findAll(new GenericType<List<Question>>() {
@@ -91,7 +93,9 @@ public class QuestionEditView implements Serializable{
     
     public void onRowEdit(RowEditEvent event) {
         question = (Question) event.getObject();
-        question.setSurvey(survey);
+        if (surveyHasChanged) {
+            question.setSurvey(survey);
+        }
         questionClient.edit(question, question.getId().toString());
 
         FacesMessage msg = new FacesMessage("Question Edited", "");
@@ -117,27 +121,27 @@ public class QuestionEditView implements Serializable{
 //        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Deleted", "");
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
 //    }
-    public void eliminarQuestion() {
-        try {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            String idQuestion = (String) facesContext.getExternalContext().getRequestParameterMap().get("idQuestion");
-
-            if (idQuestion != null && !"".equals(idQuestion)) {
-                questionClient.remove(idQuestion);
-                questions = questionClient.findAll(new GenericType<List<Question>>() {
-                });
-                surveys = surveyClient.findAll(new GenericType<List<Survey>>() {
-                });
-            }
-
-            FacesContext.getCurrentInstance().addMessage("llistQuestions", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(
-                    "llistQuestions",
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
-        }
-
-    }
+//    public void eliminarQuestion() {
+//        try {
+//            FacesContext facesContext = FacesContext.getCurrentInstance();
+//            String idQuestion = (String) facesContext.getExternalContext().getRequestParameterMap().get("idQuestion");
+//
+//            if (idQuestion != null && !"".equals(idQuestion)) {
+//                questionClient.remove(idQuestion);
+//                questions = questionClient.findAll(new GenericType<List<Question>>() {
+//                });
+//                surveys = surveyClient.findAll(new GenericType<List<Survey>>() {
+//                });
+//            }
+//
+//            FacesContext.getCurrentInstance().addMessage("llistQuestions", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deletion succeed", null));
+//        } catch (Exception e) {
+//            FacesContext.getCurrentInstance().addMessage(
+//                    "llistQuestions",
+//                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR when deleting", null));
+//        }
+//
+//    }
     
     public void recuperarValorCamp(AjaxBehaviorEvent e) {
         //assign new value to localeCode
@@ -145,11 +149,12 @@ public class QuestionEditView implements Serializable{
         survey = surveyClient.find(Survey.class, idSurvey.toString());
         
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        String idQuestion = (String) facesContext.getExternalContext().getRequestParameterMap().get("idQuestion");
+        int idQuestion = Integer.parseInt(facesContext.getExternalContext().getRequestParameterMap().get("idQuestion"));
         
         for(Question q: questions){
             if(q.getId().equals(idQuestion)){
                 q.setSurvey(survey);
+                surveyHasChanged=true;
                 break;
             }
         }

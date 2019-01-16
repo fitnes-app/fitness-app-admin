@@ -19,6 +19,7 @@
 
                 <h:outputText value="Survey" /> 
                 <p:selectOneMenu style="display: block; width: 40% !important" value="#{questionCreateView.survey.id}" rendered="true" required="true" requiredMessage="Value for Survey is mandatory">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
                     <f:selectItems value="#{questionCreateView.surveys}" var="survey" itemValue="#{survey.id}" itemLabel="#{survey.description}"/>
                 </p:selectOneMenu>
 

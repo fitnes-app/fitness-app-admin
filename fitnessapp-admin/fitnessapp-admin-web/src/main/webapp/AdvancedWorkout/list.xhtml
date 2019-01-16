@@ -11,36 +11,53 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="advancedWorkouts" widgetVar="advancedWorkouts" var="advancedWorkout" value="#{advancedWorkoutEditView.advancedWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+            <p:dataTable id="advancedWorkouts" widgetVar="advancedWorkout" var="advancedWorkout" value="#{advancedWorkoutEditView.advancedWorkouts}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                 <f:facet name="header">
-                    AdvancedWorkout
+                    BasicWorkout
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
                     <p:columnToggler datasource="advancedWorkouts" trigger="toggler" />
                 </f:facet>
 
-                <p:ajax event="rowEdit" listener="#{advancedWorkoutEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEdit" listener="#{advancedWorkoutEditView.onRowEdit}" update=":form:advancedWorkouts :form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{advancedWorkoutEditView.onRowCancel}" update=":form:msgs" />
 
 
-                <p:column headerText="Id" sortBy="#{advancedWorkout.id}" style="width: 8%;">
+                <p:column headerText="Id" sortBy="#{advancedWorkout.id}">
+                    <h:outputText value="#{advancedWorkout.id}" />
+                </p:column>
+
+                <p:column headerText="Name" sortBy="#{advancedWorkout.name}">
                     <p:cellEditor>
-                        <f:facet name="output">
-                            <p:outputLabel value="#{advancedWorkout.id}" />
-                        </f:facet>
+                        <f:facet name="output"><h:outputText value="#{advancedWorkout.name}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="modelInput" value="#{advancedWorkout.name}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Duration(days)" sortBy="#{advancedWorkout.duration}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{advancedWorkout.duration}" /></f:facet>
                         <f:facet name="input">
-                            <p:inputText readonly="true" value="#{advancedWorkout.id}" style="width:100%" label="Id"/>
+                            <p:selectOneMenu id="durationPickerBW" value="#{advancedWorkoutEditView.advancedWorkoutDuration}" style="width:125px">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{advancedWorkoutEditView.durationOptions}" />
+                                <f:param name="idWorkout" value="#{advancedWorkout.id}" />
+                                <p:ajax event="change" listener="#{advancedWorkoutEditView.recuperarValorCampDuration}"/>
+                            </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="bodyTypeId" style="width: 8%;">
+                <p:column headerText="bodyType" sortBy="#{advancedWorkout.bodyTypeId.bodyTypeValue}">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:outputLabel value="#{advancedWorkout.bodyTypeId.id}" />
+                            <p:outputLabel value="#{advancedWorkout.bodyTypeId.bodyTypeValue}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:selectOneMenu value="#{advancedWorkout.bodyTypeId.id}" style="width:100%">
-                                <f:selectItem itemValue="1"></f:selectItem>
+                            <p:selectOneMenu value="#{advancedWorkoutEditView.bodyType.id}" style="width:100%">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{advancedWorkoutEditView.bodyTypeOptions}" var="bodyType" itemValue="#{bodyType.id}" itemLabel="#{bodyType.bodyTypeValue}"/>
+                                <f:param name="idWorkout" value="#{advancedWorkout.id}" />
+                                <p:ajax event="change" listener="#{advancedWorkoutEditView.recuperarValorCampBodyType}"/>
                             </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
@@ -48,13 +65,6 @@
 
                 <p:column headerText="(Edit)" style="width:5%" >
                     <p:rowEditor />
-                </p:column>
-                <p:column style="width: 5%;">
-                    <p:commandButton action="#{advancedExerciseEditView.delete}"  icon="fa fa-trash"
-                                     update=":form:msgs" process="@form" >
-                        <f:param name="idT" value="#{advancedExercise.id}" />
-                    </p:commandButton>
- 
                 </p:column>
             </p:dataTable>
         </h:form>

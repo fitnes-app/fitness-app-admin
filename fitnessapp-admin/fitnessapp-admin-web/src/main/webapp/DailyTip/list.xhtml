@@ -20,20 +20,14 @@
                 <p:ajax event="rowEdit" listener="#{dailyTipEditView.onRowEdit}" update=":form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{dailyTipEditView.onRowCancel}" update=":form:msgs" />
 
-                <p:column headerText="Id" sortBy="#{dailyTip.id}" style="width: 5%;">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <p:outputLabel value="#{dailyTip.id}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText readonly="true" id="modelInput" value="#{dailyTip.id}" style="width:100%"/>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="Id" sortBy="#{dailyTip.id}">
+                    <h:outputText value="#{dailyTip.id}" />
                 </p:column>
+                
                 <p:column headerText="Text" sortBy="#{dailyTip.text}">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:inputTextarea value="#{dailyTip.text}" readonly="true" style="color: black; width: 100%;" autoResize="true"/>
+                            <h:outputText value="#{dailyTip.text}" />
                         </f:facet>
                         <f:facet name="input">
                             <p:inputTextarea value="#{dailyTip.text}" style="width:100%" autoResize="true"/>
@@ -44,13 +38,6 @@
                 <p:column headerText="(Edit)" style="width: 5%;" >
                     <p:rowEditor />
                 </p:column>
-                <p:column style="width: 5%;">
-                    <p:commandButton action="#{dailyTipEditView.delete}"  icon="fa fa-trash"
-                                     update=":form:msgs" process="@form" >
-                        <f:param name="idT" value="#{dailyTip.id}" />
-                    </p:commandButton>
- 
-                </p:column>  
             </p:dataTable>
         </h:form>
     </h:body>

@@ -38,25 +38,38 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class TagAddRowView implements Serializable{
     
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<Tag>();
+    private Tag tag = new Tag();
+    private TagClient tagClient = new TagClient();
+    
     @PostConstruct
     public void init() {
-        tags = new ArrayList<>();
-        tags = getTags();
+        tags = tagClient.findAll(new GenericType<List<Tag>>() {
+        });
     }
-    
+
     public List<Tag> getTags() {
-        TagClient tagClient = new TagClient();
-        List<Tag> tmpTag = tagClient.findAll(new GenericType<List<Tag>>(){});
-        tagClient.close();
-        return tmpTag;
+        return tags;
     }
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
+    }
+    
+
+
     public void onRowEdit(RowEditEvent event) {
+        tag = (Tag) event.getObject();
+        tagClient.edit(tag, tag.getId().toString());
+        
         FacesMessage msg = new FacesMessage("TagsEdited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -71,11 +84,11 @@ public class TagAddRowView implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
-    public void delete(String id) {
-        TagClient client = new TagClient();
-        client.remove(id);
-        client.close();
-        FacesMessage msg = new FacesMessage("Data Deleted", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
+//    public void delete(String id) {
+//        TagClient client = new TagClient();
+//        client.remove(id);
+//        client.close();
+//        FacesMessage msg = new FacesMessage("Data Deleted", "");
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+//    }
 }

@@ -19,7 +19,6 @@ public class DailyTip implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String text;
-    private Date date;
 
     public DailyTip() {
     }
@@ -48,14 +47,6 @@ public class DailyTip implements Serializable {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     @Override

@@ -10,30 +10,24 @@
     <h:body>
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
-            <p:dataTable id="specificTips" widgetVar="specificTips" var="specificTip" value="#{specificTipEditView.specificTips}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+            <p:dataTable id="specificTips" widgetVar="specificTip" var="specificTip" value="#{specificTipEditView.specificTips}" editable="true" style="margin-bottom:20px" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
                 <f:facet name="header">
                     SpecificTip
                     <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="fa fa-align-justify" />
                     <p:columnToggler datasource="specificTips" trigger="toggler" />
                 </f:facet>
 
-                <p:ajax event="rowEdit" listener="#{specificTipEditView.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEdit" listener="#{specificTipEditView.onRowEdit}" update=":form:specificTips :form:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{specificTipEditView.onRowCancel}" update=":form:msgs" />
 
-                <p:column headerText="Id" sortBy="#{specificTip.id}" style="width: 5%;">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <p:outputLabel value="#{specificTip.id}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText readonly="true" id="modelInput" value="#{specificTip.id}" style="width:100%"/>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="Id" sortBy="#{specificTip.id}">
+                    <h:outputText value="#{specificTip.id}" />
                 </p:column>
+                
                 <p:column headerText="Text" sortBy="#{specificTip.text}">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:inputTextarea value="#{specificTip.text}" readonly="true" style="color: black; width: 100%;" autoResize="true"/>
+                            <h:outputText value="#{specificTip.text}"  style="width: 100%;"/>
                         </f:facet>
                         <f:facet name="input">
                             <p:inputTextarea value="#{specificTip.text}" style="width:100%" autoResize="true"/>
@@ -41,14 +35,17 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="muscularGroupId" style="width: 8%;">
+                <p:column headerText="muscularGroup" sortBy="#{specificTip.muscularGroupId.muscularGroupName}">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <p:outputLabel value="#{specificTip.muscularGroupId.id}" />
+                            <p:outputLabel value="#{specificTip.muscularGroupId.muscularGroupName}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:selectOneMenu value="#{specificTip.muscularGroupId.id}" style="width:100%">
-                                <f:selectItem itemValue="1"></f:selectItem>
+                            <p:selectOneMenu value="#{specificTipEditView.muscularGroup.id}" style="width:100%">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{specificTipEditView.muscularGroupOptions}" var="muscularGroup" itemValue="#{muscularGroup.id}" itemLabel="#{muscularGroup.muscularGroupName}"/>
+                                <f:param name="idTip" value="#{specificTip.id}" />
+                                <p:ajax event="change" listener="#{specificTipEditView.recuperarValorCamp}"/>
                             </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
@@ -57,13 +54,6 @@
                 <p:column headerText="(Edit)" style="width: 5%;" >
                     <p:rowEditor />
                 </p:column>
-                <p:column style="width: 5%;">
-                    <p:commandButton action="#{specificTipEditView.delete}"  icon="fa fa-trash"
-                                     update=":form:msgs" process="@form" >
-                        <f:param name="idT" value="#{specificTip.id}" />
-                    </p:commandButton>
- 
-                </p:column> 
             </p:dataTable>
         </h:form>
     </h:body>
